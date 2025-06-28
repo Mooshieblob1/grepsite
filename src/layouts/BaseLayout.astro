@@ -26,6 +26,14 @@ const { title, pageTitle } = Astro.props;
             if (sidebarCollapsed === 'true') {
                 document.documentElement.classList.add('sidebar-collapsed');
             }
+            
+            // Apply dark mode immediately to prevent flash
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            }
+            
             // Add a class to prevent transitions during initial load
             document.documentElement.classList.add('sidebar-loading');
             
@@ -39,12 +47,21 @@ const { title, pageTitle } = Astro.props;
                     } else {
                         document.documentElement.classList.remove('sidebar-collapsed');
                     }
+                    
+                    // Double-check dark mode
+                    const stillDark = localStorage.getItem('theme');
+                    const stillPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    if (stillDark === 'dark' || (!stillDark && stillPrefersDark)) {
+                        document.documentElement.classList.add('dark');
+                    } else if (stillDark === 'light') {
+                        document.documentElement.classList.remove('dark');
+                    }
                 });
             }
         })();
     </script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <Sidebar />
@@ -55,7 +72,7 @@ const { title, pageTitle } = Astro.props;
             <Header pageTitle={pageTitle} />
 
             <!-- Main Content Area -->
-            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
                 <slot />
             </main>
         </div>

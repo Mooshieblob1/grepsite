@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeSearch();
   initializeDropdowns();
   initializeGlobalSearch();
+  initializeDarkMode();
 });
 
 // Sidebar functionality
@@ -412,3 +413,40 @@ function displaySearchResults(results) {
   
   searchResults.classList.remove('hidden');
 }
+
+// Dark mode functionality
+function initializeDarkMode() {
+  const darkModeToggle = document.getElementById('dark-mode-toggle');
+  
+  if (darkModeToggle) {
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Set initial state
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      html.classList.add('dark');
+      darkModeToggle.checked = true;
+    }
+    
+    // Listen for toggle changes
+    darkModeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
+}
+
+// Export functions for use in other modules
+window.TEM = {
+  showLoading,
+  hideLoading,
+  showToast,
+  updatePaginationInfo,
+  initializeDarkMode
+};
