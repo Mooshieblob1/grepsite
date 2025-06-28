@@ -1,0 +1,42 @@
+---
+// Base layout with persistent sidebar and header
+import Sidebar from "../components/Sidebar.astro";
+import Header from "../components/Header.astro";
+
+export interface Props {
+  title: string;
+  pageTitle?: string;
+}
+
+const { title, pageTitle } = Astro.props;
+---
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <Sidebar />
+
+        <!-- Main Content -->
+        <div class="content flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <Header pageTitle={pageTitle} />
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <slot />
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/scripts/main.js" is:inline></script>
+</body>
+</html>

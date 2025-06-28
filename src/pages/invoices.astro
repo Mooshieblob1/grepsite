@@ -1,0 +1,234 @@
+---
+// Invoices page
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "TEM Portal - Invoices";
+---
+
+<BaseLayout title={title} pageTitle="Invoices">
+  <!-- Page Header -->
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900">Invoice Management</h2>
+        <p class="text-gray-600">Track and manage all carrier invoices and billing</p>
+      </div>
+      <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+        <i class="fas fa-upload mr-2"></i> Upload Invoice
+      </button>
+    </div>
+  </div>
+
+  <!-- Invoice Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+          <i class="fas fa-file-invoice-dollar text-xl"></i>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">This Month</p>
+          <p class="text-2xl font-bold text-gray-900">$42,580</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+          <i class="fas fa-check-circle text-xl"></i>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Paid</p>
+          <p class="text-2xl font-bold text-gray-900">15</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+          <i class="fas fa-clock text-xl"></i>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Pending</p>
+          <p class="text-2xl font-bold text-gray-900">3</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-red-100 text-red-600 mr-4">
+          <i class="fas fa-exclamation-triangle text-xl"></i>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600">Overdue</p>
+          <p class="text-2xl font-bold text-gray-900">1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Invoice History</h3>
+        <div class="flex space-x-2">
+          <select class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option>All Status</option>
+            <option>Paid</option>
+            <option>Pending</option>
+            <option>Overdue</option>
+          </select>
+          <select class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option>Last 6 Months</option>
+            <option>Last Year</option>
+            <option>All Time</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="relative w-80">
+          <input type="text" placeholder="Search by carrier, invoice number, or amount..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+        <div class="flex space-x-2">
+          <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+            <i class="fas fa-download mr-2"></i> Export
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invoices Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Carrier</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
+                <div>
+                  <div class="text-sm font-medium text-gray-900">INV-2024-001</div>
+                  <div class="text-sm text-gray-500">June 2024</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">AT&T Wireless</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$8,750.00</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 15, 2024</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                Paid
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
+              <button class="text-gray-600 hover:text-gray-900">Download</button>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
+                <div>
+                  <div class="text-sm font-medium text-gray-900">INV-2024-002</div>
+                  <div class="text-sm text-gray-500">June 2024</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Verizon Business</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$12,340.00</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 20, 2024</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                Pending
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
+              <button class="text-gray-600 hover:text-gray-900">Download</button>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
+                <div>
+                  <div class="text-sm font-medium text-gray-900">INV-2024-003</div>
+                  <div class="text-sm text-gray-500">June 2024</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">T-Mobile</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$5,670.00</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 10, 2024</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                Overdue
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
+              <button class="text-gray-600 hover:text-gray-900">Download</button>
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
+                <div>
+                  <div class="text-sm font-medium text-gray-900">INV-2024-004</div>
+                  <div class="text-sm text-gray-500">June 2024</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Vonage Business</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$7,890.00</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 25, 2024</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                Paid
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
+              <button class="text-gray-600 hover:text-gray-900">Download</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+      <div class="flex items-center justify-between">
+        <div class="text-sm text-gray-500">
+          Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of <span class="font-medium">19</span> invoices
+        </div>
+        <div class="flex space-x-1">
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="px-3 py-1 border rounded-lg bg-indigo-600 text-white">1</button>
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">3</button>
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

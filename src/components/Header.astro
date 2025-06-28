@@ -1,5 +1,10 @@
 ---
 // Header component
+export interface Props {
+  pageTitle?: string;
+}
+
+const { pageTitle = "Carrier Management" } = Astro.props;
 ---
 
 <header class="bg-white shadow-sm">
@@ -7,8 +12,7 @@
     <div class="flex items-center space-x-4">
       <button class="text-gray-500 focus:outline-none" id="sidebar-toggle">
         <i class="fas fa-bars"></i>
-      </button>
-      <h1 class="text-xl font-semibold text-gray-800">Carrier Management</h1>
+      </button>              <h1 class="text-xl font-semibold text-gray-800">{pageTitle}</h1>
     </div>
     <div class="flex items-center space-x-4">
       <div class="relative">
