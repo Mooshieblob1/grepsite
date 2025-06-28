@@ -1,0 +1,259 @@
+---
+// User Management page (for TEM Admin role)
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "TEM Portal - User Management";
+---
+
+<BaseLayout title={title} pageTitle="User Management">
+  <!-- Page Header -->
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900">User Management</h2>
+        <p class="text-gray-600">Manage user accounts and role-based access</p>
+      </div>
+      <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+        <i class="fas fa-user-plus mr-2"></i> Add User
+      </button>
+    </div>
+  </div>
+
+  <!-- Role Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center mb-4">
+        <div class="p-3 bg-red-100 rounded-lg">
+          <i class="fas fa-crown text-red-600"></i>
+        </div>
+        <div class="ml-4">
+          <h3 class="font-semibold text-gray-900">TEM Admin</h3>
+          <p class="text-sm text-gray-500">Full system access</p>
+        </div>
+      </div>
+      <div class="text-2xl font-bold text-gray-900 mb-2">2</div>
+      <div class="text-sm text-gray-500">Active users</div>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center mb-4">
+        <div class="p-3 bg-blue-100 rounded-lg">
+          <i class="fas fa-user-tie text-blue-600"></i>
+        </div>
+        <div class="ml-4">
+          <h3 class="font-semibold text-gray-900">IT Admin</h3>
+          <p class="text-sm text-gray-500">Can submit tickets</p>
+        </div>
+      </div>
+      <div class="text-2xl font-bold text-gray-900 mb-2">12</div>
+      <div class="text-sm text-gray-500">Active users</div>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center mb-4">
+        <div class="p-3 bg-green-100 rounded-lg">
+          <i class="fas fa-eye text-green-600"></i>
+        </div>
+        <div class="ml-4">
+          <h3 class="font-semibold text-gray-900">Viewer</h3>
+          <p class="text-sm text-gray-500">Read-only access</p>
+        </div>
+      </div>
+      <div class="text-2xl font-bold text-gray-900 mb-2">25</div>
+      <div class="text-sm text-gray-500">Active users</div>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">All Users</h3>
+        <div class="flex space-x-2">
+          <select class="border rounded px-3 py-2 text-sm">
+            <option>All Roles</option>
+            <option>TEM Admin</option>
+            <option>IT Admin</option>
+            <option>Viewer</option>
+          </select>
+          <select class="border rounded px-3 py-2 text-sm">
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="relative">
+        <input type="text" placeholder="Search users..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Login</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                <div class="ml-4">
+                  <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                  <div class="text-sm text-gray-500">sarah.johnson@company.com</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">TEM Admin</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">IT Administration</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+              <button class="text-indigo-600 hover:text-indigo-900">Edit</button>
+              <button class="text-red-600 hover:text-red-900">Disable</button>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                <div class="ml-4">
+                  <div class="text-sm font-medium text-gray-900">Mike Davis</div>
+                  <div class="text-sm text-gray-500">mike.davis@company.com</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">IT Admin</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">IT Support</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1 day ago</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+              <button class="text-indigo-600 hover:text-indigo-900">Edit</button>
+              <button class="text-red-600 hover:text-red-900">Disable</button>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+                <div class="ml-4">
+                  <div class="text-sm font-medium text-gray-900">Lisa Wilson</div>
+                  <div class="text-sm text-gray-500">lisa.wilson@company.com</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Viewer</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Finance</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3 days ago</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+              <button class="text-indigo-600 hover:text-indigo-900">Edit</button>
+              <button class="text-red-600 hover:text-red-900">Disable</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Role Permissions Info -->
+  <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-lg shadow p-6">
+      <h4 class="font-semibold text-gray-900 mb-4 flex items-center">
+        <i class="fas fa-crown text-red-600 mr-2"></i>
+        TEM Admin Permissions
+      </h4>
+      <ul class="text-sm text-gray-600 space-y-2">
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          Add/remove carriers
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          Manage all users
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          Access all reports
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          System configuration
+        </li>
+      </ul>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6">
+      <h4 class="font-semibold text-gray-900 mb-4 flex items-center">
+        <i class="fas fa-user-tie text-blue-600 mr-2"></i>
+        IT Admin Permissions
+      </h4>
+      <ul class="text-sm text-gray-600 space-y-2">
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          Submit support tickets
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          View line details
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          Export reports
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-times text-red-500 mr-2"></i>
+          Manage carriers
+        </li>
+      </ul>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6">
+      <h4 class="font-semibold text-gray-900 mb-4 flex items-center">
+        <i class="fas fa-eye text-green-600 mr-2"></i>
+        Viewer Permissions
+      </h4>
+      <ul class="text-sm text-gray-600 space-y-2">
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          View dashboards
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-check text-green-500 mr-2"></i>
+          View reports
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-times text-red-500 mr-2"></i>
+          Submit tickets
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-times text-red-500 mr-2"></i>
+          Edit any data
+        </li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeCharts();
   initializeSearch();
   initializeDropdowns();
+  initializeGlobalSearch();
 });
 
 // Sidebar functionality
@@ -249,67 +250,143 @@ function initializeDropdowns() {
   });
 }
 
-// Utility functions
-function updatePaginationInfo() {
-  const visibleCards = document.querySelectorAll('.carrier-card[style*="display: block"], .carrier-card:not([style*="display: none"])');
-  const paginationInfo = document.querySelector('.text-sm.text-gray-500');
+// Global search functionality
+function initializeGlobalSearch() {
+  const searchInput = document.getElementById('global-search');
+  const searchResults = document.getElementById('search-results');
   
-  if (paginationInfo && visibleCards.length >= 0) {
-    const total = visibleCards.length;
-    const showing = Math.min(6, total);
-    paginationInfo.innerHTML = `Showing <span class="font-medium">1</span> to <span class="font-medium">${showing}</span> of <span class="font-medium">${total}</span> carriers`;
-  }
-}
-
-// Loading states
-function showLoading(element) {
-  element.classList.add('loading');
-}
-
-function hideLoading(element) {
-  element.classList.remove('loading');
-}
-
-// Toast notifications
-function showToast(message, type = 'info') {
-  const toast = document.createElement('div');
-  toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium transform transition-all duration-300 translate-x-full`;
+  if (!searchInput || !searchResults) return;
   
-  switch(type) {
-    case 'success':
-      toast.classList.add('bg-green-500');
-      break;
-    case 'error':
-      toast.classList.add('bg-red-500');
-      break;
-    case 'warning':
-      toast.classList.add('bg-yellow-500');
-      break;
-    default:
-      toast.classList.add('bg-blue-500');
-  }
+  let searchTimeout;
   
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  
-  // Animate in
-  setTimeout(() => {
-    toast.classList.remove('translate-x-full');
-  }, 100);
-  
-  // Remove after 3 seconds
-  setTimeout(() => {
-    toast.classList.add('translate-x-full');
-    setTimeout(() => {
-      document.body.removeChild(toast);
+  searchInput.addEventListener('input', function(e) {
+    clearTimeout(searchTimeout);
+    const query = e.target.value.trim();
+    
+    if (query.length < 2) {
+      searchResults.classList.add('hidden');
+      return;
+    }
+    
+    // Debounce search
+    searchTimeout = setTimeout(() => {
+      performGlobalSearch(query);
     }, 300);
-  }, 3000);
+  });
+  
+  // Hide results when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.classList.add('hidden');
+    }
+  });
 }
 
-// Export functions for use in other modules
-window.TEM = {
-  showLoading,
-  hideLoading,
-  showToast,
-  updatePaginationInfo
-};
+function performGlobalSearch(query) {
+  const searchResults = document.getElementById('search-results');
+  
+  // Normalize phone number for search
+  const normalizedQuery = normalizePhoneNumber(query);
+  
+  // Mock search data - in real app, this would be an API call
+  const mockData = {
+    lines: [
+      { number: '555-123-4567', user: 'John Smith', department: 'Sales', carrier: 'AT&T' },
+      { number: '555.789.0123', user: 'Sarah Johnson', department: 'IT', carrier: 'Verizon' },
+      { number: '555-456-7890', user: 'Mike Davis', department: 'Operations', carrier: 'T-Mobile' },
+      { number: '(555) 321-9876', user: 'Lisa Wilson', department: 'HR', carrier: 'AT&T' },
+    ],
+    tickets: [
+      { id: 'TK-001', subject: 'Line activation issue', status: 'Open', priority: 'High' },
+      { id: 'TK-002', subject: 'Billing discrepancy', status: 'In Progress', priority: 'Medium' },
+    ],
+    carriers: [
+      { name: 'AT&T Wireless', status: 'Active', services: 45 },
+      { name: 'Verizon Business', status: 'Active', services: 62 },
+    ]
+  };
+  
+  const results = [];
+  
+  // Search lines
+  mockData.lines.forEach(line => {
+    const lineNumber = normalizePhoneNumber(line.number);
+    if (lineNumber.includes(normalizedQuery) || 
+        line.user.toLowerCase().includes(query.toLowerCase()) ||
+        line.department.toLowerCase().includes(query.toLowerCase())) {
+      results.push({
+        type: 'line',
+        title: line.number,
+        subtitle: `${line.user} - ${line.department}`,
+        icon: 'fas fa-phone',
+        color: 'text-blue-600',
+        link: `/lines?search=${encodeURIComponent(line.number)}`
+      });
+    }
+  });
+  
+  // Search tickets
+  mockData.tickets.forEach(ticket => {
+    if (ticket.subject.toLowerCase().includes(query.toLowerCase()) ||
+        ticket.id.toLowerCase().includes(query.toLowerCase())) {
+      results.push({
+        type: 'ticket',
+        title: `${ticket.id}: ${ticket.subject}`,
+        subtitle: `${ticket.status} - ${ticket.priority} Priority`,
+        icon: 'fas fa-ticket-alt',
+        color: 'text-orange-600',
+        link: `/tickets?id=${ticket.id}`
+      });
+    }
+  });
+  
+  // Search carriers
+  mockData.carriers.forEach(carrier => {
+    if (carrier.name.toLowerCase().includes(query.toLowerCase())) {
+      results.push({
+        type: 'carrier',
+        title: carrier.name,
+        subtitle: `${carrier.services} services`,
+        icon: 'fas fa-network-wired',
+        color: 'text-purple-600',
+        link: `/carriers?search=${encodeURIComponent(carrier.name)}`
+      });
+    }
+  });
+  
+  displaySearchResults(results);
+}
+
+function normalizePhoneNumber(phone) {
+  // Remove all non-digit characters
+  return phone.replace(/\D/g, '');
+}
+
+function displaySearchResults(results) {
+  const searchResults = document.getElementById('search-results');
+  const resultsContainer = searchResults.querySelector('.max-h-96');
+  
+  if (results.length === 0) {
+    resultsContainer.innerHTML = `
+      <div class="p-4 text-center text-gray-500">
+        <i class="fas fa-search text-2xl mb-2"></i>
+        <p>No results found</p>
+      </div>
+    `;
+  } else {
+    resultsContainer.innerHTML = results.map(result => `
+      <a href="${result.link}" class="block p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0">
+        <div class="flex items-center space-x-3">
+          <i class="${result.icon} ${result.color}"></i>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-medium text-gray-900 truncate">${result.title}</div>
+            <div class="text-xs text-gray-500 truncate">${result.subtitle}</div>
+          </div>
+          <div class="text-xs text-gray-400 uppercase tracking-wide">${result.type}</div>
+        </div>
+      </a>
+    `).join('');
+  }
+  
+  searchResults.classList.remove('hidden');
+}

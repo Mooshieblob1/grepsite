@@ -1,0 +1,189 @@
+---
+// Carrier Popup Modal Component
+export interface Props {
+  carrierId?: string;
+}
+
+const { carrierId = "att-wireless" } = Astro.props;
+---
+
+<!-- Carrier Details Modal -->
+<div id="carrierModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="p-2 bg-blue-100 rounded-lg">
+              <i class="fas fa-signal text-blue-600"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">AT&T Wireless</h3>
+              <p class="text-sm text-gray-500">Wireless Carrier</p>
+            </div>
+          </div>
+          <button onclick="closeCarrierModal()" class="text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="p-6 space-y-6">
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-xl font-bold text-blue-600">45</div>
+            <div class="text-sm text-gray-500">Active Lines</div>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-xl font-bold text-green-600">$8,750</div>
+            <div class="text-sm text-gray-500">Monthly Cost</div>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-xl font-bold text-purple-600">Dec 2024</div>
+            <div class="text-sm text-gray-500">Contract End</div>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-lg">
+            <div class="text-xl font-bold text-orange-600">98.5%</div>
+            <div class="text-sm text-gray-500">Uptime</div>
+          </div>
+        </div>
+
+        <!-- Account Information -->
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-3">Account Information</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm text-gray-500">Account Number</label>
+              <div class="text-sm font-medium text-gray-900">ATT-BIZ-789456123</div>
+            </div>
+            <div>
+              <label class="text-sm text-gray-500">Account Manager</label>
+              <div class="text-sm font-medium text-gray-900">Jennifer Martinez</div>
+            </div>
+            <div>
+              <label class="text-sm text-gray-500">Support Phone</label>
+              <div class="text-sm font-medium text-gray-900">(800) 331-0500</div>
+            </div>
+            <div>
+              <label class="text-sm text-gray-500">Portal URL</label>
+              <div class="text-sm font-medium text-blue-600">
+                <a href="#" class="hover:underline">business.att.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-semibold text-gray-900">Notes</h4>
+            <button class="text-indigo-600 hover:text-indigo-800 text-sm">
+              <i class="fas fa-edit mr-1"></i> Edit
+            </button>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="space-y-3">
+              <div class="border-l-4 border-blue-500 pl-3">
+                <div class="text-sm text-gray-600">
+                  <strong>Contract Renewal:</strong> Contract expires Dec 2024. Need to review terms 90 days prior. Current rate is locked until expiration.
+                </div>
+                <div class="text-xs text-gray-500 mt-1">Added by Sarah J. - 2 weeks ago</div>
+              </div>
+              <div class="border-l-4 border-yellow-500 pl-3">
+                <div class="text-sm text-gray-600">
+                  <strong>Service Issues:</strong> Occasional service interruptions in Building C. AT&T working on tower upgrades in area.
+                </div>
+                <div class="text-xs text-gray-500 mt-1">Added by Mike D. - 1 month ago</div>
+              </div>
+              <div class="border-l-4 border-green-500 pl-3">
+                <div class="text-sm text-gray-600">
+                  <strong>Billing:</strong> Successfully negotiated 15% discount on new lines added after Jan 2024.
+                </div>
+                <div class="text-xs text-gray-500 mt-1">Added by Admin - 3 months ago</div>
+              </div>
+            </div>
+            
+            <!-- Add Note Form -->
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <textarea 
+                placeholder="Add a new note..."
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                rows="2"
+              ></textarea>
+              <div class="flex justify-end mt-2">
+                <button class="px-3 py-1 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">
+                  Add Note
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-3">Recent Activity</h4>
+          <div class="space-y-3">
+            <div class="flex items-start space-x-3">
+              <div class="p-1 bg-green-100 text-green-600 rounded-full">
+                <i class="fas fa-plus text-xs"></i>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm text-gray-900">New line activated: (555) 789-0123</div>
+                <div class="text-xs text-gray-500">2 hours ago</div>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="p-1 bg-blue-100 text-blue-600 rounded-full">
+                <i class="fas fa-dollar-sign text-xs"></i>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm text-gray-900">Invoice processed: $8,750.00</div>
+                <div class="text-xs text-gray-500">1 day ago</div>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="p-1 bg-yellow-100 text-yellow-600 rounded-full">
+                <i class="fas fa-wrench text-xs"></i>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm text-gray-900">Service maintenance completed</div>
+                <div class="text-xs text-gray-500">3 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+          <button class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+            View Full Details
+          </button>
+          <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+            Manage Lines
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openCarrierModal(carrierId) {
+    // In a real app, this would fetch carrier data based on carrierId
+    document.getElementById('carrierModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCarrierModal() {
+    document.getElementById('carrierModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close modal when clicking outside
+  document.getElementById('carrierModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeCarrierModal();
+    }
+  });
+</script>

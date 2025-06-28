@@ -1,0 +1,343 @@
+---
+// Lines Management page
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "TEM Portal - Lines Management";
+---
+
+<BaseLayout title={title} pageTitle="Lines Management">
+  <!-- Page Header -->
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900">Lines Management</h2>
+        <p class="text-gray-600">Manage all telecommunication lines with advanced filtering and search</p>
+      </div>
+      <div class="flex space-x-2">
+        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+          <i class="fas fa-download mr-2"></i> Export CSV
+        </button>
+        <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+          <i class="fas fa-plus mr-2"></i> Add Line
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-blue-100 rounded-lg">
+          <i class="fas fa-phone text-blue-600"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Total Lines</p>
+          <p class="text-xl font-bold text-gray-900">2,847</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-green-100 rounded-lg">
+          <i class="fas fa-check-circle text-green-600"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Active Lines</p>
+          <p class="text-xl font-bold text-gray-900">2,641</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-yellow-100 rounded-lg">
+          <i class="fas fa-pause-circle text-yellow-600"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Suspended</p>
+          <p class="text-xl font-bold text-gray-900">186</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-red-100 rounded-lg">
+          <i class="fas fa-times-circle text-red-600"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Inactive</p>
+          <p class="text-xl font-bold text-gray-900">20</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lines Table -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="p-4 border-b border-gray-200">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">All Lines</h3>
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-gray-500">Showing 1-50 of 2,847 lines</span>
+          <select class="border rounded px-2 py-1 text-sm">
+            <option>50 per page</option>
+            <option>100 per page</option>
+            <option>200 per page</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Advanced Filters Row -->
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2 mb-4">
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Phone Number</label>
+          <input type="text" placeholder="Search number..." class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Carrier</label>
+          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <option>All Carriers</option>
+            <option>AT&T</option>
+            <option>Verizon</option>
+            <option>T-Mobile</option>
+            <option>Sprint</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Status</label>
+          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Suspended</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Department</label>
+          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <option>All Departments</option>
+            <option>Sales</option>
+            <option>IT</option>
+            <option>Operations</option>
+            <option>Management</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Line Type</label>
+          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <option>All Types</option>
+            <option>Mobile</option>
+            <option>Landline</option>
+            <option>VoIP</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Plan</label>
+          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <option>All Plans</option>
+            <option>Unlimited</option>
+            <option>Business Basic</option>
+            <option>Enterprise</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 mb-1 block">Location</label>
+          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            <option>All Locations</option>
+            <option>New York</option>
+            <option>Chicago</option>
+            <option>Los Angeles</option>
+            <option>Remote</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button class="w-full bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-sm transition">
+            <i class="fas fa-times mr-1"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>Phone Number</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>User</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>Department</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>Carrier</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>Plan</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>Monthly Cost</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>Status</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+              <div class="flex items-center space-x-1">
+                <span>Last Activity</span>
+                <i class="fas fa-sort text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <!-- Sample row 1 -->
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i class="fas fa-mobile-alt text-gray-400 mr-2"></i>
+                <span class="text-sm font-medium text-gray-900">(555) 123-4567</span>
+              </div>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap">
+              <div>
+                <div class="text-sm font-medium text-gray-900">John Smith</div>
+                <div class="text-sm text-gray-500">john.smith@company.com</div>
+              </div>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Sales</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">AT&T</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Business Unlimited</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">$75.00</td>
+            <td class="px-4 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
+            <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <button class="text-indigo-600 hover:text-indigo-900 mr-2">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="text-gray-600 hover:text-gray-900">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+          
+          <!-- Sample row 2 -->
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i class="fas fa-phone text-gray-400 mr-2"></i>
+                <span class="text-sm font-medium text-gray-900">555.789.0123</span>
+              </div>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap">
+              <div>
+                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                <div class="text-sm text-gray-500">sarah.johnson@company.com</div>
+              </div>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">IT</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Verizon</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Enterprise Plus</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">$95.00</td>
+            <td class="px-4 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">5 hours ago</td>
+            <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <button class="text-indigo-600 hover:text-indigo-900 mr-2">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="text-gray-600 hover:text-gray-900">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+
+          <!-- Sample row 3 -->
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <i class="fas fa-mobile-alt text-gray-400 mr-2"></i>
+                <span class="text-sm font-medium text-gray-900">555-456-7890</span>
+              </div>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap">
+              <div>
+                <div class="text-sm font-medium text-gray-900">Mike Davis</div>
+                <div class="text-sm text-gray-500">mike.davis@company.com</div>
+              </div>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Operations</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">T-Mobile</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Business Basic</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">$55.00</td>
+            <td class="px-4 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Suspended</span>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">1 day ago</td>
+            <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <button class="text-indigo-600 hover:text-indigo-900 mr-2">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="text-gray-600 hover:text-gray-900">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+
+          <!-- Add more sample rows as needed -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+      <div class="flex items-center justify-between">
+        <div class="text-sm text-gray-500">
+          Showing <span class="font-medium">1</span> to <span class="font-medium">50</span> of <span class="font-medium">2,847</span> lines
+        </div>
+        <div class="flex space-x-1">
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="px-3 py-1 border rounded-lg bg-indigo-600 text-white">1</button>
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">3</button>
+          <span class="px-3 py-1">...</span>
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">57</button>
+          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
