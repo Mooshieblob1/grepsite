@@ -13,10 +13,9 @@ function initializeSidebar() {
   const sidebar = document.querySelector('.sidebar');
   const content = document.querySelector('.content');
 
-  if (sidebarToggle) {
+  if (sidebarToggle && sidebar && content) {
     sidebarToggle.addEventListener('click', function() {
       sidebar.classList.toggle('collapsed');
-      content.classList.toggle('expanded');
       
       // Store sidebar state in localStorage
       const isCollapsed = sidebar.classList.contains('collapsed');
@@ -26,13 +25,31 @@ function initializeSidebar() {
 
   // Restore sidebar state from localStorage
   const sidebarCollapsed = localStorage.getItem('sidebarCollapsed');
-  if (sidebarCollapsed === 'true') {
+  if (sidebarCollapsed === 'true' && sidebar) {
     sidebar.classList.add('collapsed');
-    content.classList.add('expanded');
   }
 
   // Mobile sidebar handling
   handleMobileSidebar();
+  
+  // Handle active nav item highlighting
+  highlightActiveNavItem();
+}
+
+function highlightActiveNavItem() {
+  const currentPath = window.location.pathname;
+  const navItems = document.querySelectorAll('.nav-item');
+  
+  navItems.forEach(item => {
+    const href = item.getAttribute('href');
+    if (href === currentPath || (currentPath === '/' && href === '/')) {
+      item.classList.add('bg-indigo-700');
+      item.classList.remove('hover:bg-indigo-700');
+    } else {
+      item.classList.remove('bg-indigo-700');
+      item.classList.add('hover:bg-indigo-700');
+    }
+  });
 }
 
 function handleMobileSidebar() {
