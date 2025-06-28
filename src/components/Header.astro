@@ -1,0 +1,33 @@
+---
+// Header component
+---
+
+<header class="bg-white shadow-sm">
+  <div class="px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <button class="text-gray-500 focus:outline-none" id="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1 class="text-xl font-semibold text-gray-800">Carrier Management</h1>
+    </div>
+    <div class="flex items-center space-x-4">
+      <div class="relative">
+        <button class="text-gray-500 focus:outline-none">
+          <i class="fas fa-bell"></i>
+          <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+        </button>
+      </div>
+      <div class="dropdown relative">
+        <button class="flex items-center space-x-2 focus:outline-none">
+          <span class="text-gray-700">Sarah J.</span>
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-8 h-8 rounded-full">
+        </button>
+        <div class="dropdown-content mt-2 py-2">
+          <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+          <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>
+          <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
