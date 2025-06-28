@@ -1,0 +1,218 @@
+---
+// Profile page
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "TEM Portal - Profile";
+---
+
+<BaseLayout title={title} pageTitle="My Profile">
+  <!-- Page Header -->
+  <div class="mb-6">
+    <div class="flex items-center space-x-4">
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" class="w-16 h-16 rounded-full">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900">Sarah Johnson</h2>
+        <p class="text-gray-600">TEM Portal Administrator</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Profile Information -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-800">Profile Information</h3>
+            <button class="text-indigo-600 hover:text-indigo-800 text-sm">
+              <i class="fas fa-edit mr-1"></i> Edit Profile
+            </button>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+              <input type="text" value="Sarah" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+              <input type="text" value="Johnson" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <input type="email" value="sarah.johnson@company.com" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+              <input type="tel" value="+1 (555) 123-4567" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+              <input type="text" value="IT Administration" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+              <input type="text" value="TEM Portal Administrator" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Settings -->
+      <div class="bg-white rounded-lg shadow mt-6">
+        <div class="p-6 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800">Security Settings</h3>
+        </div>
+        <div class="p-6">
+          <div class="space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="font-medium text-gray-900">Change Password</h4>
+                <p class="text-sm text-gray-500">Update your password to keep your account secure</p>
+              </div>
+              <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">
+                Change Password
+              </button>
+            </div>
+            
+            <div class="border-t pt-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Two-Factor Authentication</h4>
+                  <p class="text-sm text-gray-500">Add an extra layer of security to your account</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Enabled</span>
+                  <button class="text-gray-600 hover:text-gray-800">
+                    <i class="fas fa-cog"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t pt-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-medium text-gray-900">Active Sessions</h4>
+                  <p class="text-sm text-gray-500">Manage devices that are currently logged in</p>
+                </div>
+                <button class="text-indigo-600 hover:text-indigo-800">
+                  View Sessions
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions & Account Stats -->
+    <div class="space-y-6">
+      <!-- Account Summary -->
+      <div class="bg-white rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800">Account Summary</h3>
+        </div>
+        <div class="p-6">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">Role</span>
+              <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">TEM Admin</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">Member Since</span>
+              <span class="text-sm font-medium text-gray-900">Jan 2023</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">Last Login</span>
+              <span class="text-sm font-medium text-gray-900">2 hours ago</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">Location</span>
+              <span class="text-sm font-medium text-gray-900">New York, NY</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="bg-white rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800">Quick Actions</h3>
+        </div>
+        <div class="p-6">
+          <div class="space-y-3">
+            <a href="/settings" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition">
+              <div class="p-2 bg-blue-100 rounded-lg">
+                <i class="fas fa-cog text-blue-600"></i>
+              </div>
+              <div>
+                <div class="font-medium text-gray-900">Settings</div>
+                <div class="text-sm text-gray-500">Manage preferences</div>
+              </div>
+            </a>
+            
+            <a href="/tickets" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition">
+              <div class="p-2 bg-orange-100 rounded-lg">
+                <i class="fas fa-ticket-alt text-orange-600"></i>
+              </div>
+              <div>
+                <div class="font-medium text-gray-900">My Tickets</div>
+                <div class="text-sm text-gray-500">View submitted tickets</div>
+              </div>
+            </a>
+            
+            <button class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition text-left">
+              <div class="p-2 bg-red-100 rounded-lg">
+                <i class="fas fa-sign-out-alt text-red-600"></i>
+              </div>
+              <div>
+                <div class="font-medium text-gray-900">Logout</div>
+                <div class="text-sm text-gray-500">Sign out of your account</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="bg-white rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+        </div>
+        <div class="p-6">
+          <div class="space-y-3">
+            <div class="flex items-start space-x-3">
+              <div class="p-1 bg-green-100 text-green-600 rounded-full">
+                <i class="fas fa-check text-xs"></i>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm text-gray-900">Logged in successfully</div>
+                <div class="text-xs text-gray-500">2 hours ago</div>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="p-1 bg-blue-100 text-blue-600 rounded-full">
+                <i class="fas fa-edit text-xs"></i>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm text-gray-900">Updated carrier settings</div>
+                <div class="text-xs text-gray-500">1 day ago</div>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="p-1 bg-orange-100 text-orange-600 rounded-full">
+                <i class="fas fa-ticket-alt text-xs"></i>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm text-gray-900">Created ticket TK-003</div>
+                <div class="text-xs text-gray-500">3 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
