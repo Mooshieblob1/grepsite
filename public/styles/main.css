@@ -1,14 +1,93 @@
+/* General avatar styling */
+.user-avatar {
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 /* Main styles for TEM Portal */
 .sidebar {
-  transition: all 0.3s ease;
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   position: relative;
   width: 256px;
   flex-shrink: 0;
 }
 
+/* Only add transitions after initial load */
+html:not(.sidebar-loading) .sidebar {
+  transition: all 0.3s ease;
+}
+
+/* Disable all transitions during initial load */
+html.sidebar-loading * {
+  transition: none !important;
+  animation: none !important;
+}
+
 .sidebar.collapsed {
   width: 70px;
+}
+
+/* Apply collapsed styles immediately based on localStorage - highest priority */
+html.sidebar-collapsed .sidebar {
+  width: 70px !important;
+}
+
+html.sidebar-collapsed .sidebar .nav-text {
+  display: none !important;
+}
+
+html.sidebar-collapsed .sidebar .logo-text {
+  display: none !important;
+}
+
+html.sidebar-collapsed .sidebar .nav-item {
+  justify-content: center !important;
+  padding: 12px 8px !important;
+}
+
+html.sidebar-collapsed .sidebar .section-title {
+  display: none !important;
+}
+
+html.sidebar-collapsed .sidebar .user-info {
+  display: none !important;
+}
+
+html.sidebar-collapsed .sidebar .user-avatar {
+  display: block !important;
+  margin: 0 auto !important;
+  width: 40px !important;
+  height: 40px !important;
+  flex-shrink: 0 !important;
+}
+
+html.sidebar-collapsed .sidebar .collapse-icon {
+  transform: rotate(180deg) !important;
+}
+
+html.sidebar-collapsed .sidebar #sidebar-toggle {
+  justify-content: center !important;
+  padding: 8px !important;
+}
+
+html.sidebar-collapsed .sidebar a[href="/profile"] {
+  justify-content: center !important;
+  padding: 8px !important;
+  position: relative !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  min-height: 56px !important;
+  width: 100% !important;
+}
+
+html.sidebar-collapsed .sidebar a[href="/profile"] .user-avatar {
+  margin: 0 !important;
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
 }
 
 .sidebar.collapsed .nav-text {
@@ -35,6 +114,9 @@
 .sidebar.collapsed .user-avatar {
   display: block;
   margin: 0 auto;
+  width: 40px !important;
+  height: 40px !important;
+  flex-shrink: 0;
 }
 
 /* Profile section in sidebar */
@@ -46,6 +128,19 @@
   justify-content: center;
   padding: 8px;
   position: relative;
+  flex-direction: column;
+  align-items: center;
+  min-height: 56px;
+  width: 100%;
+}
+
+.sidebar.collapsed a[href="/profile"] .user-avatar {
+  margin: 0;
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .sidebar.collapsed a[href="/profile"]:hover::after {

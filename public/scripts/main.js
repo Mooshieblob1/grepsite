@@ -1,5 +1,8 @@
 // Main JavaScript for TEM Portal
 document.addEventListener('DOMContentLoaded', function() {
+  // Remove loading class to enable transitions
+  document.documentElement.classList.remove('sidebar-loading');
+  
   // Initialize the application
   initializeSidebar();
   initializeCharts();
@@ -18,16 +21,35 @@ function initializeSidebar() {
     sidebarToggle.addEventListener('click', function() {
       sidebar.classList.toggle('collapsed');
       
-      // Store sidebar state in localStorage
+      // Store sidebar state in localStorage and sync document class
       const isCollapsed = sidebar.classList.contains('collapsed');
       localStorage.setItem('sidebarCollapsed', isCollapsed);
+      
+      // Update document class to match sidebar state
+      if (isCollapsed) {
+        document.documentElement.classList.add('sidebar-collapsed');
+      } else {
+        document.documentElement.classList.remove('sidebar-collapsed');
+      }
     });
   }
 
-  // Restore sidebar state from localStorage
+  // Ensure sidebar state is properly synchronized
   const sidebarCollapsed = localStorage.getItem('sidebarCollapsed');
-  if (sidebarCollapsed === 'true' && sidebar) {
-    sidebar.classList.add('collapsed');
+  if (sidebar) {
+    if (sidebarCollapsed === 'true') {
+      sidebar.classList.add('collapsed');
+      document.documentElement.classList.add('sidebar-collapsed');
+    } else if (sidebarCollapsed === 'false') {
+      // Explicitly handle false case to remove any existing collapsed state
+      sidebar.classList.remove('collapsed');
+      document.documentElement.classList.remove('sidebar-collapsed');
+    } else {
+      // First time user - default to expanded
+      sidebar.classList.remove('collapsed');
+      document.documentElement.classList.remove('sidebar-collapsed');
+      localStorage.setItem('sidebarCollapsed', 'false');
+    }
   }
 
   // Mobile sidebar handling

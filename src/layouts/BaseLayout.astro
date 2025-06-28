@@ -18,6 +18,31 @@ const { title, pageTitle } = Astro.props;
     <title>{title}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/styles/main.css">
+    
+    <!-- Immediately apply sidebar state to prevent flash -->
+    <script>
+        (function() {
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed');
+            if (sidebarCollapsed === 'true') {
+                document.documentElement.classList.add('sidebar-collapsed');
+            }
+            // Add a class to prevent transitions during initial load
+            document.documentElement.classList.add('sidebar-loading');
+            
+            // Extra safety: apply styles immediately when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Double-check sidebar state
+                    const stillCollapsed = localStorage.getItem('sidebarCollapsed');
+                    if (stillCollapsed === 'true') {
+                        document.documentElement.classList.add('sidebar-collapsed');
+                    } else {
+                        document.documentElement.classList.remove('sidebar-collapsed');
+                    }
+                });
+            }
+        })();
+    </script>
 </head>
 <body class="bg-gray-50">
     <div class="flex h-screen overflow-hidden">
