@@ -823,3 +823,156 @@ html.sidebar-collapsed .sidebar .p-4:first-child > div:last-child {
   display: flex;
   justify-content: center;
 }
+
+/* Column Resize Functionality */
+.resizable-table {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.resizable-column {
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  background: transparent;
+  border-right: 2px solid transparent;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.resize-handle:hover {
+  border-right-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  width: 10px;
+}
+
+.resize-handle:active {
+  border-right-color: #1d4ed8;
+  background: rgba(59, 130, 246, 0.2);
+  width: 10px;
+}
+
+.dark .resize-handle:hover {
+  border-right-color: #60a5fa;
+  background: rgba(96, 165, 250, 0.1);
+  width: 10px;
+}
+
+.dark .resize-handle:active {
+  border-right-color: #3b82f6;
+  background: rgba(96, 165, 250, 0.2);
+  width: 10px;
+}
+
+/* Prevent text selection during resize */
+.resizing {
+  user-select: none;
+  cursor: col-resize;
+}
+
+.resizing * {
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Table cell content wrapping */
+.resizable-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Auto-resize indicator */
+.auto-resize-indicator {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  background: #3b82f6;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.resizable-column:hover .auto-resize-indicator {
+  opacity: 1;
+}
+
+.dark .auto-resize-indicator {
+  background: #60a5fa;
+}
+
+/* Column Management Styles */
+.resizing {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+.resize-handle {
+  transition: background-color 0.2s ease;
+}
+
+.resize-handle:hover {
+  background-color: #3b82f6 !important;
+}
+
+.dark .resize-handle:hover {
+  background-color: #60a5fa !important;
+}
+
+/* Drag and drop styles */
+.dragging {
+  opacity: 0.5;
+  transform: rotate(5deg);
+}
+
+.drag-over {
+  border-top: 3px solid #3b82f6;
+}
+
+/* Column modal animations */
+#column-management-modal.flex {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Table column transitions */
+.resizable-column {
+  transition: width 0.1s ease-out;
+}
+
+/* Sortable list styles */
+.sortable-ghost {
+  background-color: #f3f4f6;
+  border: 2px dashed #d1d5db;
+}
+
+.dark .sortable-ghost {
+  background-color: #374151;
+  border-color: #6b7280;
+}

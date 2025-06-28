@@ -6,9 +6,10 @@ import Header from "../components/Header.astro";
 export interface Props {
   title: string;
   pageTitle?: string;
+  currentPage?: string;
 }
 
-const { title, pageTitle } = Astro.props;
+const { title, pageTitle, currentPage } = Astro.props;
 ---
 
 <html lang="en">
@@ -64,7 +65,7 @@ const { title, pageTitle } = Astro.props;
 <body class="bg-gray-50 dark:bg-gray-900">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <Sidebar />
+        <Sidebar currentPage={currentPage} />
 
         <!-- Main Content -->
         <div class="content flex-1 flex flex-col overflow-hidden min-w-0">

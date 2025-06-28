@@ -5,17 +5,70 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const title = "BlobLogic - Support Tickets";
 ---
 
-<BaseLayout title={title} pageTitle="Support Tickets">
+<BaseLayout title={title} pageTitle="Support Tickets" currentPage="tickets">
   <!-- Page Header -->
   <div class="mb-6">
     <div class="flex items-center justify-between">
       <div>
-        <h2 class="text-2xl font-bold text-gray-900">Support Tickets</h2>
-        <p class="text-gray-600">Manage and track support tickets for all carriers</p>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Support Tickets</h2>
+        <p class="text-gray-600 dark:text-gray-300">Manage and track support tickets for all carriers</p>
       </div>
-      <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition" onclick="openNewTicketModal()">
-        <i class="fas fa-plus mr-2"></i> Create New Ticket
-      </button>
+      <!-- Create Ticket Dropdown -->
+      <div class="relative">
+        <button 
+          id="create-ticket-btn"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center"
+          onclick="toggleTicketDropdown()"
+        >
+          <i class="fas fa-plus mr-2"></i> Create New Ticket
+          <i class="fas fa-chevron-down ml-2"></i>
+        </button>
+        
+        <!-- Dropdown Menu -->
+        <div 
+          id="ticket-dropdown" 
+          class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50 hidden"
+        >
+          <div class="py-2">
+            <button 
+              class="w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-600 transition"
+              onclick="openNewTicketModal('new-line')"
+            >
+              <div class="flex items-center">
+                <i class="fas fa-plus-circle text-green-600 dark:text-green-400 mr-3"></i>
+                <div>
+                  <h4 class="font-medium text-gray-900 dark:text-white">New Line</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Request a new line activation</p>
+                </div>
+              </div>
+            </button>
+            <button 
+              class="w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-600 transition"
+              onclick="openNewTicketModal('modify-line')"
+            >
+              <div class="flex items-center">
+                <i class="fas fa-edit text-blue-600 dark:text-blue-400 mr-3"></i>
+                <div>
+                  <h4 class="font-medium text-gray-900 dark:text-white">Modify Line</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Change existing line settings</p>
+                </div>
+              </div>
+            </button>
+            <button 
+              class="w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+              onclick="openNewTicketModal('general')"
+            >
+              <div class="flex items-center">
+                <i class="fas fa-question-circle text-orange-600 dark:text-orange-400 mr-3"></i>
+                <div>
+                  <h4 class="font-medium text-gray-900 dark:text-white">General Inquiry</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">General support or questions</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -429,21 +482,70 @@ const title = "BlobLogic - Support Tickets";
   </div>
 
   <script>
-    function openNewTicketModal() {
-      document.getElementById('newTicketModal').classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
+    let ticketType = 'general'; // Default type
+
+    function toggleTicketDropdown() {
+      const dropdown = document.getElementById('ticket-dropdown');
+      if (dropdown) {
+        dropdown.classList.toggle('hidden');
+      }
+    }
+
+    function openNewTicketModal(type = 'general') {
+      ticketType = type;
+      const modal = document.getElementById('newTicketModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        
+        // Update modal title based on type
+        const titleElement = modal.querySelector('h3');
+        if (titleElement) {
+          switch (type) {
+            case 'new-line':
+              titleElement.textContent = 'Create New Line Request';
+              break;
+            case 'modify-line':
+              titleElement.textContent = 'Create Line Modification Request';
+              break;
+            default:
+              titleElement.textContent = 'Create New Ticket';
+          }
+        }
+      }
+      
+      // Hide dropdown
+      const dropdown = document.getElementById('ticket-dropdown');
+      if (dropdown) {
+        dropdown.classList.add('hidden');
+      }
     }
 
     function closeNewTicketModal() {
-      document.getElementById('newTicketModal').classList.add('hidden');
-      document.body.style.overflow = 'auto';
+      const modal = document.getElementById('newTicketModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      }
     }
 
-    // Close modal when clicking outside
-    document.getElementById('newTicketModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeNewTicketModal();
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('ticket-dropdown');
+      const button = document.getElementById('create-ticket-btn');
+      if (dropdown && button && !dropdown.contains(e.target as Node) && !button.contains(e.target as Node)) {
+        dropdown.classList.add('hidden');
       }
     });
+
+    // Close modal when clicking outside
+    const modal = document.getElementById('newTicketModal');
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeNewTicketModal();
+        }
+      });
+    }
   </script>
 </BaseLayout>

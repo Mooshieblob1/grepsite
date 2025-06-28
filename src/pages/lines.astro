@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="BlobLogic - Lines Management">
+<BaseLayout title="BlobLogic - Lines Management" currentPage="lines" pageTitle="Line Inventory">
   <!-- Stats Cards -->
   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
@@ -124,6 +124,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         
         <!-- Export and Refresh -->
         <div class="flex items-center space-x-2">
+          <button id="manage-columns-btn" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-600 transition">
+            <i class="fas fa-columns mr-2"></i>
+            Manage Columns
+          </button>
           <button class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-600 transition">
             <i class="fas fa-sync-alt mr-2"></i>
             Refresh
@@ -159,12 +163,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         
         <!-- Column-specific Filters -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <!-- Phone Number Filter -->
+          <!-- Wireless Number Filter -->
           <div class="space-y-1">
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Wireless Number</label>
             <input 
               type="text" 
-              placeholder="Filter by phone..." 
+              placeholder="Filter by number..." 
               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               id="phone-filter"
             >
@@ -184,7 +188,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           
           <!-- Status Filter -->
           <div class="space-y-1">
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Status</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Line Status</label>
             <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="status-filter">
               <option value="">All Status</option>
               <option value="active">Active</option>
@@ -193,28 +197,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </select>
           </div>
           
-          <!-- Department/BU Filter -->
+          <!-- BU Filter -->
           <div class="space-y-1">
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Department</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">BU</label>
             <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="department-filter">
-              <option value="">All Departments</option>
-              <option value="sales">Sales</option>
-              <option value="it">IT</option>
-              <option value="operations">Operations</option>
-              <option value="management">Management</option>
-              <option value="finance">Finance</option>
+              <option value="">All BUs</option>
+              <option value="WELL03NEWH">WELL03NEWH</option>
+              <option value="GOOGG05LUW">GOOGG05LUW</option>
+              <option value="COR035">COR035</option>
+              <option value="CBRE54CA250">CBRE54CA250</option>
             </select>
           </div>
           
           <!-- Plan Filter -->
           <div class="space-y-1">
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Plan Type</label>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Primary Plan</label>
             <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="plan-filter">
               <option value="">All Plans</option>
               <option value="unlimited">Unlimited</option>
-              <option value="business">Business Basic</option>
+              <option value="business">Business</option>
+              <option value="custom">Custom</option>
               <option value="enterprise">Enterprise</option>
-              <option value="custom">Custom Plan</option>
             </select>
           </div>
           
@@ -244,11 +247,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div class="flex items-center space-x-3 flex-wrap gap-2">
               <span class="text-sm text-gray-600 dark:text-gray-400">Show rows where</span>
               <select class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
-                <option>Phone Number</option>
+                <option>Wireless Number</option>
                 <option>Line Name</option>
+                <option>Line Email</option>
                 <option>Employee ID</option>
+                <option>Device Type</option>
                 <option>Device Model</option>
-                <option>Plan Name</option>
+                <option>Primary Plan</option>
+                <option>Carrier</option>
+                <option>Line Status</option>
+                <option>BU</option>
               </select>
               <select class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                 <option>contains</option>
@@ -270,303 +278,566 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <!-- Table -->
     <div class="overflow-x-auto">
-      <table class="w-full">
+      <table class="w-full resizable-table" id="lines-table">
         <thead class="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
           <tr>
-            <th class="px-4 py-3 text-left border-r border-gray-200 dark:border-gray-600">
+            <th class="px-2 py-3 text-left border-r border-gray-200 dark:border-gray-600 resizable-column" style="width: 60px; min-width: 50px;">
               <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800" id="select-all">
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="actions">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="actions" style="width: 120px; min-width: 80px;">
               <div class="flex items-center justify-between">
                 <span>Actions</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Actions">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="number">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="no-usage-cycles" style="width: 140px; min-width: 100px;">
               <div class="flex items-center justify-between">
-                <span>Phone Number</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>No Usage Bill Cycles</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter No Usage Cycles">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="name">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="last-usage" style="width: 120px; min-width: 90px;">
               <div class="flex items-center justify-between">
-                <span>Line Name</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Last Usage</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Last Usage">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="email">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="current-data-usage" style="width: 160px; min-width: 120px;">
               <div class="flex items-center justify-between">
-                <span>Email</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Current Data Usage (GB)</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Data Usage">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="carrier">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="carrier" style="width: 100px; min-width: 80px;">
               <div class="flex items-center justify-between">
                 <span>Carrier</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Carrier">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="status">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="line-name" style="width: 150px; min-width: 100px;">
               <div class="flex items-center justify-between">
-                <span>Status</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Line Name</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Line Name">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="device">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="line-email" style="width: 200px; min-width: 150px;">
               <div class="flex items-center justify-between">
-                <span>Device</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Line Email</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Line Email">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="plan">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="wireless-number" style="width: 140px; min-width: 110px;">
               <div class="flex items-center justify-between">
-                <span>Plan</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Wireless Number</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Wireless Number">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="usage">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="employee-id" style="width: 120px; min-width: 90px;">
               <div class="flex items-center justify-between">
-                <span>Data Usage (GB)</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Employee ID</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Employee ID">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="mrc">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="device-type" style="width: 120px; min-width: 90px;">
               <div class="flex items-center justify-between">
-                <span>Monthly Cost</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Device Type</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Device Type">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="department">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="device-model" style="width: 180px; min-width: 130px;">
               <div class="flex items-center justify-between">
-                <span>Department</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Device Model</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Device Model">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600" data-sort="contract">
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="contract-end" style="width: 140px; min-width: 110px;">
               <div class="flex items-center justify-between">
-                <span>Contract End</span>
-                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                <span>Contract End Date</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Contract End Date">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
               </div>
+              <div class="resize-handle"></div>
+            </th>
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="eligibility-date" style="width: 130px; min-width: 100px;">
+              <div class="flex items-center justify-between">
+                <span>Eligibility Date</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Eligibility Date">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
+              </div>
+              <div class="resize-handle"></div>
+            </th>
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="upgrade-eligibility" style="width: 150px; min-width: 120px;">
+              <div class="flex items-center justify-between">
+                <span>Upgrade Eligibility</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Upgrade Eligibility">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
+              </div>
+              <div class="resize-handle"></div>
+            </th>
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="line-status" style="width: 110px; min-width: 80px;">
+              <div class="flex items-center justify-between">
+                <span>Line Status</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Line Status">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
+              </div>
+              <div class="resize-handle"></div>
+            </th>
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="primary-plan" style="width: 250px; min-width: 180px;">
+              <div class="flex items-center justify-between">
+                <span>Primary Plan</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Primary Plan">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
+              </div>
+              <div class="resize-handle"></div>
+            </th>
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="total-mrc" style="width: 110px; min-width: 80px;">
+              <div class="flex items-center justify-between">
+                <span>Total MRC</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter Total MRC">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
+              </div>
+              <div class="resize-handle"></div>
+            </th>
+            <th class="px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column" data-sort="bu" style="width: 120px; min-width: 80px;">
+              <div class="flex items-center justify-between">
+                <span>BU</span>
+                <div class="flex items-center space-x-1">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 p-1" title="Filter BU">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+                </div>
+              </div>
+              <div class="resize-handle"></div>
             </th>
           </tr>
         </thead>
         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
           <!-- Sample row 1 -->
           <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
               <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
             </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <div class="flex space-x-2">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-1">
                 <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
-                  <i class="fas fa-edit text-sm"></i>
+                  <i class="fas fa-edit text-xs"></i>
                 </button>
                 <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
-                  <i class="fas fa-eye text-sm"></i>
-                </button>
-                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
-                  <i class="fas fa-mobile-alt text-sm"></i>
+                  <i class="fas fa-eye text-xs"></i>
                 </button>
               </div>
             </td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(703) 889-8155</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Carlos Morales</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">carlos.morales@company.com</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">05/16/2025</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0.000</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
               <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 rounded">
                 Verizon
               </span>
             </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Carlos Morales</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">carlos.morales@company.com</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(703) 889-8155</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">103141</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Smartphone</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Samsung Galaxy A15 5G</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">04/04/2019</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">01/02/2027</td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300">
+                Not Eligible
+              </span>
+            </td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
               <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
                 Active
               </span>
             </td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Samsung Galaxy A15 5G</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Business Unlimited</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">2.4</td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$85.00</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Sales</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">04/04/2026</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Custom Business Unlimited Smartphone Plan 60235</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">25</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white">WELL03NEWH</td>
           </tr>
           
           <!-- Sample row 2 -->
           <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
               <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
             </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <div class="flex space-x-2">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-1">
                 <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
-                  <i class="fas fa-edit text-sm"></i>
+                  <i class="fas fa-edit text-xs"></i>
                 </button>
                 <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
-                  <i class="fas fa-eye text-sm"></i>
-                </button>
-                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
-                  <i class="fas fa-mobile-alt text-sm"></i>
+                  <i class="fas fa-eye text-xs"></i>
                 </button>
               </div>
             </td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(555) 234-5678</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Sarah Johnson</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">sarah.johnson@company.com</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 rounded">
-                AT&T
-              </span>
-            </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
-                Active
-              </span>
-            </td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">iPhone 14 Pro</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Enterprise Unlimited</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">8.7</td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$110.00</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">IT</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">12/15/2025</td>
-          </tr>
-          
-          <!-- Sample row 3 -->
-          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
-            </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <div class="flex space-x-2">
-                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
-                  <i class="fas fa-edit text-sm"></i>
-                </button>
-                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
-                  <i class="fas fa-eye text-sm"></i>
-                </button>
-                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
-                  <i class="fas fa-mobile-alt text-sm"></i>
-                </button>
-              </div>
-            </td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(212) 987-6543</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Michael Chen</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">michael.chen@company.com</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">06/10/2025</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0.000</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
               <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 rounded">
                 T-Mobile
               </span>
             </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300">
-                Suspended
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">JOHN OWENS</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">john.owens@company.com</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(706) 825-3803</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">248478</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Smartphone</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Galaxy A13 5G</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">09/02/2022</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">09/02/2022</td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Eligible
               </span>
             </td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Google Pixel 7</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Business Essentials</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0.0</td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$65.00</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Operations</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">08/22/2025</td>
-          </tr>
-          
-          <!-- Sample row 4 -->
-          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
-            </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
-              <div class="flex space-x-2">
-                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
-                  <i class="fas fa-edit text-sm"></i>
-                </button>
-                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
-                  <i class="fas fa-eye text-sm"></i>
-                </button>
-                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
-                  <i class="fas fa-mobile-alt text-sm"></i>
-                </button>
-              </div>
-            </td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(415) 555-0123</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Emily Rodriguez</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">emily.rodriguez@company.com</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 rounded">
-                Verizon
-              </span>
-            </td>
-            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
               <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
                 Active
               </span>
             </td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">iPad Pro 11"</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Tablet Unlimited</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">15.2</td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$45.00</td>
-            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Management</td>
-            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">03/10/2026</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Biz Sci N America UNL TT+D AAL</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">25</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white">GOOGG05LUW</td>
           </tr>
           
-          <!-- Sample row 5 -->
-          <tr class="hover:bg-blue-50 transition-colors border-b border-gray-100">
-            <td class="px-4 py-3 border-r border-gray-100">
-              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 line-checkbox">
+          <!-- Sample row 3 -->
+          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
             </td>
-            <td class="px-4 py-3 border-r border-gray-100">
-              <div class="flex space-x-2">
-                <button class="text-green-600 hover:text-green-800 p-1 hover:bg-green-100 rounded" title="Edit Line">
-                  <i class="fas fa-edit text-sm"></i>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-1">
+                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-xs"></i>
                 </button>
-                <button class="text-blue-600 hover:text-blue-800 p-1 hover:bg-blue-100 rounded" title="View Details">
-                  <i class="fas fa-eye text-sm"></i>
-                </button>
-                <button class="text-orange-600 hover:text-orange-800 p-1 hover:bg-orange-100 rounded" title="Manage Device">
-                  <i class="fas fa-mobile-alt text-sm"></i>
+                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
+                  <i class="fas fa-eye text-xs"></i>
                 </button>
               </div>
             </td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 border-r border-gray-100">(713) 456-7890</td>
-            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">David Thompson</td>
-            <td class="px-4 py-3 text-sm text-gray-600 border-r border-gray-100">david.thompson@company.com</td>
-            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">04/29/2025</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0.000</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 rounded">
+                Verizon
+              </span>
+            </td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">EMPLOYEE 785</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">employee785@company.com</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(929) 973-9190</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">-</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Smartphone</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Samsung Galaxy A16 5G</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">03/31/2028</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">03/31/2028</td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300">
+                Not Eligible
+              </span>
+            </td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Active
+              </span>
+            </td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">4G/5G Custom Business Unlimited Smartphone Plan 60225</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white">COR035</td>
+          </tr>
+          
+          <!-- Sample row 4 -->
+          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
+            </td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-1">
+                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-xs"></i>
+                </button>
+                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
+                  <i class="fas fa-eye text-xs"></i>
+                </button>
+              </div>
+            </td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">05/27/2025</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0.000</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 rounded">
+                Verizon
+              </span>
+            </td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">EMPLOYEE HOURLY</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">hourly.emp@company.com</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(510) 506-5608</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">-</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Smartphone</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Samsung Galaxy A16 5G</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">04/27/2028</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">04/27/2028</td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300">
+                Not Eligible
+              </span>
+            </td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300">
+                Suspended
+              </span>
+            </td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">4G/5G Custom Business Unlimited Smartphone Plan 60225</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white">COR035</td>
+          </tr>
+          
+          <!-- Sample row 5 -->
+          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
+            </td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-1">
+                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-xs"></i>
+                </button>
+                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
+                  <i class="fas fa-eye text-xs"></i>
+                </button>
+              </div>
+            </td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">06/27/2025</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0.134</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 rounded">
                 AT&T
               </span>
             </td>
-            <td class="px-4 py-3 border-r border-gray-100">
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-red-100 text-red-800">
-                Inactive
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Jesus Acevedo</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">jesus.acevedo@company.com</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(617) 899-1281</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">231882</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Smartphone</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Samsung Galaxy A11</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">01/01/1900</td>
+            <td class="px-2 py-3 text-xs text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">01/01/1900</td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Eligible
               </span>
             </td>
-            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">iPhone 13</td>
-            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">Basic Plan</td>
-            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">0.0</td>
-            <td class="px-4 py-3 text-sm font-medium text-gray-900 border-r border-gray-100">$55.00</td>
-            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">Finance</td>
-            <td class="px-4 py-3 text-sm text-gray-600">01/20/2025</td>
+            <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Active
+              </span>
+            </td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Key Ent Unl w/Tether for 5G/5G+ IPHONE WVM</td>
+            <td class="px-2 py-3 text-xs font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">30</td>
+            <td class="px-2 py-3 text-xs text-gray-900 dark:text-white">CBRE54CA250</td>
           </tr>
         </tbody>
       </table>
     </div>
     
     <!-- Pagination -->
-    <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+    <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-2">
-          <span class="text-sm text-gray-600">Showing 1 to 50 of 2,847 entries</span>
+          <span class="text-sm text-gray-600 dark:text-gray-300">Showing 1 to 50 of 2,847 entries</span>
         </div>
         <div class="flex items-center space-x-2">
-          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50 disabled:opacity-50" disabled>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50" disabled>
             Previous
           </button>
-          <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">1</button>
-          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">2</button>
-          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">3</button>
-          <span class="px-2 text-sm text-gray-500">...</span>
-          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">57</button>
-          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">
+          <button class="px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded">1</button>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">2</button>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">3</button>
+          <span class="px-2 text-sm text-gray-500 dark:text-gray-400">...</span>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">57</button>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
             Next
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Column Management Modal -->
+  <div id="column-management-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen px-4">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Manage Columns</h3>
+          <button id="close-column-modal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="p-6 overflow-y-auto max-h-[60vh]">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Column Visibility -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-md font-medium text-gray-800 dark:text-white">Column Visibility</h4>
+              <div class="flex space-x-2">
+                <button id="show-all-columns" class="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition">
+                  Show All
+                </button>
+                <button id="hide-all-columns" class="px-3 py-1 text-xs bg-gray-600 hover:bg-gray-700 text-white rounded transition">
+                  Hide All
+                </button>
+              </div>
+            </div>
+            <div class="space-y-2 max-h-96 overflow-y-auto border border-gray-200 dark:border-gray-600 rounded-lg p-3 bg-gray-50 dark:bg-gray-700">
+              <div id="column-visibility-list" class="space-y-2">
+                <!-- Column visibility checkboxes will be populated here -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Column Order -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-md font-medium text-gray-800 dark:text-white">Column Order</h4>
+              <button id="reset-column-order" class="px-3 py-1 text-xs bg-orange-600 hover:bg-orange-700 text-white rounded transition">
+                Reset Order
+              </button>
+            </div>
+            <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-3 bg-gray-50 dark:bg-gray-700">
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                <i class="fas fa-info-circle mr-1"></i>
+                Drag and drop to reorder columns. Only visible columns are shown.
+              </p>
+              <div id="column-order-list" class="space-y-2 max-h-96 overflow-y-auto">
+                <!-- Draggable column order items will be populated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <button id="save-column-preset" class="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded transition">
+              <i class="fas fa-save mr-1"></i>
+              Save as Preset
+            </button>
+            <select id="load-column-preset" class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+              <option value="">Load Preset...</option>
+              <option value="default">Default View</option>
+              <option value="compact">Compact View</option>
+              <option value="detailed">Detailed View</option>
+            </select>
+          </div>
+          <div class="flex items-center space-x-3">
+            <button id="cancel-column-changes" class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-600 transition">
+              Cancel
+            </button>
+            <button id="apply-column-changes" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded transition">
+              Apply Changes
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -583,6 +854,355 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const selectionCounter = document.getElementById('selection-counter') as HTMLElement;
     const selectedCountSpan = document.getElementById('selected-count') as HTMLElement;
     
+    // Column Management Elements
+    const manageColumnsBtn = document.getElementById('manage-columns-btn') as HTMLButtonElement;
+    const columnModal = document.getElementById('column-management-modal') as HTMLElement;
+    const closeColumnModal = document.getElementById('close-column-modal') as HTMLButtonElement;
+    const columnVisibilityList = document.getElementById('column-visibility-list') as HTMLElement;
+    const columnOrderList = document.getElementById('column-order-list') as HTMLElement;
+    const showAllColumnsBtn = document.getElementById('show-all-columns') as HTMLButtonElement;
+    const hideAllColumnsBtn = document.getElementById('hide-all-columns') as HTMLButtonElement;
+    const resetColumnOrderBtn = document.getElementById('reset-column-order') as HTMLButtonElement;
+    const applyColumnChangesBtn = document.getElementById('apply-column-changes') as HTMLButtonElement;
+    const cancelColumnChangesBtn = document.getElementById('cancel-column-changes') as HTMLButtonElement;
+    const saveColumnPresetBtn = document.getElementById('save-column-preset') as HTMLButtonElement;
+    const loadColumnPresetSelect = document.getElementById('load-column-preset') as HTMLSelectElement;
+    
+    // Initialize column configuration immediately
+    loadColumnConfiguration();
+    setTimeout(() => {
+      applyColumnConfiguration();
+      initializeColumnResize();
+    }, 200);
+    
+    // Column Configuration
+    const defaultColumns = [
+      { id: 'checkbox', name: 'Select', visible: true, locked: true, width: '60px' },
+      { id: 'actions', name: 'Actions', visible: true, locked: false, width: '120px' },
+      { id: 'no-usage-cycles', name: 'No Usage Bill Cycles', visible: true, locked: false, width: '140px' },
+      { id: 'last-usage', name: 'Last Usage', visible: true, locked: false, width: '120px' },
+      { id: 'current-data-usage', name: 'Current Data Usage (GB)', visible: true, locked: false, width: '150px' },
+      { id: 'carrier', name: 'Carrier', visible: true, locked: false, width: '100px' },
+      { id: 'line-name', name: 'Line Name', visible: true, locked: false, width: '150px' },
+      { id: 'line-email', name: 'Line Email', visible: true, locked: false, width: '200px' },
+      { id: 'wireless-number', name: 'Wireless Number', visible: true, locked: false, width: '140px' },
+      { id: 'employee-id', name: 'Employee ID', visible: true, locked: false, width: '120px' },
+      { id: 'device-type', name: 'Device Type', visible: true, locked: false, width: '120px' },
+      { id: 'device-model', name: 'Device Model', visible: true, locked: false, width: '150px' },
+      { id: 'contract-end', name: 'Contract End Date', visible: true, locked: false, width: '140px' },
+      { id: 'eligibility-date', name: 'Eligibility Date', visible: true, locked: false, width: '140px' },
+      { id: 'upgrade-eligibility', name: 'Upgrade Eligibility', visible: true, locked: false, width: '150px' },
+      { id: 'line-status', name: 'Line Status', visible: true, locked: false, width: '120px' },
+      { id: 'primary-plan', name: 'Primary Plan', visible: true, locked: false, width: '150px' },
+      { id: 'total-mrc', name: 'Total MRC', visible: true, locked: false, width: '100px' },
+      { id: 'bu', name: 'BU', visible: true, locked: false, width: '80px' }
+    ];
+    
+    let currentColumns = [...defaultColumns];
+    
+    // Load saved column configuration
+    function loadColumnConfiguration() {
+      const savedConfig = localStorage.getItem('lines-column-config');
+      if (savedConfig) {
+        try {
+          const parsedConfig = JSON.parse(savedConfig);
+          currentColumns = parsedConfig.map((saved: any) => {
+            const defaultCol = defaultColumns.find(col => col.id === saved.id);
+            return defaultCol ? { ...defaultCol, ...saved } : saved;
+          });
+        } catch (e) {
+          console.error('Failed to load column configuration:', e);
+          currentColumns = [...defaultColumns];
+        }
+      }
+    }
+    
+    // Save column configuration
+    function saveColumnConfiguration() {
+      localStorage.setItem('lines-column-config', JSON.stringify(currentColumns));
+    }
+    
+    // Apply column configuration to table
+    function applyColumnConfiguration() {
+      const table = document.getElementById('lines-table') as HTMLTableElement;
+      const thead = table.querySelector('thead tr') as HTMLTableRowElement;
+      const tbody = table.querySelector('tbody') as HTMLTableSectionElement;
+      
+      // Clear existing columns
+      thead.innerHTML = '';
+      
+      // Apply visible columns in order
+      currentColumns.forEach((column, index) => {
+        if (column.visible) {
+          const th = document.createElement('th');
+          th.className = `px-2 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600 resizable-column`;
+          th.setAttribute('data-sort', column.id);
+          th.style.width = column.width;
+          th.style.minWidth = column.locked ? '50px' : '80px';
+          
+          if (column.id === 'checkbox') {
+            th.innerHTML = `
+              <input 
+                type="checkbox" 
+                id="select-all" 
+                class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
+              >
+            `;
+          } else {
+            th.innerHTML = `
+              <div class="flex items-center justify-between group">
+                <span class="truncate">${column.name}</span>
+                <div class="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 p-1" title="Filter ${column.name}">
+                    <i class="fas fa-filter text-xs"></i>
+                  </button>
+                  <div class="resize-handle w-1 h-4 bg-gray-300 dark:bg-gray-600 cursor-col-resize hover:bg-blue-500 dark:hover:bg-blue-400 transition-colors"></div>
+                </div>
+              </div>
+            `;
+          }
+          
+          thead.appendChild(th);
+        }
+      });
+      
+      // Update body rows to match column configuration
+      const rows = tbody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll('td'));
+        row.innerHTML = '';
+        
+        currentColumns.forEach((column, index) => {
+          if (column.visible) {
+            const originalIndex = defaultColumns.findIndex(col => col.id === column.id);
+            const cell = cells[originalIndex] || document.createElement('td');
+            cell.className = `px-2 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700`;
+            cell.style.width = column.width;
+            row.appendChild(cell);
+          }
+        });
+      });
+      
+      // Reinitialize resize functionality
+      initializeColumnResize();
+    }
+    
+    // Initialize column management modal
+    function initializeColumnModal() {
+      // Populate column visibility list
+      columnVisibilityList.innerHTML = '';
+      currentColumns.forEach((column, index) => {
+        if (!column.locked) {
+          const item = document.createElement('div');
+          item.className = 'flex items-center justify-between p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded';
+          item.innerHTML = `
+            <div class="flex items-center space-x-2">
+              <input 
+                type="checkbox" 
+                id="col-vis-${column.id}" 
+                ${column.visible ? 'checked' : ''} 
+                class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700"
+              >
+              <label for="col-vis-${column.id}" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+                ${column.name}
+              </label>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+              ${column.width}
+            </div>
+          `;
+          columnVisibilityList.appendChild(item);
+        }
+      });
+      
+      // Populate column order list (only visible columns)
+      updateColumnOrderList();
+    }
+    
+    // Update column order list
+    function updateColumnOrderList() {
+      columnOrderList.innerHTML = '';
+      const visibleColumns = currentColumns.filter(col => col.visible && !col.locked);
+      
+      visibleColumns.forEach((column, index) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded cursor-move hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors';
+        item.draggable = true;
+        item.setAttribute('data-column-id', column.id);
+        item.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500"></i>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${column.name}</span>
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">${column.width}</div>
+        `;
+        columnOrderList.appendChild(item);
+      });
+      
+      // Initialize drag and drop
+      initializeDragAndDrop();
+    }
+    
+    // Initialize drag and drop for column reordering
+    function initializeDragAndDrop() {
+      let draggedElement: HTMLElement | null = null;
+      
+      const items = columnOrderList.querySelectorAll('[data-column-id]');
+      items.forEach(item => {
+        item.addEventListener('dragstart', function(e) {
+          draggedElement = this as HTMLElement;
+          this.classList.add('opacity-50');
+        });
+        
+        item.addEventListener('dragend', function(e) {
+          this.classList.remove('opacity-50');
+          draggedElement = null;
+        });
+        
+        item.addEventListener('dragover', function(e) {
+          e.preventDefault();
+        });
+        
+        item.addEventListener('drop', function(e) {
+          e.preventDefault();
+          if (draggedElement && draggedElement !== this) {
+            const draggedId = draggedElement.getAttribute('data-column-id');
+            const targetId = this.getAttribute('data-column-id');
+            
+            if (draggedId && targetId) {
+              reorderColumns(draggedId, targetId);
+              updateColumnOrderList();
+            }
+          }
+        });
+      });
+    }
+    
+    // Reorder columns
+    function reorderColumns(draggedId: string, targetId: string) {
+      const draggedIndex = currentColumns.findIndex(col => col.id === draggedId);
+      const targetIndex = currentColumns.findIndex(col => col.id === targetId);
+      
+      if (draggedIndex !== -1 && targetIndex !== -1) {
+        const draggedColumn = currentColumns.splice(draggedIndex, 1)[0];
+        currentColumns.splice(targetIndex, 0, draggedColumn);
+      }
+    }
+    
+    // Column management event listeners
+    manageColumnsBtn.addEventListener('click', function() {
+      columnModal.classList.remove('hidden');
+      columnModal.classList.add('flex');
+      initializeColumnModal();
+    });
+    
+    closeColumnModal.addEventListener('click', function() {
+      columnModal.classList.add('hidden');
+      columnModal.classList.remove('flex');
+    });
+    
+    // Close modal when clicking outside
+    columnModal.addEventListener('click', function(e) {
+      if (e.target === columnModal) {
+        columnModal.classList.add('hidden');
+        columnModal.classList.remove('flex');
+      }
+    });
+    
+    cancelColumnChangesBtn.addEventListener('click', function() {
+      // Reload from localStorage
+      loadColumnConfiguration();
+      columnModal.classList.add('hidden');
+      columnModal.classList.remove('flex');
+    });
+    
+    applyColumnChangesBtn.addEventListener('click', function() {
+      // Update column visibility from checkboxes
+      const checkboxes = columnVisibilityList.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        const columnId = (checkbox as HTMLInputElement).id.replace('col-vis-', '');
+        const column = currentColumns.find(col => col.id === columnId);
+        if (column) {
+          column.visible = (checkbox as HTMLInputElement).checked;
+        }
+      });
+      
+      saveColumnConfiguration();
+      applyColumnConfiguration();
+      columnModal.classList.add('hidden');
+      columnModal.classList.remove('flex');
+    });
+    
+    showAllColumnsBtn.addEventListener('click', function() {
+      const checkboxes = columnVisibilityList.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        (checkbox as HTMLInputElement).checked = true;
+      });
+      updateColumnOrderList();
+    });
+    
+    hideAllColumnsBtn.addEventListener('click', function() {
+      const checkboxes = columnVisibilityList.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        (checkbox as HTMLInputElement).checked = false;
+      });
+      updateColumnOrderList();
+    });
+    
+    resetColumnOrderBtn.addEventListener('click', function() {
+      currentColumns = [...defaultColumns];
+      initializeColumnModal();
+    });
+    
+    saveColumnPresetBtn.addEventListener('click', function() {
+      const presetName = prompt('Enter a name for this column preset:');
+      if (presetName) {
+        const presets = JSON.parse(localStorage.getItem('lines-column-presets') || '{}');
+        presets[presetName] = [...currentColumns];
+        localStorage.setItem('lines-column-presets', JSON.stringify(presets));
+        
+        // Update preset dropdown
+        const option = document.createElement('option');
+        option.value = presetName;
+        option.textContent = presetName;
+        loadColumnPresetSelect.appendChild(option);
+        
+        alert(`Preset "${presetName}" saved successfully!`);
+      }
+    });
+    
+    loadColumnPresetSelect.addEventListener('change', function() {
+      const presetName = this.value;
+      if (presetName === 'default') {
+        currentColumns = [...defaultColumns];
+      } else if (presetName) {
+        const presets = JSON.parse(localStorage.getItem('lines-column-presets') || '{}');
+        if (presets[presetName]) {
+          currentColumns = [...presets[presetName]];
+        }
+      }
+      
+      if (presetName) {
+        initializeColumnModal();
+      }
+    });
+    
+    // Load saved presets into dropdown
+    function loadColumnPresets() {
+      const presets = JSON.parse(localStorage.getItem('lines-column-presets') || '{}');
+      Object.keys(presets).forEach(presetName => {
+        const option = document.createElement('option');
+        option.value = presetName;
+        option.textContent = presetName;
+        loadColumnPresetSelect.appendChild(option);
+      });
+    }
+    
+    // Initialize on page load
+    loadColumnConfiguration();
+    loadColumnPresets();
+    applyColumnConfiguration();
+    
     // Global search functionality
     const globalSearch = document.getElementById('global-search') as HTMLInputElement;
     const phoneFilter = document.getElementById('phone-filter') as HTMLInputElement;
@@ -596,6 +1216,129 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     // Advanced filters toggle
     const toggleAdvancedButton = document.getElementById('toggle-advanced') as HTMLButtonElement;
     const advancedFilters = document.getElementById('advanced-filters') as HTMLElement;
+    
+    // Column Resize Functionality
+    let isResizing = false;
+    let currentColumn: HTMLElement | null = null;
+    let startX = 0;
+    let startWidth = 0;
+    let minWidth = 0;
+    
+    function initResize(e: MouseEvent) {
+      e.preventDefault();
+      isResizing = true;
+      
+      const handle = e.target as HTMLElement;
+      currentColumn = handle.parentElement as HTMLElement;
+      
+      if (!currentColumn) return;
+      
+      startX = e.clientX;
+      startWidth = currentColumn.offsetWidth;
+      minWidth = parseInt(currentColumn.style.minWidth) || 80;
+      
+      document.body.classList.add('resizing');
+      document.addEventListener('mousemove', doResize);
+      document.addEventListener('mouseup', stopResize);
+    }
+    
+    function doResize(e: MouseEvent) {
+      if (!isResizing || !currentColumn) return;
+      
+      const diff = e.clientX - startX;
+      const newWidth = Math.max(minWidth, startWidth + diff);
+      
+      currentColumn.style.width = `${newWidth}px`;
+      
+      // Update corresponding table cells in the same column
+      const table = document.getElementById('lines-table') as HTMLTableElement;
+      const columnIndex = Array.from(currentColumn.parentElement!.children).indexOf(currentColumn);
+      
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const cell = row.children[columnIndex] as HTMLElement;
+        if (cell) {
+          cell.style.width = `${newWidth}px`;
+        }
+      });
+    }
+    
+    function stopResize() {
+      if (!isResizing) return;
+      
+      isResizing = false;
+      currentColumn = null;
+      
+      document.body.classList.remove('resizing');
+      document.removeEventListener('mousemove', doResize);
+      document.removeEventListener('mouseup', stopResize);
+    }
+    
+    function autoResizeColumn(e: MouseEvent) {
+      const column = e.currentTarget as HTMLElement;
+      if (!column) return;
+      
+      // Get the column index
+      const columnIndex = Array.from(column.parentElement!.children).indexOf(column);
+      const table = document.getElementById('lines-table') as HTMLTableElement;
+      
+      // Create a temporary div to measure text width
+      const tempDiv = document.createElement('div');
+      tempDiv.style.position = 'absolute';
+      tempDiv.style.visibility = 'hidden';
+      tempDiv.style.whiteSpace = 'nowrap';
+      tempDiv.style.fontSize = window.getComputedStyle(column).fontSize;
+      tempDiv.style.fontFamily = window.getComputedStyle(column).fontFamily;
+      tempDiv.style.fontWeight = window.getComputedStyle(column).fontWeight;
+      document.body.appendChild(tempDiv);
+      
+      let maxWidth = 0;
+      
+      // Measure header content
+      const headerText = column.querySelector('span')?.textContent || '';
+      tempDiv.textContent = headerText;
+      maxWidth = Math.max(maxWidth, tempDiv.offsetWidth + 60); // 60px for padding and icons
+      
+      // Measure cell content in this column
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const cell = row.children[columnIndex] as HTMLElement;
+        if (cell) {
+          tempDiv.textContent = cell.textContent || '';
+          maxWidth = Math.max(maxWidth, tempDiv.offsetWidth + 20); // 20px for padding
+        }
+      });
+      
+      document.body.removeChild(tempDiv);
+      
+      // Apply the calculated width
+      const minColumnWidth = parseInt(column.style.minWidth) || 80;
+      const newWidth = Math.max(minColumnWidth, Math.min(maxWidth, 400)); // Cap at 400px max
+      
+      column.style.width = `${newWidth}px`;
+      
+      // Update corresponding table cells
+      rows.forEach(row => {
+        const cell = row.children[columnIndex] as HTMLElement;
+        if (cell) {
+          cell.style.width = `${newWidth}px`;
+        }
+      });
+      
+      // Visual feedback
+      column.style.transition = 'width 0.2s ease';
+      setTimeout(() => {
+        column.style.transition = '';
+      }, 200);
+    }
+    
+    // Prevent drag interference with resize handles
+    const resizeHandles = document.querySelectorAll('.resize-handle');
+    resizeHandles.forEach(handle => {
+      handle.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
     
     // Select All functionality
     function updateSelectAll() {
@@ -696,16 +1439,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         const cells = row.querySelectorAll('td');
         if (cells.length === 0) return;
         
-        const phoneNumber = cells[2]?.textContent?.toLowerCase() || '';
-        const lineName = cells[3]?.textContent?.toLowerCase() || '';
-        const email = cells[4]?.textContent?.toLowerCase() || '';
-        const carrier = cells[5]?.textContent?.toLowerCase() || '';
-        const status = cells[6]?.textContent?.toLowerCase() || '';
-        const device = cells[7]?.textContent?.toLowerCase() || '';
-        const plan = cells[8]?.textContent?.toLowerCase() || '';
-        const department = cells[11]?.textContent?.toLowerCase() || '';
+        // Updated column positions based on new structure:
+        // 0: checkbox, 1: actions, 2: no usage cycles, 3: last usage, 4: current data usage
+        // 5: carrier, 6: line name, 7: line email, 8: wireless number, 9: employee id
+        // 10: device type, 11: device model, 12: contract end, 13: eligibility date
+        // 14: upgrade eligibility, 15: line status, 16: primary plan, 17: total mrc, 18: bu
         
-        const rowText = `${phoneNumber} ${lineName} ${email} ${carrier} ${status} ${device} ${plan} ${department}`;
+        const carrier = cells[5]?.textContent?.toLowerCase() || '';
+        const lineName = cells[6]?.textContent?.toLowerCase() || '';
+        const email = cells[7]?.textContent?.toLowerCase() || '';
+        const phoneNumber = cells[8]?.textContent?.toLowerCase() || '';
+        const employeeId = cells[9]?.textContent?.toLowerCase() || '';
+        const deviceType = cells[10]?.textContent?.toLowerCase() || '';
+        const deviceModel = cells[11]?.textContent?.toLowerCase() || '';
+        const status = cells[15]?.textContent?.toLowerCase() || '';
+        const plan = cells[16]?.textContent?.toLowerCase() || '';
+        const bu = cells[18]?.textContent?.toLowerCase() || '';
+        
+        const rowText = `${phoneNumber} ${lineName} ${email} ${carrier} ${status} ${deviceType} ${deviceModel} ${plan} ${bu} ${employeeId}`;
         
         let visible = true;
         
@@ -729,8 +1480,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           visible = false;
         }
         
-        // Department filter
-        if (departmentFilterValue && !department.includes(departmentFilterValue)) {
+        // Department filter (now BU)
+        if (departmentFilterValue && !bu.includes(departmentFilterValue)) {
           visible = false;
         }
         
@@ -739,8 +1490,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           visible = false;
         }
         
-        // Device filter
-        if (deviceFilterValue && !device.includes(deviceFilterValue)) {
+        // Device filter (using device model)
+        if (deviceFilterValue && !deviceModel.includes(deviceFilterValue)) {
           visible = false;
         }
         
@@ -785,12 +1536,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     // Column sorting (basic demonstration)
     const sortableHeaders = document.querySelectorAll('th[data-sort]');
     sortableHeaders.forEach(header => {
-      header.addEventListener('click', function() {
+      header.addEventListener('click', function(this: HTMLElement) {
         const sortBy = this.getAttribute('data-sort');
         console.log(`Sorting by: ${sortBy}`);
         // Sorting logic would go here
         alert(`Sorting by ${sortBy} - This is a demo feature`);
       });
     });
+    
+    // Column filter buttons functionality
+    const columnFilterButtons = document.querySelectorAll('th button[title*="Filter"]');
+    columnFilterButtons.forEach(button => {
+      button.addEventListener('click', function(this: HTMLButtonElement, event) {
+        event.stopPropagation(); // Prevent sorting when clicking filter button
+        const th = this.closest('th');
+        const columnName = th?.getAttribute('data-sort') || 'unknown';
+        
+        // Mock column filter functionality
+        alert(`Column filter for "${columnName}" - This would open a filter dropdown or modal`);
+      });
+    });
+    
+    // Initialize column resize functionality
+    function initializeColumnResize() {
+      setTimeout(() => {
+        const resizeHandles = document.querySelectorAll('.resize-handle');
+        console.log('Found resize handles:', resizeHandles.length);
+        resizeHandles.forEach(handle => {
+          handle.addEventListener('mousedown', function(e) { 
+            e.preventDefault();
+            initResize(e as MouseEvent); 
+          });
+        });
+        
+        const resizableColumns = document.querySelectorAll('.resizable-column');
+        resizableColumns.forEach(column => {
+          column.addEventListener('dblclick', function(e) { 
+            e.preventDefault();
+            autoResizeColumn(e as MouseEvent); 
+          });
+        });
+      }, 100);
+    }
   });
 </script>

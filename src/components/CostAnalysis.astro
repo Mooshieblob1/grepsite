@@ -2,11 +2,77 @@
 // Cost Analysis Section component
 ---
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-  <div class="bg-white rounded-lg shadow p-6">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+  <!-- Cost Breakdown -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
     <div class="flex items-center justify-between mb-6">
-      <h3 class="font-semibold text-gray-800">Monthly Cost by Carrier</h3>
-      <select class="border rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <h3 class="font-semibold text-gray-800 dark:text-white">Cost Breakdown</h3>
+      <select class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+        <option>This Month</option>
+        <option>Last Month</option>
+        <option>Last 3 Months</option>
+      </select>
+    </div>
+    <div class="space-y-4">
+      <div class="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+            <i class="fas fa-phone text-blue-600 dark:text-blue-400"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Line Charges</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Monthly service fees</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="font-bold text-blue-600 dark:text-blue-400">$28,420</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">66.8%</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+            <i class="fas fa-plus-circle text-green-600 dark:text-green-400"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Additional Charges</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Overages & features</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="font-bold text-green-600 dark:text-green-400">$8,960</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">21.1%</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+            <i class="fas fa-mobile-alt text-purple-600 dark:text-purple-400"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Equipment Charges</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Device payments</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="font-bold text-purple-600 dark:text-purple-400">$5,200</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">12.1%</p>
+        </div>
+      </div>
+      <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <p class="font-semibold text-gray-900 dark:text-white">Total Monthly Cost</p>
+          <p class="font-bold text-lg text-gray-900 dark:text-white">$42,580</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Monthly Cost by Carrier -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="font-semibold text-gray-800 dark:text-white">Monthly Cost by Carrier</h3>
+      <select class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
         <option>Last 6 Months</option>
         <option>Last Year</option>
         <option>All Time</option>
@@ -16,10 +82,12 @@
       <canvas id="costChart"></canvas>
     </div>
   </div>
-  <div class="bg-white rounded-lg shadow p-6">
+  
+  <!-- Service Distribution -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
     <div class="flex items-center justify-between mb-6">
-      <h3 class="font-semibold text-gray-800">Service Distribution</h3>
-      <select class="border rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <h3 class="font-semibold text-gray-800 dark:text-white">Service Distribution</h3>
+      <select class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
         <option>All Carriers</option>
         <option>Active Only</option>
       </select>
