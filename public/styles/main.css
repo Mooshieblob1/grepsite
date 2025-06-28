@@ -5,7 +5,7 @@
   flex-shrink: 0;
 }
 
-/* Main styles for TEM Portal */
+/* Main styles for BlobLogic */
 .sidebar {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   position: relative;
@@ -44,6 +44,17 @@ html.sidebar-collapsed .sidebar .nav-text {
 
 html.sidebar-collapsed .sidebar .logo-text {
   display: none !important;
+}
+
+html.sidebar-collapsed .sidebar .logo-image {
+  display: block !important;
+  height: 4rem !important;
+  width: auto !important;
+  margin: 0 auto !important;
+}
+
+html.sidebar-collapsed .sidebar .logo-image + * {
+  margin-top: 0 !important;
 }
 
 html.sidebar-collapsed .sidebar .nav-item {
@@ -101,6 +112,13 @@ html.sidebar-collapsed .sidebar a[href="/profile"] .user-avatar {
 
 .sidebar.collapsed .logo-text {
   display: none;
+}
+
+.sidebar.collapsed .logo-image {
+  display: block;
+  height: 4rem;
+  width: auto;
+  margin: 0 auto;
 }
 
 .sidebar.collapsed .nav-item {
@@ -550,4 +568,258 @@ button:focus, a:focus, input:focus, select:focus {
 
 .dark .bg-orange-100 {
   background-color: #c2410c !important;
+}
+
+/* Lines Management Dark Mode Styles */
+.dark .bg-gray-50 {
+  background-color: #374151 !important;
+}
+
+/* Stats cards icon backgrounds for dark mode */
+.dark .bg-blue-100 {
+  background-color: #1e3a8a !important;
+}
+
+.dark .bg-green-100 {
+  background-color: #14532d !important;
+}
+
+.dark .bg-yellow-100 {
+  background-color: #92400e !important;
+}
+
+.dark .bg-red-100 {
+  background-color: #991b1b !important;
+}
+
+/* Icon colors for dark mode */
+.dark .text-blue-600 {
+  color: #3b82f6 !important;
+}
+
+.dark .text-green-600 {
+  color: #10b981 !important;
+}
+
+.dark .text-yellow-600 {
+  color: #f59e0b !important;
+}
+
+.dark .text-red-600 {
+  color: #ef4444 !important;
+}
+
+/* Badge and pill components for status */
+.dark .bg-blue-100.text-blue-800 {
+  background-color: #1e40af !important;
+  color: #bfdbfe !important;
+}
+
+.dark .bg-green-100.text-green-800 {
+  background-color: #166534 !important;
+  color: #bbf7d0 !important;
+}
+
+.dark .bg-yellow-100.text-yellow-800 {
+  background-color: #a16207 !important;
+  color: #fef3c7 !important;
+}
+
+.dark .bg-red-100.text-red-800 {
+  background-color: #dc2626 !important;
+  color: #fecaca !important;
+}
+
+/* Filter labels and form elements */
+.dark label {
+  color: #d1d5db !important;
+}
+
+.dark .text-xs {
+  color: #9ca3af !important;
+}
+
+/* Button variants for dark mode */
+.dark .bg-blue-600 {
+  background-color: #2563eb !important;
+}
+
+.dark .bg-blue-600:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.dark .bg-green-600 {
+  background-color: #059669 !important;
+}
+
+.dark .bg-green-600:hover {
+  background-color: #047857 !important;
+}
+
+/* Advanced filter and toolbar styles */
+.dark .border-t {
+  border-color: #4b5563 !important;
+}
+
+/* Table specific dark mode */
+.dark .divide-gray-200 > * {
+  border-color: #374151 !important;
+}
+
+.dark thead {
+  background-color: #374151 !important;
+}
+
+.dark tbody tr:nth-child(even) {
+  background-color: #1f2937 !important;
+}
+
+.dark tbody tr:nth-child(odd) {
+  background-color: #111827 !important;
+}
+
+/* Checkbox styling for dark mode */
+.dark input[type="checkbox"] {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+.dark input[type="checkbox"]:checked {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+
+/* Status badges in table rows */
+.dark .inline-flex.items-center {
+  background-color: #374151 !important;
+  color: #d1d5db !important;
+}
+
+.dark .bg-green-500 {
+  background-color: #10b981 !important;
+}
+
+.dark .bg-yellow-500 {
+  background-color: #f59e0b !important;
+}
+
+.dark .bg-red-500 {
+  background-color: #ef4444 !important;
+}
+
+/* Disabled state for dark mode */
+.dark button:disabled {
+  background-color: #4b5563 !important;
+  color: #6b7280 !important;
+  opacity: 0.5 !important;
+}
+
+/* Search and filter specific styles */
+.dark .focus\:ring-blue-500:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3) !important;
+}
+
+.dark .focus\:border-blue-500:focus {
+  border-color: #2563eb !important;
+}
+
+/* Toolbar and header backgrounds */
+.dark .bg-white.border-b {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+/* Advanced filter toggle */
+.dark .text-blue-600 {
+  color: #60a5fa !important;
+}
+
+.dark .hover\:text-blue-800:hover {
+  color: #3b82f6 !important;
+}
+
+/* Settings page dark mode toggles and form elements */
+.dark .peer {
+  background-color: #4b5563 !important;
+  border-color: #6b7280 !important;
+}
+
+.dark .peer:checked {
+  background-color: #2563eb !important;
+}
+
+.dark .peer-checked\:bg-indigo-600:checked {
+  background-color: #2563eb !important;
+}
+
+.dark .peer-focus\:ring-indigo-300:focus {
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* Navigation tabs and settings nav */
+.dark .bg-indigo-50 {
+  background-color: #312e81 !important;
+}
+
+.dark .text-indigo-700 {
+  color: #a5b4fc !important;
+}
+
+/* Modal and dropdown improvements */
+.dark .fixed.inset-0 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.dark .max-h-96 {
+  background-color: #1f2937 !important;
+}
+
+/* Search results and global search */
+.dark #search-results {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+.dark #search-results .border-b {
+  border-color: #374151 !important;
+}
+
+/* Chart containers */
+.dark .chart-container {
+  background-color: transparent !important;
+}
+
+/* Logo container styling for collapsed state */
+html.sidebar-collapsed .sidebar .p-4:first-child {
+  padding: 1rem 0.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+html.sidebar-collapsed .sidebar .p-4:first-child > div:first-child {
+  display: none !important;
+}
+
+html.sidebar-collapsed .sidebar .p-4:first-child > div:last-child {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.sidebar.collapsed .p-4:first-child {
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar.collapsed .p-4:first-child > div:first-child {
+  display: none;
+}
+
+.sidebar.collapsed .p-4:first-child > div:last-child {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

@@ -1,4 +1,4 @@
-// Main JavaScript for TEM Portal
+// Main JavaScript for BlobLogic
 document.addEventListener('DOMContentLoaded', function() {
   // Remove loading class to enable transitions
   document.documentElement.classList.remove('sidebar-loading');
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeSearch();
   initializeDropdowns();
   initializeGlobalSearch();
+  initializeDarkMode();
   initializeDarkMode();
 });
 

@@ -2,44 +2,44 @@
 // Settings page
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const title = "TEM Portal - Settings";
+const title = "BlobLogic - Settings";
 ---
 
 <BaseLayout title={title} pageTitle="Settings">
   <!-- Page Header -->
   <div class="mb-6">
     <div>
-      <h2 class="text-2xl font-bold text-gray-900">Settings</h2>
-      <p class="text-gray-600">Manage your TEM Portal preferences and configurations</p>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Settings</h2>
+      <p class="text-gray-600 dark:text-gray-300">Manage your BlobLogic preferences and configurations</p>
     </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
     <!-- Settings Navigation -->
     <div class="lg:col-span-1">
-      <div class="bg-white rounded-lg shadow">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
         <nav class="space-y-1 p-4">
-          <a href="#profile" class="bg-indigo-50 text-indigo-700 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+          <a href="#profile" class="bg-indigo-50 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
             <i class="fas fa-user mr-3"></i>
             Profile
           </a>
-          <a href="#notifications" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+          <a href="#notifications" class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white group flex items-center px-3 py-2 text-sm font-medium rounded-md">
             <i class="fas fa-bell mr-3"></i>
             Notifications
           </a>
-          <a href="#security" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+          <a href="#security" class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white group flex items-center px-3 py-2 text-sm font-medium rounded-md">
             <i class="fas fa-shield-alt mr-3"></i>
             Security
           </a>
-          <a href="#billing" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+          <a href="#billing" class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white group flex items-center px-3 py-2 text-sm font-medium rounded-md">
             <i class="fas fa-credit-card mr-3"></i>
             Billing
           </a>
-          <a href="#integrations" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+          <a href="#integrations" class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white group flex items-center px-3 py-2 text-sm font-medium rounded-md">
             <i class="fas fa-plug mr-3"></i>
             Integrations
           </a>
-          <a href="#advanced" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+          <a href="#advanced" class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white group flex items-center px-3 py-2 text-sm font-medium rounded-md">
             <i class="fas fa-cogs mr-3"></i>
             Advanced
           </a>
@@ -92,51 +92,51 @@ const title = "TEM Portal - Settings";
       </div>
 
       <!-- Notification Settings -->
-      <div id="notifications" class="bg-white rounded-lg shadow">
-        <div class="p-6 border-b border-gray-200">
-          <h3 class="text-lg font-semibold text-gray-800">Notification Preferences</h3>
-          <p class="text-sm text-gray-600">Choose how you want to be notified about important events</p>
+      <div id="notifications" class="bg-white dark:bg-gray-800 rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Notification Preferences</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Choose how you want to be notified about important events</p>
         </div>
         <div class="p-6">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="font-medium text-gray-900">Invoice Notifications</h4>
-                <p class="text-sm text-gray-500">Get notified when new invoices arrive</p>
+                <h4 class="font-medium text-gray-900 dark:text-white">Invoice Notifications</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Get notified when new invoices arrive</p>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked class="sr-only peer">
-                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
               </label>
             </div>
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="font-medium text-gray-900">Usage Alerts</h4>
-                <p class="text-sm text-gray-500">Get alerted when usage exceeds thresholds</p>
+                <h4 class="font-medium text-gray-900 dark:text-white">Usage Alerts</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Get alerted when usage exceeds thresholds</p>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked class="sr-only peer">
-                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
               </label>
             </div>
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="font-medium text-gray-900">Support Tickets</h4>
-                <p class="text-sm text-gray-500">Get notified about ticket updates</p>
+                <h4 class="font-medium text-gray-900 dark:text-white">Support Tickets</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Get notified about ticket updates</p>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" class="sr-only peer">
-                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
               </label>
             </div>
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="font-medium text-gray-900">Contract Renewals</h4>
-                <p class="text-sm text-gray-500">Get reminded about upcoming contract renewals</p>
+                <h4 class="font-medium text-gray-900 dark:text-white">Contract Renewals</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Get reminded about upcoming contract renewals</p>
               </div>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked class="sr-only peer">
-                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
               </label>
             </div>
           </div>
@@ -144,10 +144,10 @@ const title = "TEM Portal - Settings";
       </div>
 
       <!-- Security Settings -->
-      <div id="security" class="bg-white rounded-lg shadow">
-        <div class="p-6 border-b border-gray-200">
-          <h3 class="text-lg font-semibold text-gray-800">Security Settings</h3>
-          <p class="text-sm text-gray-600">Manage your account security and authentication</p>
+      <div id="security" class="bg-white dark:bg-gray-800 rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Security Settings</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Manage your account security and authentication</p>
         </div>
         <div class="p-6">
           <div class="space-y-6">
@@ -199,7 +199,7 @@ const title = "TEM Portal - Settings";
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
           <h3 class="text-lg font-semibold text-gray-800 dark:text-white">System Preferences</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-300">Customize your TEM Portal experience</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Customize your BlobLogic experience</p>
         </div>
         <div class="p-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

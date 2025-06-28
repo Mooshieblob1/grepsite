@@ -1,159 +1,269 @@
 ---
-// Lines Management page
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-const title = "TEM Portal - Lines Management";
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title={title} pageTitle="Lines Management">
-  <!-- Page Header -->
-  <div class="mb-6">
-    <div class="flex items-center justify-between">
-      <div>
-        <h2 class="text-2xl font-bold text-gray-900">Lines Management</h2>
-        <p class="text-gray-600">Manage all telecommunication lines with advanced filtering and search</p>
-      </div>
-      <div class="flex space-x-2">
-        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-          <i class="fas fa-download mr-2"></i> Export CSV
-        </button>
-        <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
-          <i class="fas fa-plus mr-2"></i> Add Line
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Quick Stats -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white rounded-lg shadow p-4">
+<BaseLayout title="BlobLogic - Lines Management">
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <div class="flex items-center">
-        <div class="p-2 bg-blue-100 rounded-lg">
-          <i class="fas fa-phone text-blue-600"></i>
+        <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+          <i class="fas fa-check-circle text-green-600 dark:text-green-400"></i>
         </div>
         <div class="ml-4">
-          <p class="text-sm text-gray-500">Total Lines</p>
-          <p class="text-xl font-bold text-gray-900">2,847</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Active Lines</p>
+          <p class="text-xl font-bold text-gray-900 dark:text-white">2,421</p>
         </div>
       </div>
     </div>
-    <div class="bg-white rounded-lg shadow p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <div class="flex items-center">
-        <div class="p-2 bg-green-100 rounded-lg">
-          <i class="fas fa-check-circle text-green-600"></i>
+        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <i class="fas fa-ban text-gray-600 dark:text-gray-400"></i>
         </div>
         <div class="ml-4">
-          <p class="text-sm text-gray-500">Active Lines</p>
-          <p class="text-xl font-bold text-gray-900">2,641</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">No Usage</p>
+          <p class="text-xl font-bold text-gray-900 dark:text-white">127</p>
         </div>
       </div>
     </div>
-    <div class="bg-white rounded-lg shadow p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <div class="flex items-center">
-        <div class="p-2 bg-yellow-100 rounded-lg">
-          <i class="fas fa-pause-circle text-yellow-600"></i>
+        <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+          <i class="fas fa-arrow-up text-blue-600 dark:text-blue-400"></i>
         </div>
         <div class="ml-4">
-          <p class="text-sm text-gray-500">Suspended</p>
-          <p class="text-xl font-bold text-gray-900">186</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Upgrade Eligible</p>
+          <p class="text-xl font-bold text-gray-900 dark:text-white">312</p>
         </div>
       </div>
     </div>
-    <div class="bg-white rounded-lg shadow p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <div class="flex items-center">
-        <div class="p-2 bg-red-100 rounded-lg">
-          <i class="fas fa-times-circle text-red-600"></i>
+        <div class="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
+          <i class="fas fa-ticket-alt text-yellow-600 dark:text-yellow-400"></i>
         </div>
         <div class="ml-4">
-          <p class="text-sm text-gray-500">Inactive</p>
-          <p class="text-xl font-bold text-gray-900">20</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Submitted Tickets</p>
+          <p class="text-xl font-bold text-gray-900 dark:text-white">45</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-red-100 dark:bg-red-900 rounded-lg">
+          <i class="fas fa-file-contract text-red-600 dark:text-red-400"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Out of Contract</p>
+          <p class="text-xl font-bold text-gray-900 dark:text-white">89</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+          <i class="fas fa-chart-line text-purple-600 dark:text-purple-400"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Users over 10GB</p>
+          <p class="text-xl font-bold text-gray-900 dark:text-white">78</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Lines Table -->
-  <div class="bg-white rounded-lg shadow">
-    <div class="p-4 border-b border-gray-200">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-gray-800">All Lines</h3>
-        <div class="flex items-center space-x-2">
-          <span class="text-sm text-gray-500">Showing 1-50 of 2,847 lines</span>
-          <select class="border rounded px-2 py-1 text-sm">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+    <!-- Header with Title and Pagination -->
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Lines Management</h3>
+          <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-sm font-medium rounded-full">2,847 total</span>
+        </div>
+        <div class="flex items-center space-x-3">
+          <span class="text-sm text-gray-600 dark:text-gray-300">Show:</span>
+          <select class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>50 per page</option>
             <option>100 per page</option>
             <option>200 per page</option>
+            <option>500 per page</option>
           </select>
+          <span class="text-sm text-gray-600 dark:text-gray-300">1-50 of 2,847</span>
         </div>
       </div>
-      
-      <!-- Advanced Filters Row -->
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2 mb-4">
-        <div>
-          <label class="text-xs text-gray-500 mb-1 block">Phone Number</label>
-          <input type="text" placeholder="Search number..." class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
+    </div>
+
+    <!-- Toolbar with Actions and Export -->
+    <div class="px-6 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <!-- Bulk Operations -->
+          <div class="flex items-center space-x-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">With Selected:</label>
+            <select id="bulk-operation" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[140px]">
+              <option value="">Choose Action...</option>
+              <option value="activate">Activate Lines</option>
+              <option value="suspend">Suspend Lines</option>
+              <option value="deactivate">Deactivate Lines</option>
+              <option value="change-plan">Change Plan</option>
+              <option value="export">Export Selected</option>
+              <option value="delete">Delete Lines</option>
+            </select>
+            <button id="execute-bulk" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              Apply
+            </button>
+          </div>
+          
+          <!-- Selection Counter -->
+          <div id="selection-counter" class="text-sm text-gray-600 dark:text-gray-300 hidden">
+            <span id="selected-count">0</span> items selected
+          </div>
         </div>
-        <div>
-          <label class="text-xs text-gray-500 mb-1 block">Carrier</label>
-          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            <option>All Carriers</option>
-            <option>AT&T</option>
-            <option>Verizon</option>
-            <option>T-Mobile</option>
-            <option>Sprint</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs text-gray-500 mb-1 block">Status</label>
-          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            <option>All Status</option>
-            <option>Active</option>
-            <option>Suspended</option>
-            <option>Inactive</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs text-gray-500 mb-1 block">Department</label>
-          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            <option>All Departments</option>
-            <option>Sales</option>
-            <option>IT</option>
-            <option>Operations</option>
-            <option>Management</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs text-gray-500 mb-1 block">Line Type</label>
-          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            <option>All Types</option>
-            <option>Mobile</option>
-            <option>Landline</option>
-            <option>VoIP</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs text-gray-500 mb-1 block">Plan</label>
-          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            <option>All Plans</option>
-            <option>Unlimited</option>
-            <option>Business Basic</option>
-            <option>Enterprise</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs text-gray-500 mb-1 block">Location</label>
-          <select class="w-full px-2 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            <option>All Locations</option>
-            <option>New York</option>
-            <option>Chicago</option>
-            <option>Los Angeles</option>
-            <option>Remote</option>
-          </select>
-        </div>
-        <div class="flex items-end">
-          <button class="w-full bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-sm transition">
-            <i class="fas fa-times mr-1"></i> Clear
+        
+        <!-- Export and Refresh -->
+        <div class="flex items-center space-x-2">
+          <button class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-600 transition">
+            <i class="fas fa-sync-alt mr-2"></i>
+            Refresh
           </button>
+          <button class="flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded transition">
+            <i class="fas fa-file-excel mr-2"></i>
+            Export to Excel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Excel-style Column Filters -->
+    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <div class="space-y-4">
+        <!-- Quick Search Bar -->
+        <div class="flex items-center space-x-4">
+          <div class="flex-1 max-w-md">
+            <div class="relative">
+              <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
+              <input 
+                type="text" 
+                placeholder="Search across all columns..." 
+                class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                id="global-search"
+              >
+            </div>
+          </div>
+          <button id="clear-all-filters" class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-600 transition">
+            <i class="fas fa-times mr-1"></i> Clear All Filters
+          </button>
+        </div>
+        
+        <!-- Column-specific Filters -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <!-- Phone Number Filter -->
+          <div class="space-y-1">
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
+            <input 
+              type="text" 
+              placeholder="Filter by phone..." 
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              id="phone-filter"
+            >
+          </div>
+          
+          <!-- Carrier Filter -->
+          <div class="space-y-1">
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Carrier</label>
+            <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="carrier-filter">
+              <option value="">All Carriers</option>
+              <option value="att">AT&T</option>
+              <option value="verizon">Verizon</option>
+              <option value="tmobile">T-Mobile</option>
+              <option value="sprint">Sprint</option>
+            </select>
+          </div>
+          
+          <!-- Status Filter -->
+          <div class="space-y-1">
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Status</label>
+            <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="status-filter">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="suspended">Suspended</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          
+          <!-- Department/BU Filter -->
+          <div class="space-y-1">
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Department</label>
+            <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="department-filter">
+              <option value="">All Departments</option>
+              <option value="sales">Sales</option>
+              <option value="it">IT</option>
+              <option value="operations">Operations</option>
+              <option value="management">Management</option>
+              <option value="finance">Finance</option>
+            </select>
+          </div>
+          
+          <!-- Plan Filter -->
+          <div class="space-y-1">
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Plan Type</label>
+            <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="plan-filter">
+              <option value="">All Plans</option>
+              <option value="unlimited">Unlimited</option>
+              <option value="business">Business Basic</option>
+              <option value="enterprise">Enterprise</option>
+              <option value="custom">Custom Plan</option>
+            </select>
+          </div>
+          
+          <!-- Device Type Filter -->
+          <div class="space-y-1">
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">Device Type</label>
+            <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="device-filter">
+              <option value="">All Devices</option>
+              <option value="smartphone">Smartphone</option>
+              <option value="tablet">Tablet</option>
+              <option value="hotspot">Mobile Hotspot</option>
+              <option value="watch">Smart Watch</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Advanced Filter Builder -->
+        <div class="border-t border-gray-200 dark:border-gray-600 pt-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Advanced Filters</span>
+            <button id="toggle-advanced" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium">
+              <i class="fas fa-chevron-down mr-1"></i> Show Advanced
+            </button>
+          </div>
+          
+          <div id="advanced-filters" class="hidden space-y-3">
+            <div class="flex items-center space-x-3 flex-wrap gap-2">
+              <span class="text-sm text-gray-600 dark:text-gray-400">Show rows where</span>
+              <select class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                <option>Phone Number</option>
+                <option>Line Name</option>
+                <option>Employee ID</option>
+                <option>Device Model</option>
+                <option>Plan Name</option>
+              </select>
+              <select class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                <option>contains</option>
+                <option>equals</option>
+                <option>starts with</option>
+                <option>ends with</option>
+                <option>is empty</option>
+                <option>is not empty</option>
+              </select>
+              <input type="text" placeholder="Enter value..." class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1 text-sm w-40 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400">
+              <button class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                <i class="fas fa-plus mr-1"></i> Add
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -161,183 +271,526 @@ const title = "TEM Portal - Lines Management";
     <!-- Table -->
     <div class="overflow-x-auto">
       <table class="w-full">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
           <tr>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
+            <th class="px-4 py-3 text-left border-r border-gray-200 dark:border-gray-600">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800" id="select-all">
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="actions">
+              <div class="flex items-center justify-between">
+                <span>Actions</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="number">
+              <div class="flex items-center justify-between">
                 <span>Phone Number</span>
-                <i class="fas fa-sort text-gray-400"></i>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
               </div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
-                <span>User</span>
-                <i class="fas fa-sort text-gray-400"></i>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="name">
+              <div class="flex items-center justify-between">
+                <span>Line Name</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
               </div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
-                <span>Department</span>
-                <i class="fas fa-sort text-gray-400"></i>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="email">
+              <div class="flex items-center justify-between">
+                <span>Email</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
               </div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="carrier">
+              <div class="flex items-center justify-between">
                 <span>Carrier</span>
-                <i class="fas fa-sort text-gray-400"></i>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
               </div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
-                <span>Plan</span>
-                <i class="fas fa-sort text-gray-400"></i>
-              </div>
-            </th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
-                <span>Monthly Cost</span>
-                <i class="fas fa-sort text-gray-400"></i>
-              </div>
-            </th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="status">
+              <div class="flex items-center justify-between">
                 <span>Status</span>
-                <i class="fas fa-sort text-gray-400"></i>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
               </div>
             </th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
-              <div class="flex items-center space-x-1">
-                <span>Last Activity</span>
-                <i class="fas fa-sort text-gray-400"></i>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="device">
+              <div class="flex items-center justify-between">
+                <span>Device</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
               </div>
             </th>
-            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Actions
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="plan">
+              <div class="flex items-center justify-between">
+                <span>Plan</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="usage">
+              <div class="flex items-center justify-between">
+                <span>Data Usage (GB)</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="mrc">
+              <div class="flex items-center justify-between">
+                <span>Monthly Cost</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 border-r border-gray-200 dark:border-gray-600" data-sort="department">
+              <div class="flex items-center justify-between">
+                <span>Department</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600" data-sort="contract">
+              <div class="flex items-center justify-between">
+                <span>Contract End</span>
+                <i class="fas fa-sort text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"></i>
+              </div>
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
           <!-- Sample row 1 -->
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <i class="fas fa-mobile-alt text-gray-400 mr-2"></i>
-                <span class="text-sm font-medium text-gray-900">(555) 123-4567</span>
+          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
+            </td>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-2">
+                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-sm"></i>
+                </button>
+                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
+                  <i class="fas fa-mobile-alt text-sm"></i>
+                </button>
               </div>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap">
-              <div>
-                <div class="text-sm font-medium text-gray-900">John Smith</div>
-                <div class="text-sm text-gray-500">john.smith@company.com</div>
-              </div>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(703) 889-8155</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Carlos Morales</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">carlos.morales@company.com</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 rounded">
+                Verizon
+              </span>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Sales</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">AT&T</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Business Unlimited</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">$75.00</td>
-            <td class="px-4 py-4 whitespace-nowrap">
-              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Active
+              </span>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
-            <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <button class="text-indigo-600 hover:text-indigo-900 mr-2">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button class="text-gray-600 hover:text-gray-900">
-                <i class="fas fa-edit"></i>
-              </button>
-            </td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Samsung Galaxy A15 5G</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Business Unlimited</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">2.4</td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$85.00</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Sales</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">04/04/2026</td>
           </tr>
           
           <!-- Sample row 2 -->
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <i class="fas fa-phone text-gray-400 mr-2"></i>
-                <span class="text-sm font-medium text-gray-900">555.789.0123</span>
+          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
+            </td>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-2">
+                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-sm"></i>
+                </button>
+                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
+                  <i class="fas fa-mobile-alt text-sm"></i>
+                </button>
               </div>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap">
-              <div>
-                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
-                <div class="text-sm text-gray-500">sarah.johnson@company.com</div>
-              </div>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(555) 234-5678</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Sarah Johnson</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">sarah.johnson@company.com</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 rounded">
+                AT&T
+              </span>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">IT</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Verizon</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Enterprise Plus</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">$95.00</td>
-            <td class="px-4 py-4 whitespace-nowrap">
-              <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Active</span>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Active
+              </span>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">5 hours ago</td>
-            <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <button class="text-indigo-600 hover:text-indigo-900 mr-2">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button class="text-gray-600 hover:text-gray-900">
-                <i class="fas fa-edit"></i>
-              </button>
-            </td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">iPhone 14 Pro</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Enterprise Unlimited</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">8.7</td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$110.00</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">IT</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">12/15/2025</td>
           </tr>
-
+          
           <!-- Sample row 3 -->
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <i class="fas fa-mobile-alt text-gray-400 mr-2"></i>
-                <span class="text-sm font-medium text-gray-900">555-456-7890</span>
+          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
+            </td>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-2">
+                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-sm"></i>
+                </button>
+                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
+                  <i class="fas fa-mobile-alt text-sm"></i>
+                </button>
               </div>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap">
-              <div>
-                <div class="text-sm font-medium text-gray-900">Mike Davis</div>
-                <div class="text-sm text-gray-500">mike.davis@company.com</div>
-              </div>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(212) 987-6543</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Michael Chen</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">michael.chen@company.com</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 rounded">
+                T-Mobile
+              </span>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Operations</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">T-Mobile</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Business Basic</td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">$55.00</td>
-            <td class="px-4 py-4 whitespace-nowrap">
-              <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Suspended</span>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300">
+                Suspended
+              </span>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">1 day ago</td>
-            <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <button class="text-indigo-600 hover:text-indigo-900 mr-2">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button class="text-gray-600 hover:text-gray-900">
-                <i class="fas fa-edit"></i>
-              </button>
-            </td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Google Pixel 7</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Business Essentials</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">0.0</td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$65.00</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Operations</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">08/22/2025</td>
           </tr>
-
-          <!-- Add more sample rows as needed -->
+          
+          <!-- Sample row 4 -->
+          <tr class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700">
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-800 line-checkbox">
+            </td>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <div class="flex space-x-2">
+                <button class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 p-1 hover:bg-green-100 dark:hover:bg-green-900 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-sm"></i>
+                </button>
+                <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-100 dark:hover:bg-blue-900 rounded" title="View Details">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+                <button class="text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 p-1 hover:bg-orange-100 dark:hover:bg-orange-900 rounded" title="Manage Device">
+                  <i class="fas fa-mobile-alt text-sm"></i>
+                </button>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">(415) 555-0123</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Emily Rodriguez</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 border-r border-gray-100 dark:border-gray-700">emily.rodriguez@company.com</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 rounded">
+                Verizon
+              </span>
+            </td>
+            <td class="px-4 py-3 border-r border-gray-100 dark:border-gray-700">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Active
+              </span>
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">iPad Pro 11"</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Tablet Unlimited</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">15.2</td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">$45.00</td>
+            <td class="px-4 py-3 text-sm text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">Management</td>
+            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">03/10/2026</td>
+          </tr>
+          
+          <!-- Sample row 5 -->
+          <tr class="hover:bg-blue-50 transition-colors border-b border-gray-100">
+            <td class="px-4 py-3 border-r border-gray-100">
+              <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 line-checkbox">
+            </td>
+            <td class="px-4 py-3 border-r border-gray-100">
+              <div class="flex space-x-2">
+                <button class="text-green-600 hover:text-green-800 p-1 hover:bg-green-100 rounded" title="Edit Line">
+                  <i class="fas fa-edit text-sm"></i>
+                </button>
+                <button class="text-blue-600 hover:text-blue-800 p-1 hover:bg-blue-100 rounded" title="View Details">
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+                <button class="text-orange-600 hover:text-orange-800 p-1 hover:bg-orange-100 rounded" title="Manage Device">
+                  <i class="fas fa-mobile-alt text-sm"></i>
+                </button>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 border-r border-gray-100">(713) 456-7890</td>
+            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">David Thompson</td>
+            <td class="px-4 py-3 text-sm text-gray-600 border-r border-gray-100">david.thompson@company.com</td>
+            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
+                AT&T
+              </span>
+            </td>
+            <td class="px-4 py-3 border-r border-gray-100">
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-red-100 text-red-800">
+                Inactive
+              </span>
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">iPhone 13</td>
+            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">Basic Plan</td>
+            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">0.0</td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-900 border-r border-gray-100">$55.00</td>
+            <td class="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">Finance</td>
+            <td class="px-4 py-3 text-sm text-gray-600">01/20/2025</td>
+          </tr>
         </tbody>
       </table>
     </div>
-
+    
     <!-- Pagination -->
-    <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+    <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
       <div class="flex items-center justify-between">
-        <div class="text-sm text-gray-500">
-          Showing <span class="font-medium">1</span> to <span class="font-medium">50</span> of <span class="font-medium">2,847</span> lines
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-gray-600">Showing 1 to 50 of 2,847 entries</span>
         </div>
-        <div class="flex space-x-1">
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
-            <i class="fas fa-chevron-left"></i>
+        <div class="flex items-center space-x-2">
+          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50 disabled:opacity-50" disabled>
+            Previous
           </button>
-          <button class="px-3 py-1 border rounded-lg bg-indigo-600 text-white">1</button>
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">3</button>
-          <span class="px-3 py-1">...</span>
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">57</button>
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
-            <i class="fas fa-chevron-right"></i>
+          <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">1</button>
+          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">2</button>
+          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">3</button>
+          <span class="px-2 text-sm text-gray-500">...</span>
+          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">57</button>
+          <button class="px-3 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50">
+            Next
           </button>
         </div>
       </div>
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  // Selection and bulk operations
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('select-all') as HTMLInputElement;
+    const lineCheckboxes = document.querySelectorAll('.line-checkbox') as NodeListOf<HTMLInputElement>;
+    const bulkOperationSelect = document.getElementById('bulk-operation') as HTMLSelectElement;
+    const executeBulkButton = document.getElementById('execute-bulk') as HTMLButtonElement;
+    const selectionCounter = document.getElementById('selection-counter') as HTMLElement;
+    const selectedCountSpan = document.getElementById('selected-count') as HTMLElement;
+    
+    // Global search functionality
+    const globalSearch = document.getElementById('global-search') as HTMLInputElement;
+    const phoneFilter = document.getElementById('phone-filter') as HTMLInputElement;
+    const carrierFilter = document.getElementById('carrier-filter') as HTMLSelectElement;
+    const statusFilter = document.getElementById('status-filter') as HTMLSelectElement;
+    const departmentFilter = document.getElementById('department-filter') as HTMLSelectElement;
+    const planFilter = document.getElementById('plan-filter') as HTMLSelectElement;
+    const deviceFilter = document.getElementById('device-filter') as HTMLSelectElement;
+    const clearAllFiltersButton = document.getElementById('clear-all-filters') as HTMLButtonElement;
+    
+    // Advanced filters toggle
+    const toggleAdvancedButton = document.getElementById('toggle-advanced') as HTMLButtonElement;
+    const advancedFilters = document.getElementById('advanced-filters') as HTMLElement;
+    
+    // Select All functionality
+    function updateSelectAll() {
+      const checkedCount = Array.from(lineCheckboxes).filter(cb => cb.checked).length;
+      const totalCount = lineCheckboxes.length;
+      
+      if (checkedCount === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+      } else if (checkedCount === totalCount) {
+        selectAllCheckbox.checked = true;
+        selectAllCheckbox.indeterminate = false;
+      } else {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = true;
+      }
+      
+      // Update selection counter
+      if (checkedCount > 0) {
+        selectionCounter.classList.remove('hidden');
+        selectedCountSpan.textContent = checkedCount.toString();
+        executeBulkButton.disabled = false;
+      } else {
+        selectionCounter.classList.add('hidden');
+        executeBulkButton.disabled = true;
+      }
+    }
+    
+    // Select all checkbox handler
+    selectAllCheckbox.addEventListener('change', function() {
+      const isChecked = this.checked;
+      lineCheckboxes.forEach(checkbox => {
+        checkbox.checked = isChecked;
+      });
+      updateSelectAll();
+    });
+    
+    // Individual checkbox handlers
+    lineCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', updateSelectAll);
+    });
+    
+    // Bulk operation handler
+    executeBulkButton.addEventListener('click', function() {
+      const selectedLines = Array.from(lineCheckboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.closest('tr'))
+        .filter(tr => tr !== null);
+      
+      const operation = bulkOperationSelect.value;
+      
+      if (selectedLines.length === 0) {
+        alert('Please select at least one line to perform this operation.');
+        return;
+      }
+      
+      if (!operation) {
+        alert('Please select an operation to perform.');
+        return;
+      }
+      
+      // Mock operation execution
+      const operationNames: { [key: string]: string } = {
+        'activate': 'Activate',
+        'suspend': 'Suspend',
+        'deactivate': 'Deactivate',
+        'change-plan': 'Change Plan',
+        'export': 'Export',
+        'delete': 'Delete'
+      };
+      
+      const operationName = operationNames[operation] || operation;
+      const confirmMessage = `Are you sure you want to ${operationName.toLowerCase()} ${selectedLines.length} selected line(s)?`;
+      
+      if (confirm(confirmMessage)) {
+        alert(`${operationName} operation would be performed on ${selectedLines.length} line(s). This is a demo - no actual changes were made.`);
+        
+        // Reset selections after operation
+        lineCheckboxes.forEach(cb => cb.checked = false);
+        bulkOperationSelect.value = '';
+        updateSelectAll();
+      }
+    });
+    
+    // Filter functionality
+    function applyFilters() {
+      const globalSearchTerm = globalSearch.value.toLowerCase();
+      const phoneFilterTerm = phoneFilter.value.toLowerCase();
+      const carrierFilterValue = carrierFilter.value.toLowerCase();
+      const statusFilterValue = statusFilter.value.toLowerCase();
+      const departmentFilterValue = departmentFilter.value.toLowerCase();
+      const planFilterValue = planFilter.value.toLowerCase();
+      const deviceFilterValue = deviceFilter.value.toLowerCase();
+      
+      const rows = document.querySelectorAll('tbody tr');
+      
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 0) return;
+        
+        const phoneNumber = cells[2]?.textContent?.toLowerCase() || '';
+        const lineName = cells[3]?.textContent?.toLowerCase() || '';
+        const email = cells[4]?.textContent?.toLowerCase() || '';
+        const carrier = cells[5]?.textContent?.toLowerCase() || '';
+        const status = cells[6]?.textContent?.toLowerCase() || '';
+        const device = cells[7]?.textContent?.toLowerCase() || '';
+        const plan = cells[8]?.textContent?.toLowerCase() || '';
+        const department = cells[11]?.textContent?.toLowerCase() || '';
+        
+        const rowText = `${phoneNumber} ${lineName} ${email} ${carrier} ${status} ${device} ${plan} ${department}`;
+        
+        let visible = true;
+        
+        // Global search
+        if (globalSearchTerm && !rowText.includes(globalSearchTerm)) {
+          visible = false;
+        }
+        
+        // Phone filter
+        if (phoneFilterTerm && !phoneNumber.includes(phoneFilterTerm)) {
+          visible = false;
+        }
+        
+        // Carrier filter
+        if (carrierFilterValue && !carrier.includes(carrierFilterValue)) {
+          visible = false;
+        }
+        
+        // Status filter
+        if (statusFilterValue && !status.includes(statusFilterValue)) {
+          visible = false;
+        }
+        
+        // Department filter
+        if (departmentFilterValue && !department.includes(departmentFilterValue)) {
+          visible = false;
+        }
+        
+        // Plan filter
+        if (planFilterValue && !plan.includes(planFilterValue)) {
+          visible = false;
+        }
+        
+        // Device filter
+        if (deviceFilterValue && !device.includes(deviceFilterValue)) {
+          visible = false;
+        }
+        
+        (row as HTMLElement).style.display = visible ? '' : 'none';
+      });
+    }
+    
+    // Add event listeners for filters
+    globalSearch.addEventListener('input', applyFilters);
+    phoneFilter.addEventListener('input', applyFilters);
+    carrierFilter.addEventListener('change', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    departmentFilter.addEventListener('change', applyFilters);
+    planFilter.addEventListener('change', applyFilters);
+    deviceFilter.addEventListener('change', applyFilters);
+    
+    // Clear all filters
+    clearAllFiltersButton.addEventListener('click', function() {
+      globalSearch.value = '';
+      phoneFilter.value = '';
+      carrierFilter.value = '';
+      statusFilter.value = '';
+      departmentFilter.value = '';
+      planFilter.value = '';
+      deviceFilter.value = '';
+      applyFilters();
+    });
+    
+    // Toggle advanced filters
+    toggleAdvancedButton.addEventListener('click', function() {
+      const isHidden = advancedFilters.classList.contains('hidden');
+      
+      if (isHidden) {
+        advancedFilters.classList.remove('hidden');
+        this.innerHTML = '<i class="fas fa-chevron-up mr-1"></i> Hide Advanced';
+      } else {
+        advancedFilters.classList.add('hidden');
+        this.innerHTML = '<i class="fas fa-chevron-down mr-1"></i> Show Advanced';
+      }
+    });
+    
+    // Column sorting (basic demonstration)
+    const sortableHeaders = document.querySelectorAll('th[data-sort]');
+    sortableHeaders.forEach(header => {
+      header.addEventListener('click', function() {
+        const sortBy = this.getAttribute('data-sort');
+        console.log(`Sorting by: ${sortBy}`);
+        // Sorting logic would go here
+        alert(`Sorting by ${sortBy} - This is a demo feature`);
+      });
+    });
+  });
+</script>
