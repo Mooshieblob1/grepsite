@@ -72,7 +72,7 @@ class ChartManager {
 
     const carrierStats = this.data.carrierStats || this.calculateCarrierStats();
     const labels = carrierStats.map(stat => stat.name);
-    const data = carrierStats.map(stat => stat.monthlyRate);
+    const data = carrierStats.map(stat => stat.monthlyCost);
     
     const colors = [
       'rgba(59, 130, 246, 0.7)',   // Blue for AT&T
