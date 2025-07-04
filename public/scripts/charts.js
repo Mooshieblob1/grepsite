@@ -39,13 +39,13 @@ class ChartManager {
       if (!acc[carrier]) {
         acc[carrier] = {
           name: carrier,
-          monthlyRate: 0,
+          monthlyCost: 0, // Corrected from monthlyRate
           lineCount: 0,
           activeLines: 0
         };
       }
       
-      acc[carrier].monthlyRate += line.plan.monthlyRate;
+      acc[carrier].monthlyCost += line.plan.monthlyRate; // Corrected from monthlyRate
       acc[carrier].lineCount++;
       if (line.status === 'active') {
         acc[carrier].activeLines++;
@@ -223,7 +223,7 @@ class ChartManager {
 
     const carrierStats = this.data.carrierStats || this.calculateCarrierStats();
     const labels = carrierStats.map(stat => stat.name);
-    const data = carrierStats.map(stat => stat.monthlyRate);
+    const data = carrierStats.map(stat => stat.monthlyCost); // Corrected from monthlyRate
 
     this.charts.costAnalysisChart = new Chart(costAnalysisCtx.getContext('2d'), {
       type: 'pie',
