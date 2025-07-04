@@ -1,32 +1,62 @@
-// src/pages/api/auth/login.ts
 import type { APIRoute } from 'astro';
-import { getUsers } from '../../../lib/data';
+import { DataService } from '../../../lib/data';
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const formData = await request.formData();
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
+  try {
+    const contentType = request.headers.get('content-type');
+    let email: string;
+    let password: string;
 
-  if (!email || !password) {
-    return new Response(JSON.stringify({ message: 'Email and password are required' }), { status: 400 });
+    if (contentType?.includes('application/json')) {
+      const data = await request.json();
+      email = data.email;
+      password = data.password;
+    } else {
+      const data = await request.formData();
+      email = data.get('email') as string;
+      password = data.get('password') as string;
+    }
+
+    if (!email || !password) {
+      return new Response(JSON.stringify({ error: 'Email and password are required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const user = await DataService.getUser(email, password);
+    
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Create session
+    const sessionData = {
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      permissions: user.permissions
+    };
+
+    cookies.set('session', JSON.stringify(sessionData), {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    });
+
+    return new Response(JSON.stringify({ success: true, user: sessionData }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
-
-  const users = await getUsers();
-  const user = users.find(u => u.email === email && u.password === password); // In a real app, hash passwords!
-
-  if (!user) {
-    return new Response(JSON.stringify({ message: 'Invalid credentials' }), { status: 401 });
-  }
-
-  // Create a simple session token (in a real app, use a secure method like JWT)
-  const sessionToken = btoa(`${user.id}:${Date.now() + 3600 * 1000}`); 
-  
-  cookies.set('session', sessionToken, {
-    path: '/',
-    httpOnly: true,
-    secure: import.meta.env.PROD,
-    maxAge: 3600, // 1 hour
-  });
-
-  return new Response(JSON.stringify({ message: 'Login successful', redirectTo: '/' }), { status: 200 });
 };

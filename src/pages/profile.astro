@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 // Redirect to login if not authenticated
 if (!Astro.cookies.has('session')) {
-  return Astro.redirect('/login');
+  return new Response(null, { status: 302, headers: { Location: '/login' } });
 }
 
 // Profile page

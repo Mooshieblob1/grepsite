@@ -1,168 +1,77 @@
 ---
-// Redirect to login if not authenticated
-if (!Astro.cookies.has('session')) {
-  return Astro.redirect('/login');
-}
-
-// Carriers page - Now using real data
-import BaseLayout from "../layouts/BaseLayout.astro";
-import CarrierCard from "../components/CarrierCard.astro";
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CarrierCard from '../components/CarrierCard.astro';
 import { DataService } from "../lib/data";
 
-// Load real data for carriers page
+// Load carrier data
 const lines = await DataService.getLines();
 const carrierStats = DataService.calculateCarrierStats(lines);
-const totalLines = lines.length;
-const activeCarriers = carrierStats.length;
-const totalMonthlyCost = lines.reduce((sum, line) => sum + line.plan.monthlyRate, 0);
 
-const title = "BlobLogic - Carriers";
+const title = "BlobLogic - Carrier Management";
 ---
 
-<BaseLayout title={title} pageTitle="Carriers" currentPage="carriers">
-  <!-- Page Header -->
-  <div class="mb-6">
-    <div class="flex items-center justify-between">
-      <div>
-        <h2 class="text-2xl font-bold text-gray-900">Carrier Management</h2>
-        <p class="text-gray-600">Manage all your telecommunications carriers in one place</p>
+<BaseLayout title={title} pageTitle="Carrier Management" currentPage="carriers">
+  <div class="space-y-6">
+    <!-- Carrier Overview -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Carrier Overview</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {carrierStats.map((carrier) => (
+          <CarrierCard
+            name={carrier.name}
+            icon="📶"
+            iconColor="bg-blue-100"
+            status={carrier.status}
+            statusColor={carrier.status === 'Active' ? 'text-green-600' : carrier.status === 'Expiring Soon' ? 'text-yellow-600' : 'text-red-600'}
+            services={carrier.totalLines}
+            monthlyCost={`$${carrier.monthlySpend.toLocaleString()}`}
+            contractEnd="2024-12-31"
+          />
+        ))}
       </div>
-      <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-        <i class="fas fa-plus mr-2"></i> Add New Carrier
-      </button>
     </div>
-  </div>
 
-  <!-- Stats Summary - Now using real data -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-    <div class="bg-white rounded-lg shadow p-6">
-      <div class="flex items-center">
-        <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
-          <i class="fas fa-check-circle text-xl"></i>
-        </div>
-        <div>
-          <p class="text-sm text-gray-600">Active Carriers</p>
-          <p class="text-2xl font-bold text-gray-900">{activeCarriers}</p>
-        </div>
-      </div>
-    </div>
-    <div class="bg-white rounded-lg shadow p-6">
-      <div class="flex items-center">
-        <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
-          <i class="fas fa-mobile-alt text-xl"></i>
-        </div>
-        <div>
-          <p class="text-sm text-gray-600">Total Lines</p>
-          <p class="text-2xl font-bold text-gray-900">{totalLines}</p>
-        </div>
-      </div>
-    </div>
-    <div class="bg-white rounded-lg shadow p-6">
-      <div class="flex items-center">
-        <div class="p-3 rounded-full bg-red-100 text-red-600 mr-4">
-          <i class="fas fa-times-circle text-xl"></i>
-        </div>
-        <div>
-          <p class="text-sm text-gray-600">Inactive</p>
-          <p class="text-2xl font-bold text-gray-900">0</p>
-        </div>
-      </div>
-    </div>
-    <div class="bg-white rounded-lg shadow p-6">
-      <div class="flex items-center">
-        <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
-          <i class="fas fa-dollar-sign text-xl"></i>
-        </div>
-        <div>
-          <p class="text-sm text-gray-600">Total Monthly Cost</p>
-          <p class="text-2xl font-bold text-gray-900">${totalMonthlyCost.toLocaleString()}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Filters and Search -->
-  <div class="bg-white rounded-lg shadow mb-6">
-    <div class="p-6">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-gray-800">All Carriers</h3>
-        <div class="flex space-x-2">
-          <select class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option>All Status</option>
-            <option>Active</option>
-            <option>Pending</option>
-            <option>Inactive</option>
-          </select>
-          <select class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option>All Types</option>
-            <option>Mobile</option>
-            <option>VoIP</option>
-            <option>Internet</option>
-          </select>
-        </div>
-      </div>
-      <div class="flex items-center justify-between">
-        <div class="relative w-80">
-          <input type="text" placeholder="Search carriers by name, type, or contract..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-        </div>
-        <div class="flex space-x-2">
-          <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">
-            <i class="fas fa-filter mr-2"></i> Advanced Filter
-          </button>
-          <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">
-            <i class="fas fa-download mr-2"></i> Export
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Carriers Grid - Now using real data -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-    {carrierStats.map((carrier) => (
-      <CarrierCard 
-        name={carrier.name}
-        icon={carrier.icon}
-        iconColor={carrier.iconColor}
-        status={carrier.status}
-        statusColor="bg-green-100 text-green-800"
-        services={carrier.lineCount}
-        monthlyCost={`$${carrier.monthlyCost.toLocaleString()}`}
-        contractEnd={carrier.contractEnd}
-      />
-    ))}
-    
-    {/* Show message if no carriers */}
-    {carrierStats.length === 0 && (
-      <div class="col-span-full text-center py-12 text-gray-500">
-        <i class="fas fa-signal text-4xl mb-4 opacity-50"></i>
-        <p class="text-lg">No carriers found</p>
-        <p class="text-sm">Add your first carrier to get started</p>
-      </div>
-    )}
-  </div>
-
-  <!-- Pagination -->
-  <div class="bg-white rounded-lg shadow p-6">
-    <div class="flex items-center justify-between">
-      <div class="text-sm text-gray-500">
-        Showing <span class="font-medium">1</span> to <span class="font-medium">{carrierStats.length}</span> of <span class="font-medium">{carrierStats.length}</span> carriers
-      </div>
-      <div class="flex space-x-1">
-        <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="px-3 py-1 border rounded-lg bg-indigo-600 text-white">1</button>
-        {carrierStats.length > 6 && (
-          <>
-            <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
-            <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">3</button>
-            <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </>
-        )}
+    <!-- Carrier Details -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Carrier Details</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto">
+          <thead>
+            <tr class="bg-gray-50">
+              <th class="px-4 py-2 text-left">Carrier</th>
+              <th class="px-4 py-2 text-left">Total Lines</th>
+              <th class="px-4 py-2 text-left">Monthly Spend</th>
+              <th class="px-4 py-2 text-left">Avg per Line</th>
+              <th class="px-4 py-2 text-left">Contract Status</th>
+              <th class="px-4 py-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {carrierStats.map((carrier, index) => (
+              <tr class={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                <td class="px-4 py-2 font-medium">{carrier.name}</td>
+                <td class="px-4 py-2">{carrier.totalLines}</td>
+                <td class="px-4 py-2">${carrier.monthlySpend.toLocaleString()}</td>
+                <td class="px-4 py-2">${carrier.avgPerLine.toFixed(2)}</td>
+                <td class="px-4 py-2">
+                  <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                    carrier.status === 'Active' 
+                      ? 'bg-green-100 text-green-800'
+                      : carrier.status === 'Expiring Soon'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-red-100 text-red-800'
+                  }`}>
+                    {carrier.status}
+                  </span>
+                </td>
+                <td class="px-4 py-2">
+                  <button class="text-blue-600 hover:text-blue-800 mr-2">View</button>
+                  <button class="text-green-600 hover:text-green-800">Edit</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

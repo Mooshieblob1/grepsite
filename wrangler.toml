@@ -1,0 +1,12 @@
+name = "grepsite"
+compatibility_date = "2024-07-04"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "preview_id"
+preview_id = "preview_id"
+
+[env.production]
+[[env.production.kv_namespaces]]
+binding = "SESSION"
+id = "production_id"

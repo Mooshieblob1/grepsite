@@ -37,6 +37,17 @@ export class DataService {
     }
   }
 
+  static async getUser(email: string, password: string): Promise<User | null> {
+    try {
+      const users = await this.getUsers();
+      const user = users.find(u => u.email === email && u.password === password);
+      return user || null;
+    } catch (error) {
+      console.error('Failed to authenticate user:', error);
+      return null;
+    }
+  }
+
   static async saveLines(lines: Line[]): Promise<void> {
     // MVP1: Browser localStorage for now
     // MVP2: API calls
@@ -176,3 +187,4 @@ export class DataService {
 export const getLines = () => DataService.getLines();
 export const getTickets = () => DataService.getTickets();
 export const getUsers = () => DataService.getUsers();
+export const getUser = (email: string, password: string) => DataService.getUser(email, password);
