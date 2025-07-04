@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize the application
   initializeSidebar();
-  initializeCharts();
   initializeSearch();
   initializeDropdowns();
   initializeGlobalSearch();
@@ -99,116 +98,6 @@ function handleMobileSidebar() {
       content.classList.remove('sidebar-open');
     }
   });
-}
-
-// Charts initialization
-function initializeCharts() {
-  // Cost by Carrier Chart
-  const costCtx = document.getElementById('costChart');
-  if (costCtx) {
-    const costChart = new Chart(costCtx.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: ['AT&T', 'Verizon', 'T-Mobile', 'Vonage', 'Zoom', 'Sprint'],
-        datasets: [{
-          label: 'Monthly Cost ($)',
-          data: [8750, 12340, 5670, 7890, 4520, 0],
-          backgroundColor: [
-            'rgba(59, 130, 246, 0.7)',
-            'rgba(99, 102, 241, 0.7)',
-            'rgba(234, 88, 12, 0.7)',
-            'rgba(220, 38, 38, 0.7)',
-            'rgba(22, 163, 74, 0.7)',
-            'rgba(107, 114, 128, 0.7)'
-          ],
-          borderColor: [
-            'rgba(59, 130, 246, 1)',
-            'rgba(99, 102, 241, 1)',
-            'rgba(234, 88, 12, 1)',
-            'rgba(220, 38, 38, 1)',
-            'rgba(22, 163, 74, 1)',
-            'rgba(107, 114, 128, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return '$' + value.toLocaleString();
-              }
-            }
-          }
-        },
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return '$' + context.raw.toLocaleString();
-              }
-            }
-          },
-          legend: {
-            display: false
-          }
-        }
-      }
-    });
-  }
-
-  // Service Distribution Chart
-  const serviceCtx = document.getElementById('serviceChart');
-  if (serviceCtx) {
-    const serviceChart = new Chart(serviceCtx.getContext('2d'), {
-      type: 'doughnut',
-      data: {
-        labels: ['Wireless', 'VoIP', 'Internet', 'Landline', 'Other'],
-        datasets: [{
-          data: [85, 42, 36, 18, 6],
-          backgroundColor: [
-            'rgba(59, 130, 246, 0.7)',
-            'rgba(99, 102, 241, 0.7)',
-            'rgba(234, 88, 12, 0.7)',
-            'rgba(22, 163, 74, 0.7)',
-            'rgba(107, 114, 128, 0.7)'
-          ],
-          borderColor: [
-            'rgba(59, 130, 246, 1)',
-            'rgba(99, 102, 241, 1)',
-            'rgba(234, 88, 12, 1)',
-            'rgba(22, 163, 74, 1)',
-            'rgba(107, 114, 128, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'right',
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                const label = context.label || '';
-                const value = context.raw || 0;
-                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                const percentage = Math.round((value / total) * 100);
-                return `${label}: ${value} (${percentage}%)`;
-              }
-            }
-          }
-        }
-      }
-    });
-  }
 }
 
 // Search functionality
@@ -462,3 +351,51 @@ window.TEM = {
   updatePaginationInfo,
   initializeDarkMode
 };
+
+// Carrier Modal Logic
+function openCarrierModal(carrierName, monthlyCost, lines, activeLines) {
+  const modal = document.getElementById('carrier-modal');
+  const modalTitle = modal.querySelector('.modal-title');
+  const modalBody = modal.querySelector('.modal-body');
+  const modalFooter = modal.querySelector('.modal-footer');
+
+  // Set modal content
+  modalTitle.textContent = carrierName;
+  modalBody.innerHTML = `
+    <p class="text-lg font-semibold">Monthly Cost: $${monthlyCost.toFixed(2)}</p>
+    <p class="mt-2 text-sm text-gray-500">Lines:</p>
+    <ul class="list-disc list-inside">
+      ${lines.map(line => `<li>${line}</li>`).join('')}
+    </ul>
+    <p class="mt-2 text-sm text-gray-500">Active Lines: ${activeLines}</p>
+  `;
+
+  // Show modal
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+// Close carrier modal
+const carrierModal = document.getElementById('carrier-modal');
+if (carrierModal) {
+  carrierModal.addEventListener('click', function(e) {
+    if (e.target === carrierModal) {
+      closeCarrierModal();
+    }
+  });
+}
+
+// Close modal function
+function closeCarrierModal() {
+  const modal = document.getElementById('carrier-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+
+// Make close function globally available
+window.closeCarrierModal = closeCarrierModal;
+
+// Note: The initializeCharts function has been removed from this file 
+// to prevent conflicts with the dynamic charts.js manager.

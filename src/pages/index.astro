@@ -32,9 +32,16 @@ const title = "BlobLogic - Dashboard";
 
 <!-- Pass real data to charts -->
 <script define:vars={{ lines, carrierStats }}>
-  // Make data available to chart scripts
-  window.dashboardData = {
-    lines: lines,
-    carrierStats: carrierStats
+  // Data to be passed to the chart initialization function
+  const dashboardData = {
+    lines,
+    carrierStats,
   };
+
+  // Defer chart initialization until the DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.initializeDashboardCharts) {
+      window.initializeDashboardCharts(dashboardData);
+    }
+  });
 </script>

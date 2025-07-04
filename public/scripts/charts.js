@@ -268,16 +268,28 @@ class ChartManager {
   }
 }
 
-// Initialize charts when DOM is loaded
-document.addEventListener('DOMContentLoaded', async () => {
+// Expose a global function to initialize charts with data, but do not run it automatically.
+window.initializeDashboardCharts = function(data) {
   if (typeof Chart !== 'undefined') {
-    const chartManager = new ChartManager();
-    await chartManager.initializeCharts();
+    // Clean up previous charts if any
+    if (window.chartManager) {
+      window.chartManager.destroy();
+    }
     
-    // Store globally for potential cleanup
+    const chartManager = new ChartManager();
+    // Pass data directly to the manager
+    chartManager.data = data;
+    
+    // Initialize all charts
+    chartManager.initCostChart();
+    chartManager.initServiceChart();
+    chartManager.initUsageTrendsChart();
+    chartManager.initCostAnalysisChart();
+    
+    // Store the manager instance globally
     window.chartManager = chartManager;
   }
-});
+};
 
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
