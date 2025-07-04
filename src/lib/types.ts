@@ -39,9 +39,15 @@ export interface Ticket {
 export interface User {
   id: string;
   email: string;
+  password: string;
   name: string;
   role: 'admin' | 'manager' | 'user' | 'viewer';
-  permissions: Permission[];
+  department?: string;
+  jobTitle?: string;
+  memberSince?: string;
+  lastLogin?: string;
+  location?: string;
+  permissions?: Permission[];
 }
 
 export enum Permission {

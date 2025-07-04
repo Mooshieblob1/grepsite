@@ -2,6 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { DataService } from "../lib/data";
 
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  return Astro.redirect('/login');
+}
+
 // Load all lines for management interface
 const lines = await DataService.getLines();
 const stats = DataService.calculateStats(lines);

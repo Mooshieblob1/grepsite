@@ -1,4 +1,9 @@
 ---
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  return Astro.redirect('/login');
+}
+
 // User Management page (for TEM Admin role)
 import BaseLayout from "../layouts/BaseLayout.astro";
 

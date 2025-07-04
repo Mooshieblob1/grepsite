@@ -1,4 +1,9 @@
 ---
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  return Astro.redirect('/login');
+}
+
 // Invoices page - Now using real data
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { DataService } from "../lib/data";

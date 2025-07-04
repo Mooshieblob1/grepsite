@@ -1,7 +1,12 @@
 ---
-// Lines Management page
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  return Astro.redirect('/login');
+}
+
+// Lines Management page
 const title = "BlobLogic - Lines Management";
 ---
 

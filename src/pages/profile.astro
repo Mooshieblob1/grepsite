@@ -1,7 +1,12 @@
 ---
-// Profile page
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  return Astro.redirect('/login');
+}
+
+// Profile page
 const title = "BlobLogic - Profile";
 ---
 

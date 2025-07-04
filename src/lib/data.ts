@@ -1,4 +1,4 @@
-import type { Line, Ticket } from './types';
+import type { Line, Ticket, User } from './types';
 
 export class DataService {
   static async getLines(): Promise<Line[]> {
@@ -21,6 +21,18 @@ export class DataService {
       return response.default as unknown as Ticket[];
     } catch (error) {
       console.error('Failed to load tickets data:', error);
+      return [];
+    }
+  }
+
+  static async getUsers(): Promise<User[]> {
+    try {
+      // In MVP1, load from JSON file
+      const response = await import('../data/users.json');
+      // Cast the JSON data to match our User interface (dates are strings in JSON)
+      return response.default as unknown as User[];
+    } catch (error) {
+      console.error('Failed to load users data:', error);
       return [];
     }
   }
@@ -159,3 +171,8 @@ export class DataService {
     }
   }
 }
+
+// Export convenience functions for common operations
+export const getLines = () => DataService.getLines();
+export const getTickets = () => DataService.getTickets();
+export const getUsers = () => DataService.getUsers();

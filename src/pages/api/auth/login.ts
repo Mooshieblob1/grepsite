@@ -1,4 +1,3 @@
----
 // src/pages/api/auth/login.ts
 import type { APIRoute } from 'astro';
 import { getUsers } from '../../../lib/data';
