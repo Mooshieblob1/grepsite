@@ -1,6 +1,27 @@
 ---
-// Invoices page
+// Invoices page - Now using real data
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { DataService } from "../lib/data";
+
+// Load real data for invoices page
+const lines = await DataService.getLines();
+const carrierStats = DataService.calculateCarrierStats(lines);
+const totalMonthlyCost = lines.reduce((sum, line) => sum + line.plan.monthlyRate, 0);
+const activeCarriers = carrierStats.length;
+
+// Generate invoice data based on real carriers
+const invoiceData = carrierStats.map((carrier, index) => ({
+  id: `INV-2024-${String(index + 1).padStart(3, '0')}`,
+  carrier: carrier.name,
+  amount: carrier.monthlyCost,
+  dueDate: new Date(2024, 6, 15 + index * 5), // July invoices with staggered due dates
+  status: index % 3 === 0 ? 'paid' : index % 3 === 1 ? 'pending' : 'overdue',
+  issueDate: new Date(2024, 5, 25 + index * 2), // June issue dates
+}));
+
+const paidInvoices = invoiceData.filter(inv => inv.status === 'paid').length;
+const pendingInvoices = invoiceData.filter(inv => inv.status === 'pending').length;
+const overdueInvoices = invoiceData.filter(inv => inv.status === 'overdue').length;
 
 const title = "BlobLogic - Invoices";
 ---
@@ -28,7 +49,7 @@ const title = "BlobLogic - Invoices";
         </div>
         <div>
           <p class="text-sm text-gray-600">This Month</p>
-          <p class="text-2xl font-bold text-gray-900">$42,580</p>
+          <p class="text-2xl font-bold text-gray-900">${totalMonthlyCost.toLocaleString()}</p>
         </div>
       </div>
     </div>
@@ -39,7 +60,7 @@ const title = "BlobLogic - Invoices";
         </div>
         <div>
           <p class="text-sm text-gray-600">Paid</p>
-          <p class="text-2xl font-bold text-gray-900">15</p>
+          <p class="text-2xl font-bold text-gray-900">{paidInvoices}</p>
         </div>
       </div>
     </div>
@@ -50,7 +71,7 @@ const title = "BlobLogic - Invoices";
         </div>
         <div>
           <p class="text-sm text-gray-600">Pending</p>
-          <p class="text-2xl font-bold text-gray-900">3</p>
+          <p class="text-2xl font-bold text-gray-900">{pendingInvoices}</p>
         </div>
       </div>
     </div>
@@ -61,7 +82,7 @@ const title = "BlobLogic - Invoices";
         </div>
         <div>
           <p class="text-sm text-gray-600">Overdue</p>
-          <p class="text-2xl font-bold text-gray-900">1</p>
+          <p class="text-2xl font-bold text-gray-900">{overdueInvoices}</p>
         </div>
       </div>
     </div>
@@ -115,98 +136,35 @@ const title = "BlobLogic - Invoices";
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
-                <div>
-                  <div class="text-sm font-medium text-gray-900">INV-2024-001</div>
-                  <div class="text-sm text-gray-500">June 2024</div>
+          {invoiceData.map((invoice) => (
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <i class="fas fa-file-pdf text-red-500 mr-3"></i>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">{invoice.id}</div>
+                    <div class="text-sm text-gray-500">{invoice.issueDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">AT&T Wireless</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$8,750.00</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 15, 2024</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                Paid
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
-              <button class="text-gray-600 hover:text-gray-900">Download</button>
-            </td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
-                <div>
-                  <div class="text-sm font-medium text-gray-900">INV-2024-002</div>
-                  <div class="text-sm text-gray-500">June 2024</div>
-                </div>
-              </div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Verizon Business</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$12,340.00</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 20, 2024</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                Pending
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
-              <button class="text-gray-600 hover:text-gray-900">Download</button>
-            </td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
-                <div>
-                  <div class="text-sm font-medium text-gray-900">INV-2024-003</div>
-                  <div class="text-sm text-gray-500">June 2024</div>
-                </div>
-              </div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">T-Mobile</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$5,670.00</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 10, 2024</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
-                Overdue
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
-              <button class="text-gray-600 hover:text-gray-900">Download</button>
-            </td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
-                <div>
-                  <div class="text-sm font-medium text-gray-900">INV-2024-004</div>
-                  <div class="text-sm text-gray-500">June 2024</div>
-                </div>
-              </div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Vonage Business</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$7,890.00</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">July 25, 2024</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                Paid
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
-              <button class="text-gray-600 hover:text-gray-900">Download</button>
-            </td>
-          </tr>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.carrier}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${invoice.amount.toLocaleString()}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                  invoice.status === 'paid' ? 'bg-green-100 text-green-800' :
+                  invoice.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-red-100 text-red-800'
+                }`}>
+                  {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button class="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
+                <button class="text-gray-600 hover:text-gray-900">Download</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
@@ -215,18 +173,21 @@ const title = "BlobLogic - Invoices";
     <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
       <div class="flex items-center justify-between">
         <div class="text-sm text-gray-500">
-          Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of <span class="font-medium">19</span> invoices
+          Showing <span class="font-medium">1</span> to <span class="font-medium">{invoiceData.length}</span> of <span class="font-medium">{invoiceData.length}</span> invoices
         </div>
         <div class="flex space-x-1">
           <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
             <i class="fas fa-chevron-left"></i>
           </button>
           <button class="px-3 py-1 border rounded-lg bg-indigo-600 text-white">1</button>
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">3</button>
-          <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
-            <i class="fas fa-chevron-right"></i>
-          </button>
+          {invoiceData.length > 10 && (
+            <>
+              <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
+              <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

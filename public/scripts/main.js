@@ -443,6 +443,17 @@ function initializeDarkMode() {
   }
 }
 
+// Carrier modal functionality
+function openCarrierModal(carrierId) {
+  // TODO: Implement carrier modal functionality
+  console.log('Opening carrier modal for:', carrierId);
+  // For now, just show an alert
+  alert(`Carrier details for ${carrierId} would open here`);
+}
+
+// Make function globally available
+window.openCarrierModal = openCarrierModal;
+
 // Export functions for use in other modules
 window.TEM = {
   showLoading,

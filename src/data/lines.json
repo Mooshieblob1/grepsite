@@ -90,5 +90,97 @@
     "contractEnd": "2024-08-15T00:00:00.000Z",
     "createdAt": "2023-04-20T00:00:00.000Z",
     "updatedAt": "2024-07-04T00:00:00.000Z"
+  },
+  {
+    "id": "line-005",
+    "phoneNumber": "+1-555-0105",
+    "carrier": "AT&T",
+    "employee": {
+      "name": "David Chen",
+      "email": "d.chen@company.com",
+      "department": "Engineering",
+      "employeeId": "EMP005"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "iPhone 14"
+    },
+    "plan": {
+      "name": "Unlimited Premium",
+      "monthlyRate": 80.00
+    },
+    "status": "active",
+    "contractEnd": "2024-10-31T00:00:00.000Z",
+    "createdAt": "2023-05-15T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
+  },
+  {
+    "id": "line-006",
+    "phoneNumber": "+1-555-0106",
+    "carrier": "T-Mobile",
+    "employee": {
+      "name": "Lisa Rodriguez",
+      "email": "l.rodriguez@company.com",
+      "department": "HR",
+      "employeeId": "EMP006"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "Samsung Galaxy S23"
+    },
+    "plan": {
+      "name": "Business Essentials",
+      "monthlyRate": 55.00
+    },
+    "status": "active",
+    "contractEnd": "2024-09-30T00:00:00.000Z",
+    "createdAt": "2023-06-01T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
+  },
+  {
+    "id": "line-007",
+    "phoneNumber": "+1-555-0107",
+    "carrier": "Verizon",
+    "employee": {
+      "name": "Robert Taylor",
+      "email": "r.taylor@company.com",
+      "department": "Operations",
+      "employeeId": "EMP007"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "iPhone 12"
+    },
+    "plan": {
+      "name": "Business Standard",
+      "monthlyRate": 70.00
+    },
+    "status": "active",
+    "contractEnd": "2024-07-31T00:00:00.000Z",
+    "createdAt": "2023-07-10T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
+  },
+  {
+    "id": "line-008",
+    "phoneNumber": "+1-555-0108",
+    "carrier": "AT&T",
+    "employee": {
+      "name": "Jennifer Kim",
+      "email": "j.kim@company.com",
+      "department": "Legal",
+      "employeeId": "EMP008"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "Google Pixel 7"
+    },
+    "plan": {
+      "name": "Business Plus",
+      "monthlyRate": 75.00
+    },
+    "status": "active",
+    "contractEnd": "2024-12-15T00:00:00.000Z",
+    "createdAt": "2023-08-05T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
   }
 ]

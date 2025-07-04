@@ -1,7 +1,12 @@
 ---
-// Carrier Overview Section component
+// Carrier Overview Section component - Now using real data
 import CarrierCard from "./CarrierCard.astro";
 import CarrierModal from "./CarrierModal.astro";
+import { DataService } from '../lib/data';
+
+// Load real data for carrier cards
+const lines = await DataService.getLines();
+const carrierStats = DataService.calculateCarrierStats(lines);
 ---
 
 <div class="bg-white rounded-lg shadow mb-6">
@@ -29,84 +34,47 @@ import CarrierModal from "./CarrierModal.astro";
       </div>
     </div>
 
-    <!-- Carrier Cards Grid -->
+    <!-- Carrier Cards Grid - Now using real data -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <CarrierCard 
-        name="AT&T Wireless"
-        icon="fas fa-signal"
-        iconColor="bg-blue-100"
-        status="Active"
-        statusColor="bg-green-100 text-green-800"
-        services={45}
-        monthlyCost="$8,750"
-        contractEnd="Dec 2024"
-      />
-      <CarrierCard 
-        name="Verizon Business"
-        icon="fas fa-signal"
-        iconColor="bg-red-100"
-        status="Active"
-        statusColor="bg-green-100 text-green-800"
-        services={62}
-        monthlyCost="$12,340"
-        contractEnd="Mar 2025"
-      />
-      <CarrierCard 
-        name="T-Mobile"
-        icon="fas fa-signal"
-        iconColor="bg-pink-100"
-        status="Pending"
-        statusColor="bg-yellow-100 text-yellow-800"
-        services={28}
-        monthlyCost="$5,670"
-        contractEnd="Jun 2024"
-      />
-      <CarrierCard 
-        name="Vonage Business"
-        icon="fas fa-phone"
-        iconColor="bg-orange-100"
-        status="Active"
-        statusColor="bg-green-100 text-green-800"
-        services={33}
-        monthlyCost="$7,890"
-        contractEnd="Dec 2023"
-      />
-      <CarrierCard 
-        name="Zoom Phone"
-        icon="fas fa-video"
-        iconColor="bg-green-100"
-        status="Active"
-        statusColor="bg-green-100 text-green-800"
-        services={29}
-        monthlyCost="$4,520"
-        contractEnd="Sep 2024"
-      />
-      <CarrierCard 
-        name="Sprint (Legacy)"
-        icon="fas fa-broadcast-tower"
-        iconColor="bg-indigo-100"
-        status="Inactive"
-        statusColor="bg-gray-100 text-gray-800"
-        services={0}
-        monthlyCost="$0"
-        contractEnd="Mar 2023"
-      />
+      {carrierStats.map((carrier) => (
+        <CarrierCard 
+          name={carrier.name}
+          icon={carrier.icon}
+          iconColor={carrier.iconColor}
+          status={carrier.status}
+          statusColor="bg-green-100 text-green-800"
+          services={carrier.lineCount}
+          monthlyCost={`$${carrier.monthlyCost.toLocaleString()}`}
+          contractEnd={carrier.contractEnd}
+        />
+      ))}
+      
+      {/* Show placeholder if no carriers */}
+      {carrierStats.length === 0 && (
+        <div class="col-span-full text-center py-8 text-gray-500">
+          No carriers found. Add your first carrier to get started.
+        </div>
+      )}
     </div>
 
     <!-- Pagination -->
     <div class="mt-8 flex items-center justify-between">
       <div class="text-sm text-gray-500">
-        Showing <span class="font-medium">1</span> to <span class="font-medium">6</span> of <span class="font-medium">12</span> carriers
+        Showing <span class="font-medium">1</span> to <span class="font-medium">{carrierStats.length}</span> of <span class="font-medium">{carrierStats.length}</span> carriers
       </div>
       <div class="flex space-x-1">
-        <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
+        <button class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
           <i class="fas fa-chevron-left"></i>
         </button>
         <button class="px-3 py-1 border rounded-lg bg-indigo-600 text-white">1</button>
-        <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
-        <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
-          <i class="fas fa-chevron-right"></i>
-        </button>
+        {carrierStats.length > 6 && (
+          <>
+            <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">2</button>
+            <button class="px-3 py-1 border rounded-lg hover:bg-gray-50">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </>
+        )}
       </div>
     </div>
   </div>

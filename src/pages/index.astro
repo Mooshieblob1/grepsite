@@ -10,6 +10,7 @@ import { DataService } from "../lib/data";
 // Load real data for MVP1 dashboard
 const lines = await DataService.getLines();
 const tickets = await DataService.getTickets();
+const carrierStats = DataService.calculateCarrierStats(lines);
 
 // Any server-side logic can go here
 const title = "BlobLogic - Dashboard";
@@ -28,3 +29,12 @@ const title = "BlobLogic - Dashboard";
   <!-- Recent Activity -->
   <RecentActivity />
 </BaseLayout>
+
+<!-- Pass real data to charts -->
+<script define:vars={{ lines, carrierStats }}>
+  // Make data available to chart scripts
+  window.dashboardData = {
+    lines: lines,
+    carrierStats: carrierStats
+  };
+</script>
