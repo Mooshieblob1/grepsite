@@ -1,0 +1,94 @@
+[
+  {
+    "id": "line-001",
+    "phoneNumber": "+1-555-0101",
+    "carrier": "Verizon",
+    "employee": {
+      "name": "John Smith",
+      "email": "john.smith@company.com",
+      "department": "Sales",
+      "employeeId": "EMP001"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "iPhone 14 Pro"
+    },
+    "plan": {
+      "name": "Unlimited Premium",
+      "monthlyRate": 85.00
+    },
+    "status": "active",
+    "contractEnd": "2024-12-31T00:00:00.000Z",
+    "createdAt": "2023-01-15T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
+  },
+  {
+    "id": "line-002",
+    "phoneNumber": "+1-555-0102",
+    "carrier": "AT&T",
+    "employee": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@company.com",
+      "department": "Marketing",
+      "employeeId": "EMP002"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "Samsung Galaxy S24"
+    },
+    "plan": {
+      "name": "Business Plus",
+      "monthlyRate": 75.00
+    },
+    "status": "active",
+    "contractEnd": "2024-11-30T00:00:00.000Z",
+    "createdAt": "2023-02-01T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
+  },
+  {
+    "id": "line-003",
+    "phoneNumber": "+1-555-0103",
+    "carrier": "T-Mobile",
+    "employee": {
+      "name": "Mike Wilson",
+      "email": "m.wilson@company.com",
+      "department": "IT",
+      "employeeId": "EMP003"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "Google Pixel 8"
+    },
+    "plan": {
+      "name": "Enterprise",
+      "monthlyRate": 90.00
+    },
+    "status": "suspended",
+    "contractEnd": "2025-01-31T00:00:00.000Z",
+    "createdAt": "2023-03-10T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
+  },
+  {
+    "id": "line-004",
+    "phoneNumber": "+1-555-0104",
+    "carrier": "Verizon",
+    "employee": {
+      "name": "Emily Davis",
+      "email": "e.davis@company.com",
+      "department": "Finance",
+      "employeeId": "EMP004"
+    },
+    "device": {
+      "type": "smartphone",
+      "model": "iPhone 13"
+    },
+    "plan": {
+      "name": "Business Standard",
+      "monthlyRate": 65.00
+    },
+    "status": "active",
+    "contractEnd": "2024-08-15T00:00:00.000Z",
+    "createdAt": "2023-04-20T00:00:00.000Z",
+    "updatedAt": "2024-07-04T00:00:00.000Z"
+  }
+]

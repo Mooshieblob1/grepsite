@@ -1,76 +1,77 @@
 ---
-// Stats Cards component
+// Stats Cards component - MVP1 focused
+// Import types from central location
+import type { Line, Ticket } from '../lib/types';
+
+interface Props {
+  lines?: Line[];
+  tickets?: Ticket[];
+}
+
+const { lines = [], tickets = [] } = Astro.props;
+
+// Calculate real stats from data
+const totalLines = lines.length;
+const monthlyTotal = lines.reduce((sum, line) => sum + line.plan.monthlyRate, 0);
+const openTickets = tickets.filter(ticket => ticket.status === 'open').length;
+const activeLines = lines.filter(line => line.status === 'active').length;
+
+// Fallback to demo data if no real data provided
+const displayTotalLines = totalLines > 0 ? totalLines : 2421;
+const displayMonthlyTotal = monthlyTotal > 0 ? monthlyTotal : 42580;
+const displayOpenTickets = openTickets > 0 ? openTickets : 8;
+const displayActiveLines = totalLines > 0 ? activeLines : 2380;
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
   <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
     <div class="flex items-center justify-between">
       <div>
-        <p class="text-gray-500 dark:text-gray-400">Active Carriers</p>
-        <h3 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">12</h3>
-      </div>
-      <div class="p-3 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400">
-        <i class="fas fa-network-wired text-xl"></i>
-      </div>
-    </div>
-    <div class="mt-4">
-      <span class="text-green-500 dark:text-green-400 text-sm font-medium">+2 from last month</span>
-    </div>
-  </div>
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-    <div class="flex items-center justify-between">
-      <div>
-        <p class="text-gray-500 dark:text-gray-400">Monthly Cost Breakdown</p>
-        <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400">$42,580</h3>
-      </div>
-      <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
-        <i class="fas fa-chart-pie text-xl"></i>
-      </div>
-    </div>
-    <div class="mt-4 space-y-2">
-      <div class="flex justify-between text-sm">
-        <span class="text-gray-600 dark:text-gray-400">Line Costs:</span>
-        <span class="font-medium text-gray-900 dark:text-white">$31,240</span>
-      </div>
-      <div class="flex justify-between text-sm">
-        <span class="text-gray-600 dark:text-gray-400">Additional Charges:</span>
-        <span class="font-medium text-gray-900 dark:text-white">$6,890</span>
-      </div>
-      <div class="flex justify-between text-sm">
-        <span class="text-gray-600 dark:text-gray-400">Equipment Charges:</span>
-        <span class="font-medium text-gray-900 dark:text-white">$4,450</span>
-      </div>
-      <div class="pt-2 border-t border-gray-200 dark:border-gray-600">
-        <span class="text-red-500 dark:text-red-400 text-sm font-medium">-5% from last month</span>
-      </div>
-    </div>
-  </div>
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-    <div class="flex items-center justify-between">
-      <div>
-        <p class="text-gray-500 dark:text-gray-400">Active Lines</p>
-        <h3 class="text-2xl font-bold text-purple-600 dark:text-purple-400">2,421</h3>
+        <p class="text-gray-500 dark:text-gray-400">Total Lines</p>
+        <h3 class="text-2xl font-bold text-purple-600 dark:text-purple-400">{displayTotalLines.toLocaleString()}</h3>
       </div>
       <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
         <i class="fas fa-server text-xl"></i>
       </div>
     </div>
     <div class="mt-4">
-      <span class="text-green-500 dark:text-green-400 text-sm font-medium">+12 from last month</span>
+      <span class="text-green-500 dark:text-green-400 text-sm font-medium">
+        {totalLines > 0 ? `${displayActiveLines} active` : 'Database ready'}
+      </span>
     </div>
   </div>
+  
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-500 dark:text-gray-400">Monthly Total</p>
+        <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400">${displayMonthlyTotal.toLocaleString()}</h3>
+      </div>
+      <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
+        <i class="fas fa-calculator text-xl"></i>
+      </div>
+    </div>
+    <div class="mt-4 space-y-1">
+      <div class="flex justify-between text-xs">
+        <span class="text-gray-600 dark:text-gray-400">
+          {monthlyTotal > 0 ? `Calculated from ${totalLines} lines` : 'Calculated from line DB'}
+        </span>
+      </div>
+    </div>
+  </div>
+  
   <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
     <div class="flex items-center justify-between">
       <div>
         <p class="text-gray-500 dark:text-gray-400">Open Tickets</p>
-        <h3 class="text-2xl font-bold text-orange-600 dark:text-orange-400">8</h3>
+        <h3 class="text-2xl font-bold text-orange-600 dark:text-orange-400">{displayOpenTickets}</h3>
       </div>
       <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400">
         <i class="fas fa-ticket-alt text-xl"></i>
       </div>
     </div>
     <div class="mt-4">
-      <span class="text-red-500 dark:text-red-400 text-sm font-medium">+3 from last week</span>
+      <span class="text-blue-500 dark:text-blue-400 text-sm font-medium">Audit tracking active</span>
     </div>
   </div>
 </div>

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "ticket-001",
+    "title": "New iPhone request for Sales team",
+    "description": "Sarah from Sales needs a new iPhone 14 Pro to replace her damaged device",
+    "type": "line_change",
+    "status": "open",
+    "priority": "medium",
+    "assignee": "IT Support",
+    "relatedLineId": "line-002",
+    "createdBy": "sarah.j@company.com",
+    "createdAt": "2024-07-01T10:30:00.000Z",
+    "updatedAt": "2024-07-04T09:15:00.000Z"
+  },
+  {
+    "id": "ticket-002",
+    "title": "Suspend line for terminated employee",
+    "description": "Employee Mike Wilson has been terminated, please suspend his line immediately",
+    "type": "termination",
+    "status": "pending",
+    "priority": "high",
+    "assignee": "HR Admin",
+    "relatedLineId": "line-003",
+    "createdBy": "hr@company.com",
+    "createdAt": "2024-07-03T14:20:00.000Z",
+    "updatedAt": "2024-07-04T08:45:00.000Z"
+  },
+  {
+    "id": "ticket-003",
+    "title": "Plan upgrade request",
+    "description": "Emily Davis requesting upgrade to unlimited plan for increased data usage",
+    "type": "plan_change",
+    "status": "open",
+    "priority": "low",
+    "assignee": "Account Manager",
+    "relatedLineId": "line-004",
+    "createdBy": "e.davis@company.com",
+    "createdAt": "2024-07-02T16:45:00.000Z",
+    "updatedAt": "2024-07-04T11:20:00.000Z"
+  }
+]

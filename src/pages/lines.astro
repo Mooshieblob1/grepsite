@@ -1,54 +1,72 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { DataService } from "../lib/data";
+
+// Load all lines for management interface
+const lines = await DataService.getLines();
+const stats = DataService.calculateStats(lines);
+
+const title = "BlobLogic - Line Management";
 ---
 
-<BaseLayout title="BlobLogic - Lines Management" currentPage="lines" pageTitle="Line Inventory">
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-      <div class="flex items-center">
-        <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
-          <i class="fas fa-check-circle text-green-600 dark:text-green-400"></i>
+<BaseLayout title={title} pageTitle="Line Management" currentPage="lines">
+  <!-- Header with stats -->
+  <div class="mb-6">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Line Management</h1>
+      <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition">
+        <i class="fas fa-plus mr-2"></i>Add New Line
+      </button>
+    </div>
+    
+    <!-- Quick stats with real data -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <div class="flex items-center">
+          <div class="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+            <i class="fas fa-mobile-alt text-purple-600 dark:text-purple-400"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Total Lines</p>
+            <p class="text-xl font-bold text-gray-900 dark:text-white">{stats.totalLines}</p>
+          </div>
         </div>
-        <div class="ml-4">
-          <p class="text-sm text-gray-500 dark:text-gray-400">Active Lines</p>
-          <p class="text-xl font-bold text-gray-900 dark:text-white">2,421</p>
+      </div>
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <div class="flex items-center">
+          <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+            <i class="fas fa-check-circle text-green-600 dark:text-green-400"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Active Lines</p>
+            <p class="text-xl font-bold text-gray-900 dark:text-white">{stats.activeLines}</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <div class="flex items-center">
+          <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+            <i class="fas fa-calculator text-blue-600 dark:text-blue-400"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Monthly Cost</p>
+            <p class="text-xl font-bold text-gray-900 dark:text-white">${stats.monthlyTotal.toLocaleString()}</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <div class="flex items-center">
+          <div class="p-2 bg-orange-100 dark:bg-orange-900 rounded-lg">
+            <i class="fas fa-network-wired text-orange-600 dark:text-orange-400"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Carriers</p>
+            <p class="text-xl font-bold text-gray-900 dark:text-white">{Object.keys(stats.carrierBreakdown).length}</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-      <div class="flex items-center">
-        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
-          <i class="fas fa-ban text-gray-600 dark:text-gray-400"></i>
-        </div>
-        <div class="ml-4">
-          <p class="text-sm text-gray-500 dark:text-gray-400">No Usage</p>
-          <p class="text-xl font-bold text-gray-900 dark:text-white">127</p>
-        </div>
-      </div>
-    </div>
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-      <div class="flex items-center">
-        <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-          <i class="fas fa-arrow-up text-blue-600 dark:text-blue-400"></i>
-        </div>
-        <div class="ml-4">
-          <p class="text-sm text-gray-500 dark:text-gray-400">Upgrade Eligible</p>
-          <p class="text-xl font-bold text-gray-900 dark:text-white">312</p>
-        </div>
-      </div>
-    </div>
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-      <div class="flex items-center">
-        <div class="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-          <i class="fas fa-ticket-alt text-yellow-600 dark:text-yellow-400"></i>
-        </div>
-        <div class="ml-4">
-          <p class="text-sm text-gray-500 dark:text-gray-400">Submitted Tickets</p>
-          <p class="text-xl font-bold text-gray-900 dark:text-white">45</p>
-        </div>
-      </div>
-    </div>
+  </div>
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <div class="flex items-center">
         <div class="p-2 bg-red-100 dark:bg-red-900 rounded-lg">

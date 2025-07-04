@@ -5,14 +5,19 @@ import StatsCards from "../components/StatsCards.astro";
 import CarrierOverview from "../components/CarrierOverview.astro";
 import CostAnalysis from "../components/CostAnalysis.astro";
 import RecentActivity from "../components/RecentActivity.astro";
+import { DataService } from "../lib/data";
+
+// Load real data for MVP1 dashboard
+const lines = await DataService.getLines();
+const tickets = await DataService.getTickets();
 
 // Any server-side logic can go here
 const title = "BlobLogic - Dashboard";
 ---
 
 <BaseLayout title={title} pageTitle="Dashboard" currentPage="dashboard">
-  <!-- Stats Cards -->
-  <StatsCards />
+  <!-- Stats Cards with real data -->
+  <StatsCards lines={lines} tickets={tickets} />
 
   <!-- Carrier Management Section -->
   <CarrierOverview />
