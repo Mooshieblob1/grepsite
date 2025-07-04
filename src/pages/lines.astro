@@ -697,8 +697,8 @@ const title = "BlobLogic - Line Management";
               </span>
             </td>
             <td class="px-2 py-3 border-r border-gray-100 dark:border-gray-700">
-              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300">
-                Suspended
+              <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300">
+                Active
               </span>
             </td>
             <td class="px-2 py-3 text-xs text-gray-900 dark:text-white border-r border-gray-100 dark:border-gray-700">4G/5G Custom Business Unlimited Smartphone Plan 60225</td>
@@ -1064,46 +1064,103 @@ const title = "BlobLogic - Line Management";
     // Initialize drag and drop for column reordering
     function initializeDragAndDrop() {
       let draggedElement: HTMLElement | null = null;
-      
+      let placeholder: HTMLElement | null = null;
+
       const items = columnOrderList.querySelectorAll('[data-column-id]');
       items.forEach(item => {
-        item.addEventListener('dragstart', function(e) {
-          draggedElement = this as HTMLElement;
+        item.addEventListener('dragstart', function(this: HTMLElement, e: DragEvent) {
+          draggedElement = this;
           this.classList.add('opacity-50');
+          
+          // Create placeholder
+          placeholder = document.createElement('div');
+          placeholder.className = 'p-3 bg-blue-100 dark:bg-blue-900 border-2 border-dashed border-blue-400 rounded';
+          placeholder.style.height = `${this.offsetHeight}px`;
         });
-        
-        item.addEventListener('dragend', function(e) {
+
+        item.addEventListener('dragend', function(this: HTMLElement, e: DragEvent) {
           this.classList.remove('opacity-50');
           draggedElement = null;
+          if (placeholder && placeholder.parentNode) {
+            placeholder.parentNode.removeChild(placeholder);
+          }
+          placeholder = null;
+          // Remove any remaining drop indicators
+          items.forEach(i => i.classList.remove('drop-indicator-top', 'drop-indicator-bottom'));
         });
-        
-        item.addEventListener('dragover', function(e) {
+
+        item.addEventListener('dragover', function(this: HTMLElement, e: DragEvent) {
           e.preventDefault();
+          if (!draggedElement || !placeholder) return;
+
+          const targetItem = this;
+          if (targetItem === placeholder) return;
+
+          const rect = targetItem.getBoundingClientRect();
+          const isAfter = e.clientY > rect.top + rect.height / 2;
+
+          // Clear previous indicators
+          items.forEach(i => i.classList.remove('drop-indicator-top', 'drop-indicator-bottom'));
+
+          if (isAfter) {
+            targetItem.classList.add('drop-indicator-bottom');
+            targetItem.parentNode?.insertBefore(placeholder, targetItem.nextSibling);
+          } else {
+            targetItem.classList.add('drop-indicator-top');
+            targetItem.parentNode?.insertBefore(placeholder, targetItem);
+          }
         });
-        
-        item.addEventListener('drop', function(e) {
+
+        item.addEventListener('dragleave', function(this: HTMLElement, e: DragEvent) {
+            // Only remove if leaving the list container itself
+            if (e.relatedTarget && !columnOrderList.contains(e.relatedTarget as Node)) {
+                if (placeholder && placeholder.parentNode) {
+                    placeholder.parentNode.removeChild(placeholder);
+                }
+            }
+        });
+
+        item.addEventListener('drop', function(this: HTMLElement, e: DragEvent) {
           e.preventDefault();
           if (draggedElement && draggedElement !== this) {
             const draggedId = draggedElement.getAttribute('data-column-id');
             const targetId = this.getAttribute('data-column-id');
-            
+
             if (draggedId && targetId) {
-              reorderColumns(draggedId, targetId);
+              const rect = this.getBoundingClientRect();
+              const isAfter = e.clientY > rect.top + rect.height / 2;
+              reorderColumns(draggedId, targetId, isAfter);
               updateColumnOrderList();
             }
           }
+           // Final cleanup
+          if (placeholder && placeholder.parentNode) {
+            placeholder.parentNode.removeChild(placeholder);
+          }
+          items.forEach(i => i.classList.remove('drop-indicator-top', 'drop-indicator-bottom'));
         });
       });
     }
-    
+
     // Reorder columns
-    function reorderColumns(draggedId: string, targetId: string) {
+    function reorderColumns(draggedId: string, targetId: string, isAfter: boolean) {
       const draggedIndex = currentColumns.findIndex(col => col.id === draggedId);
-      const targetIndex = currentColumns.findIndex(col => col.id === targetId);
-      
+      let targetIndex = currentColumns.findIndex(col => col.id === targetId);
+
       if (draggedIndex !== -1 && targetIndex !== -1) {
-        const draggedColumn = currentColumns.splice(draggedIndex, 1)[0];
-        currentColumns.splice(targetIndex, 0, draggedColumn);
+        const [draggedColumn] = currentColumns.splice(draggedIndex, 1);
+        
+        // Adjust target index if the dragged item was before the target
+        if (draggedIndex < targetIndex) {
+            targetIndex--;
+        }
+        
+        // If dropping after the target, increment index
+        if (isAfter) {
+            currentColumns.splice(targetIndex + 1, 0, draggedColumn);
+        } else {
+            currentColumns.splice(targetIndex, 0, draggedColumn);
+        }
       }
     }
     
