@@ -1,4 +1,9 @@
 ---
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  return Astro.redirect('/login');
+}
+
 // Import layout and components
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StatsCards from "../components/StatsCards.astro";

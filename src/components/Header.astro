@@ -40,7 +40,36 @@ const { pageTitle = "Carrier Management" } = Astro.props;
           <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
         </button>
       </div>
-      <!-- User dropdown removed - now in sidebar -->
+      <!-- User Dropdown -->
+      <div class="relative" id="user-menu-button">
+        <button class="flex items-center space-x-2 focus:outline-none">
+          <img src="/logo.png" alt="User Avatar" class="w-8 h-8 rounded-full">
+          <span class="text-sm font-medium text-gray-700">Admin</span>
+          <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+        </button>
+        <!-- Dropdown Menu -->
+        <div id="user-menu"
+             class="absolute right-0 w-48 mt-2 py-2 bg-white rounded-md shadow-xl z-50 hidden">
+          <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+          <a href="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+          <div class="border-t border-gray-100"></div>
+          <a href="/api/auth/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign Out</a>
+        </div>
+      </div>
     </div>
   </div>
 </header>
+
+<script>
+  const userMenuButton = document.getElementById('user-menu-button');
+  const userMenu = document.getElementById('user-menu');
+
+  userMenuButton?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    userMenu?.classList.toggle('hidden');
+  });
+
+  document.addEventListener('click', () => {
+    userMenu?.classList.add('hidden');
+  });
+</script>
