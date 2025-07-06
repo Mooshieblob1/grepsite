@@ -6,15 +6,18 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const contentType = request.headers.get('content-type');
     let email: string;
     let password: string;
+    let redirectTo: string;
 
     if (contentType?.includes('application/json')) {
       const data = await request.json();
       email = data.email;
       password = data.password;
+      redirectTo = data.redirectTo || '/';
     } else {
       const data = await request.formData();
       email = data.get('email') as string;
       password = data.get('password') as string;
+      redirectTo = data.get('redirectTo') as string || '/'; // Get redirectTo from form
     }
 
     if (!email || !password) {
@@ -25,34 +28,27 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     }
 
     const user = await DataService.getUser(email, password);
-    
+
     if (!user) {
-      return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return new Response(
+        JSON.stringify({ message: 'Invalid credentials' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
-    // Create session
-    const sessionData = {
-      userId: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      permissions: user.permissions
-    };
+    // Set a session cookie
+    const sessionCookie = `session=${encodeURIComponent(JSON.stringify({ email: user.email, name: user.name }))}; HttpOnly; Path=/; Max-Age=3600`;
 
-    cookies.set('session', JSON.stringify(sessionData), {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
-    });
-
-    return new Response(JSON.stringify({ success: true, user: sessionData }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return new Response(
+      JSON.stringify({ message: 'Logged in successfully', redirectTo }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Set-Cookie': sessionCookie
+        }
+      }
+    );
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,

@@ -1,7 +1,8 @@
 ---
 // Redirect to login if not authenticated
 if (!Astro.cookies.has('session')) {
-  return new Response(null, { status: 302, headers: { Location: '/login' } });
+  const currentPath = new URL(Astro.request.url).pathname;
+  return new Response(null, { status: 302, headers: { Location: `/login?redirect=${currentPath}` } });
 }
 
 // Invoices page - Now using real data
@@ -11,7 +12,7 @@ import { DataService } from "../lib/data";
 // Load real data for invoices page
 const lines = await DataService.getLines();
 const carrierStats = DataService.calculateCarrierStats(lines);
-const totalMonthlyCost = lines.reduce((sum, line) => sum + line.plan.monthlyRate, 0);
+const totalMonthlyCost = lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0);
 const activeCarriers = carrierStats.length;
 
 // Generate invoice data based on real carriers

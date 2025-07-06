@@ -1,27 +1,46 @@
-import type { Line, Ticket, User } from './types';
+import type { Line, Ticket, User, Invoice } from './types';
+import { supabase } from './supabase';
 
 export class DataService {
   static async getLines(): Promise<Line[]> {
     try {
-      // In MVP1, load from JSON file
+      const { data, error } = await supabase.from('lines').select('*');
+      if (error) throw error;
+      return data as Line[];
+    } catch (error) {
+      console.error('Failed to load lines data from Supabase, falling back to local file:', error);
+      // Fallback to original implementation
       const response = await import('../data/lines.json');
       // Cast the JSON data to match our Line interface (dates are strings in JSON)
       return response.default as unknown as Line[];
-    } catch (error) {
-      console.error('Failed to load lines data:', error);
-      return [];
     }
   }
 
   static async getTickets(): Promise<Ticket[]> {
     try {
-      // In MVP1, load from JSON file
+      const { data, error } = await supabase.from('tickets').select('*');
+      if (error) throw error;
+      return data as Ticket[];
+    } catch (error) {
+      console.error('Failed to load tickets data from Supabase, falling back to local file:', error);
+      // Fallback to original implementation
       const response = await import('../data/tickets.json');
       // Cast the JSON data to match our Ticket interface (dates are strings in JSON)
       return response.default as unknown as Ticket[];
+    }
+  }
+
+  static async getInvoices(): Promise<Invoice[]> {
+    try {
+      const { data, error } = await supabase.from('invoices').select('*');
+      if (error) throw error;
+      return data as Invoice[];
     } catch (error) {
-      console.error('Failed to load tickets data:', error);
-      return [];
+      console.error('Failed to load invoices data from Supabase, falling back to local file:', error);
+      // Fallback to original implementation
+      const response = await import('../data/invoices.json');
+      // Cast the JSON data to match our Invoice interface (dates are strings in JSON)
+      return response.default as unknown as Invoice[];
     }
   }
 
@@ -37,6 +56,29 @@ export class DataService {
     }
   }
 
+  static async getTicketById(id: number): Promise<Ticket | undefined> {
+    try {
+      const { data, error } = await supabase.from('tickets').select('*').eq('id', id).single();
+      if (error) {
+        // If the ticket is not found, Supabase might return an error.
+        // We'll log it and fall back gracefully.
+        console.warn(`Could not fetch ticket #${id} from Supabase:`, error.message);
+      } else if (data) {
+        return data as Ticket;
+      }
+
+      // Fallback to local file if Supabase fails or returns no data
+      console.log(`Falling back to local JSON for ticket #${id}`);
+      const response = await import('../data/tickets.json');
+      const tickets = response.default as unknown as Ticket[];
+      return tickets.find(t => t.id === id);
+
+    } catch (error) {
+      console.error(`Failed to load ticket ${id}:`, error);
+      return undefined;
+    }
+  }
+
   static async getUser(email: string, password: string): Promise<User | null> {
     try {
       const users = await this.getUsers();
@@ -49,18 +91,41 @@ export class DataService {
   }
 
   static async saveLines(lines: Line[]): Promise<void> {
-    // MVP1: Browser localStorage for now
-    // MVP2: API calls
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('lines', JSON.stringify(lines));
+    try {
+      const { error } = await supabase.from('lines').upsert(lines);
+      if (error) throw error;
+    } catch (error) {
+      console.error('Failed to save lines to Supabase:', error);
+      // Fallback to original implementation
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('lines', JSON.stringify(lines));
+      }
     }
   }
 
   static async saveTickets(tickets: Ticket[]): Promise<void> {
-    // MVP1: Browser localStorage for now
-    // MVP2: API calls
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('tickets', JSON.stringify(tickets));
+    try {
+      const { error } = await supabase.from('tickets').upsert(tickets);
+      if (error) throw error;
+    } catch (error) {
+      console.error('Failed to save tickets to Supabase:', error);
+      // Fallback to original implementation
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('tickets', JSON.stringify(tickets));
+      }
+    }
+  }
+
+  static async saveInvoices(invoices: Invoice[]): Promise<void> {
+    try {
+      const { error } = await supabase.from('invoices').upsert(invoices);
+      if (error) throw error;
+    } catch (error) {
+      console.error('Failed to save invoices to Supabase:', error);
+      // Fallback to original implementation
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('invoices', JSON.stringify(invoices));
+      }
     }
   }
 
@@ -69,7 +134,7 @@ export class DataService {
     return {
       totalLines: lines.length,
       activeLines: lines.filter(line => line.status === 'active').length,
-      monthlyTotal: lines.reduce((sum, line) => sum + line.plan.monthlyRate, 0),
+      monthlyTotal: lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0),
       carrierBreakdown: lines.reduce((acc, line) => {
         acc[line.carrier] = (acc[line.carrier] || 0) + 1;
         return acc;
@@ -79,7 +144,7 @@ export class DataService {
 
   // Calculate detailed cost breakdown from real data
   static calculateCostBreakdown(lines: Line[]) {
-    const totalMonthly = lines.reduce((sum, line) => sum + line.plan.monthlyRate, 0);
+    const totalMonthly = lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0);
     
     // Estimate breakdown based on typical carrier billing
     const lineCharges = totalMonthly * 0.75; // ~75% for basic service
@@ -115,7 +180,7 @@ export class DataService {
       }
       
       acc[carrier].lineCount++;
-      acc[carrier].monthlyCost += line.plan.monthlyRate;
+      acc[carrier].monthlyCost += (line.monthlyCost || 0);
       if (line.status === 'active') {
         acc[carrier].activeLines++;
       }
@@ -131,6 +196,9 @@ export class DataService {
     // Format contract end dates and determine carrier status
     return Object.values(carrierStats).map((carrier: any) => ({
       ...carrier,
+      totalLines: carrier.lineCount,
+      monthlySpend: carrier.monthlyCost,
+      avgPerLine: carrier.lineCount > 0 ? carrier.monthlyCost / carrier.lineCount : 0,
       contractEnd: carrier.contractEnd ? this.formatContractEndDate(carrier.contractEnd) : 'N/A',
       status: carrier.contractEnd ? this.getCarrierStatus(carrier.contractEnd) : 'Unknown'
     }));

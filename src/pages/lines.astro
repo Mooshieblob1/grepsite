@@ -1,4 +1,10 @@
 ---
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  const currentPath = new URL(Astro.request.url).pathname;
+  return new Response(null, { status: 302, headers: { Location: `/login?redirect=${currentPath}` } });
+}
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { DataService } from "../lib/data";
 
@@ -98,10 +104,10 @@ const title = "BlobLogic - Line Management";
           {lines.slice(0, 6).map((line) => (
             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
               <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.carrier}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.employee.name}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.phoneNumber}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.plan.name}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">${line.plan.monthlyRate}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.assignedUser}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.lineNumber}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.department || 'N/A'}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">${line.monthlyCost}</td>
               <td class="px-4 py-4 whitespace-nowrap">
                 <span class={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                   line.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :

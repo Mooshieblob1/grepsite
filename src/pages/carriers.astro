@@ -1,4 +1,10 @@
 ---
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  const currentPath = new URL(Astro.request.url).pathname;
+  return new Response(null, { status: 302, headers: { Location: `/login?redirect=${currentPath}` } });
+}
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CarrierCard from '../components/CarrierCard.astro';
 import { DataService } from "../lib/data";
@@ -25,7 +31,7 @@ const title = "BlobLogic - Carrier Management";
             statusColor={carrier.status === 'Active' ? 'text-green-600' : carrier.status === 'Expiring Soon' ? 'text-yellow-600' : 'text-red-600'}
             services={carrier.totalLines}
             monthlyCost={`$${carrier.monthlySpend.toLocaleString()}`}
-            contractEnd="2024-12-31"
+            contractEnd={carrier.contractEnd}
           />
         ))}
       </div>

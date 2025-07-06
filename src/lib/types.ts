@@ -1,39 +1,28 @@
 export interface Line {
-  id: string;
-  phoneNumber: string;
+  id: number;
+  lineNumber: string;
   carrier: string;
-  employee: {
-    name: string;
-    email: string;
-    department: string;
-    employeeId: string;
-  };
-  device: {
-    type: string;
-    model: string;
-  };
-  plan: {
-    name: string;
-    monthlyRate: number;
-  };
   status: 'active' | 'suspended' | 'terminated';
-  contractEnd: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  monthlyCost: number;
+  contractEnd: string;
+  assignedUser: string;
+  department: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Ticket {
-  id: string;
-  title: string;
+  id: number;
+  title: string; // Changed from subject
   description: string;
-  type: 'line_change' | 'new_line' | 'termination' | 'plan_change';
+  type: string;
   status: 'open' | 'closed' | 'pending';
-  priority: 'low' | 'medium' | 'high';
-  assignee?: string;
-  relatedLineId?: string;
-  createdBy: string;
-  createdAt: Date;
-  updatedAt: Date;
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  lineId?: number;
+  userId?: string;
+  created_at: string; // Changed from createdAt
+  updated_at: string; // Changed from updatedAt
+  assignee_name?: string; // Added from view
 }
 
 export interface User {
@@ -56,4 +45,16 @@ export enum Permission {
   UPLOAD_INVOICES = 'upload_invoices',
   CREATE_TICKETS = 'create_tickets',
   EXPORT_DATA = 'export_data'
+}
+
+export interface Invoice {
+  id: string;
+  carrier: string;
+  invoiceDate: Date;
+  dueDate: Date;
+  totalAmount: number;
+  status: 'paid' | 'unpaid' | 'overdue';
+  filePath: string; // Path to the uploaded invoice file
+  createdAt: Date;
+  updatedAt: Date;
 }

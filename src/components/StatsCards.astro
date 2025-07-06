@@ -12,7 +12,7 @@ const { lines = [], tickets = [] } = Astro.props;
 
 // Calculate real stats from data
 const totalLines = lines.length;
-const monthlyTotal = lines.reduce((sum, line) => sum + line.plan.monthlyRate, 0);
+const monthlyTotal = lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0);
 const openTickets = tickets.filter(ticket => ticket.status === 'open').length;
 const activeLines = lines.filter(line => line.status === 'active').length;
 
