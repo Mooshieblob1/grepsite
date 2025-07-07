@@ -1,0 +1,18 @@
+[
+  {
+    "id": "INV-001",
+    "carrierId": "C-001",
+    "invoiceDate": "2024-07-01",
+    "dueDate": "2024-08-01",
+    "totalAmount": 1500.00,
+    "status": "Paid"
+  },
+  {
+    "id": "INV-002",
+    "carrierId": "C-002",
+    "invoiceDate": "2024-07-05",
+    "dueDate": "2024-08-05",
+    "totalAmount": 2500.50,
+    "status": "Pending"
+  }
+]

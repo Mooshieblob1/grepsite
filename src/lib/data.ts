@@ -1,4 +1,4 @@
-import type { Line, Ticket, User, Invoice } from './types';
+import type { Line, Ticket, User, Invoice, TicketDB } from './types';
 import { supabase } from './supabase';
 
 export class DataService {
@@ -20,7 +20,23 @@ export class DataService {
     try {
       const { data, error } = await supabase.from('tickets').select('*');
       if (error) throw error;
-      return data as Ticket[];
+
+      // Map snake_case from DB to camelCase
+      const tickets: Ticket[] = (data as TicketDB[]).map(t => ({
+        id: t.id,
+        title: t.subject, // map subject to title
+        description: t.description,
+        type: t.type,
+        status: t.status,
+        priority: t.priority,
+        lineId: t.line_id,
+        userId: t.user_id,
+        createdAt: new Date(t.created_at.replace(' ', 'T')), // Convert to Date object
+        updatedAt: new Date(t.updated_at.replace(' ', 'T')), // Convert to Date object
+        assigneeName: t.assignee_name,
+      }));
+
+      return tickets;
     } catch (error) {
       console.error('Failed to load tickets data from Supabase, falling back to local file:', error);
       // Fallback to original implementation

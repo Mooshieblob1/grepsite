@@ -11,18 +11,32 @@ export interface Line {
   updatedAt: string;
 }
 
+export interface TicketDB {
+  id: number;
+  subject: string; 
+  description: string;
+  type: string;
+  status: 'open' | 'closed' | 'pending';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  line_id?: number;
+  user_id?: string;
+  created_at: string; 
+  updated_at: string; 
+  assignee_name?: string; 
+}
+
 export interface Ticket {
   id: number;
-  title: string; // Changed from subject
+  title: string; 
   description: string;
   type: string;
   status: 'open' | 'closed' | 'pending';
   priority: 'low' | 'medium' | 'high' | 'urgent';
   lineId?: number;
   userId?: string;
-  created_at: string; // Changed from createdAt
-  updated_at: string; // Changed from updatedAt
-  assignee_name?: string; // Added from view
+  createdAt: Date; 
+  updatedAt: Date; 
+  assigneeName?: string; 
 }
 
 export interface User {

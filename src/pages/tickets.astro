@@ -146,10 +146,10 @@ const title = "BlobLogic - Support Tickets";
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                {ticket.assignee_name || 'Unassigned'}
+                {ticket.assigneeName || 'Unassigned'}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                {ticket.created_at ? new Date(ticket.created_at.replace(' ', 'T')).toLocaleDateString() : 'N/A'}
+                {ticket.createdAt.toLocaleDateString()}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <div class="flex space-x-2">
@@ -438,8 +438,8 @@ const title = "BlobLogic - Support Tickets";
           document.getElementById('detail-status')!.textContent = ticket.status;
           document.getElementById('detail-priority')!.textContent = ticket.priority;
           document.getElementById('detail-type')!.textContent = ticket.type ? ticket.type.replace('_', ' ') : 'General';
-          document.getElementById('detail-assignee')!.textContent = ticket.assignee_name || 'Unassigned';
-          document.getElementById('detail-created')!.textContent = ticket.created_at ? new Date(ticket.created_at.replace(' ', 'T')).toLocaleDateString() : 'N/A';
+          document.getElementById('detail-assignee')!.textContent = ticket.assigneeName || 'Unassigned';
+          document.getElementById('detail-created')!.textContent = ticket.createdAt ? new Date(ticket.createdAt.replace(' ', 'T')).toLocaleDateString() : 'N/A';
 
           // Show the ticket detail modal
           ticketDetailModal.classList.remove('hidden');
