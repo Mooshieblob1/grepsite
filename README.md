@@ -44,19 +44,35 @@ npm run dev
 
 4. Open your browser and navigate to `http://localhost:4321`
 
-### Build for Production
+### Using PNPM (Recommended)
 
-```bash
-npm run build
+[PNPM](https://pnpm.io/) is a fast, disk space-efficient package manager.
+
+First, install PNPM. If you have Node.js installed, you can use `corepack` which is built-in.
+
+```powershell
+# Enable corepack
+corepack enable
+# Install pnpm
+corepack prepare pnpm@latest --activate
 ```
 
-The built files will be in the `dist/` directory, ready for deployment.
+Then, follow these steps in your terminal (Command Prompt, PowerShell, or Windows Terminal):
 
-### Preview Production Build
+1.  **Install dependencies:**
+    ```powershell
+    pnpm install
+    ```
 
-```bash
-npm run preview
-```
+2.  **Start the development server:**
+    ```powershell
+    pnpm dev
+    ```
+
+3.  **Build for production:**
+    ```powershell
+    pnpm build
+    ```
 
 ## Project Structure
 
