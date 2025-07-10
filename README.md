@@ -17,62 +17,64 @@ A modern, responsive web application for telecommunications expense management (
 - **Chart.js** - Interactive charts and data visualization
 - **Font Awesome** - Icon library
 
-## Getting Started
+## Getting Started on Windows
 
-### Prerequisites
+This guide will walk you through setting up and running the project on your Windows computer, even if you're new to web development.
 
-- Node.js 18+ 
-- npm or yarn package manager
+### 1. Install Required Tools
 
-### Installation
+Before you begin, you need two free tools: Node.js and Git.
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd tem-portal
-```
+*   **Node.js:** This project requires Node.js version `18.20.8` or newer. The easiest way to get the correct version is to download and install the **LTS** version from the [official Node.js website](https://nodejs.org/en/download). This also installs the necessary package managers.
+*   **Git:** This tool is used to copy the project files to your computer. Download and install it from the [Git for Windows website](https://git-scm.com/download/win).
 
-2. Install dependencies:
-```bash
-npm install
-```
+You will run the following commands in a terminal. You can open one by searching for **PowerShell** or **Command Prompt** in your Start Menu.
 
-3. Start the development server:
-```bash
-npm run dev
-```
+### 2. Get the Project Code
 
-4. Open your browser and navigate to `http://localhost:4321`
+1.  **Copy the project files** to your computer by running this command in your terminal. Replace `<repository-url>` with the URL you find on the project's GitHub page under the "Code" button.
+    ```powershell
+    git clone <repository-url>
+    ```
 
-### Using PNPM (Recommended)
+2.  **Navigate into the project folder:**
+    ```powershell
+    cd tem-portal
+    ```
 
-[PNPM](https://pnpm.io/) is a fast, disk space-efficient package manager.
+### 3. Install and Run the Project
 
-First, install PNPM. If you have Node.js installed, you can use `corepack` which is built-in.
+We'll use PNPM, a fast and efficient package manager.
 
-```powershell
-# Enable corepack
-corepack enable
-# Install pnpm
-corepack prepare pnpm@latest --activate
-```
+1.  **Enable `corepack`** (a tool included with Node.js) to manage package manager versions:
+    ```powershell
+    corepack enable
+    ```
 
-Then, follow these steps in your terminal (Command Prompt, PowerShell, or Windows Terminal):
+2.  **Set up PNPM:**
+    ```powershell
+    corepack prepare pnpm@latest --activate
+    ```
 
-1.  **Install dependencies:**
+3.  **Install project dependencies.** This downloads all the necessary libraries the project needs to run.
     ```powershell
     pnpm install
     ```
 
-2.  **Start the development server:**
+4.  **Start the development server.** This runs the website on your local machine.
     ```powershell
     pnpm dev
     ```
 
-3.  **Build for production:**
-    ```powershell
-    pnpm build
-    ```
+5.  **View the website.** Open your web browser and go to the following address: `http://localhost:4321`. You should see the application running.
+
+### 4. (Optional) Build for Production
+
+If you want to create a folder of optimized files for deployment to a web server, run the following command. The output will be placed in a `dist` folder.
+
+```powershell
+pnpm build
+```
 
 ## Project Structure
 
