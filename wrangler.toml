@@ -1,20 +1,10 @@
 name = "grepsite"
 compatibility_date = "2024-07-04"
 
-# Pages build configuration
-[build]
-command = "pnpm build"
-cwd = "."
+# For Cloudflare Pages, the KV bindings should be configured in the Cloudflare Dashboard
+# under Pages Settings > Functions > KV namespace bindings
+# This file is kept minimal for Pages deployments
 
-# Pages configuration
-pages_build_output_dir = "dist"
-
-# Pages environment variables and bindings
-# Note: For Cloudflare Pages, the SESSION KV binding should be configured 
-# in the Cloudflare Dashboard under Settings > Functions > KV namespace bindings
-# This file serves as documentation of required bindings
-
-# Required KV namespace: SESSION
+# Note: The following KV binding needs to be configured in the dashboard:
 # - Binding name: SESSION
-# - Used for: Session management and authentication
-# - Configure in Cloudflare Dashboard for both preview and production environments
+# - KV namespace: Create or use existing namespace for session storage
