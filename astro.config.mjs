@@ -11,4 +11,7 @@ export default defineConfig({
       enabled: true
     }
   }),
+  image: {
+    service: 'compile'
+  },
 });
