@@ -1,0 +1,20 @@
+---
+// Redirect to login if not authenticated
+if (!Astro.cookies.has('session')) {
+  const currentPath = new URL(Astro.request.url).pathname;
+  return new Response(null, { status: 302, headers: { Location: `/login?redirect=${currentPath}` } });
+}
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Telco - Old Lines";
+---
+
+<BaseLayout title={title} pageTitle="Old Lines" currentPage="lines-old">
+  <div class="space-y-6">
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Old Lines</h2>
+      <p class="text-gray-600">This page is under construction.</p>
+    </div>
+  </div>
+</BaseLayout>

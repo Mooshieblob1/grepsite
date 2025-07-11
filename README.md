@@ -1,4 +1,4 @@
-# BlobLogic - Carrier Management
+# Telco - Carrier Management
 
 A modern, responsive web application for telecommunications expense management (TEM) built with Astro and Tailwind CSS.
 

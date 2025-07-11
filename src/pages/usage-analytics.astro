@@ -1,13 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-
 // Redirect to login if not authenticated
 if (!Astro.cookies.has('session')) {
-  return new Response(null, { status: 302, headers: { Location: '/login' } });
+  const currentPath = new URL(Astro.request.url).pathname;
+  return new Response(null, { status: 302, headers: { Location: `/login?redirect=${currentPath}` } });
 }
 
+import BaseLayout from "../layouts/BaseLayout.astro";
+
 // Usage Analytics page
-const title = "BlobLogic - Usage Analytics";
+const title = "Telco - Usage Analytics";
 ---
 
 <BaseLayout title={title} pageTitle="Usage Analytics" currentPage="usage-analytics">

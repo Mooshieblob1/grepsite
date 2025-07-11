@@ -1,13 +1,14 @@
 ---
 // Redirect to login if not authenticated
 if (!Astro.cookies.has('session')) {
-  return new Response(null, { status: 302, headers: { Location: '/login' } });
+  const currentPath = new URL(Astro.request.url).pathname;
+  return new Response(null, { status: 302, headers: { Location: `/login?redirect=${currentPath}` } });
 }
 
 // Settings page
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const title = "BlobLogic - Settings";
+const title = "Telco - Settings";
 ---
 
 <BaseLayout title={title} pageTitle="Settings" currentPage="settings">

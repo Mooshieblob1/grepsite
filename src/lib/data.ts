@@ -11,8 +11,20 @@ export class DataService {
       console.error('Failed to load lines data from Supabase, falling back to local file:', error);
       // Fallback to original implementation
       const response = await import('../data/lines.json');
-      // Cast the JSON data to match our Line interface (dates are strings in JSON)
-      return response.default as unknown as Line[];
+      // Convert the JSON data to match our Line interface
+      const jsonLines = response.default as any[];
+      return jsonLines.map(line => ({
+        id: typeof line.id === 'string' ? parseInt(line.id.split('-')[1]) : line.id,
+        lineNumber: line.phoneNumber,
+        carrier: line.carrier,
+        status: line.status,
+        monthlyCost: line.plan?.monthlyRate || 0,
+        contractEnd: line.contractEnd,
+        assignedUser: line.employee?.name || 'Unknown',
+        department: line.employee?.department || 'Unknown',
+        createdAt: line.createdAt,
+        updatedAt: line.updatedAt
+      })) as Line[];
     }
   }
 
@@ -41,8 +53,27 @@ export class DataService {
       console.error('Failed to load tickets data from Supabase, falling back to local file:', error);
       // Fallback to original implementation
       const response = await import('../data/tickets.json');
-      // Cast the JSON data to match our Ticket interface (dates are strings in JSON)
-      return response.default as unknown as Ticket[];
+      // Convert the JSON data to match our Ticket interface (convert string dates to Date objects and map fields)
+      const jsonTickets = response.default as any[];
+      return jsonTickets.map(ticket => {
+        // Ensure we have a valid Date object
+        const createdDate = ticket.createdAt instanceof Date ? ticket.createdAt : new Date(ticket.createdAt);
+        const updatedDate = ticket.updatedAt instanceof Date ? ticket.updatedAt : new Date(ticket.updatedAt);
+        
+        return {
+          id: typeof ticket.id === 'string' ? parseInt(ticket.id.split('-')[1]) : ticket.id,
+          title: ticket.title,
+          description: ticket.description,
+          type: ticket.type,
+          status: ticket.status,
+          priority: ticket.priority,
+          lineId: ticket.relatedLineId ? parseInt(ticket.relatedLineId.split('-')[1]) : undefined,
+          userId: ticket.createdBy,
+          assigneeName: ticket.assignee,
+          createdAt: createdDate,
+          updatedAt: updatedDate
+        };
+      }) as Ticket[];
     }
   }
 
@@ -55,8 +86,19 @@ export class DataService {
       console.error('Failed to load invoices data from Supabase, falling back to local file:', error);
       // Fallback to original implementation
       const response = await import('../data/invoices.json');
-      // Cast the JSON data to match our Invoice interface (dates are strings in JSON)
-      return response.default as unknown as Invoice[];
+      // Convert the JSON data to match our Invoice interface
+      const jsonInvoices = response.default as any[];
+      return jsonInvoices.map(invoice => ({
+        id: invoice.id,
+        carrier: invoice.carrierId, // Map carrierId to carrier field
+        invoiceDate: new Date(invoice.invoiceDate),
+        dueDate: new Date(invoice.dueDate),
+        totalAmount: invoice.totalAmount,
+        status: invoice.status.toLowerCase(),
+        filePath: '', // Default empty path for JSON data
+        createdAt: new Date(), // Default to current date
+        updatedAt: new Date()  // Default to current date
+      })) as Invoice[];
     }
   }
 
@@ -86,8 +128,26 @@ export class DataService {
       // Fallback to local file if Supabase fails or returns no data
       console.log(`Falling back to local JSON for ticket #${id}`);
       const response = await import('../data/tickets.json');
-      const tickets = response.default as unknown as Ticket[];
-      return tickets.find(t => t.id === id);
+      const jsonTickets = response.default as any[];
+      const ticket = jsonTickets.find(t => t.id === id || t.id === `ticket-${String(id).padStart(3, '0')}`);
+      
+      if (ticket) {
+        return {
+          id: typeof ticket.id === 'string' ? parseInt(ticket.id.split('-')[1]) : ticket.id,
+          title: ticket.title,
+          description: ticket.description,
+          type: ticket.type,
+          status: ticket.status,
+          priority: ticket.priority,
+          lineId: ticket.relatedLineId ? parseInt(ticket.relatedLineId.split('-')[1]) : undefined,
+          userId: ticket.createdBy,
+          assigneeName: ticket.assignee,
+          createdAt: new Date(ticket.createdAt),
+          updatedAt: new Date(ticket.updatedAt)
+        } as Ticket;
+      }
+      
+      return undefined;
 
     } catch (error) {
       console.error(`Failed to load ticket ${id}:`, error);
