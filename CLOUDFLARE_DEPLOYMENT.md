@@ -1,12 +1,35 @@
 # Cloudflare Pages Deployment Guide
 
-## Current Status
-- ✅ Astro configuration updated for Pages deployment
-- ✅ Image service configured for compile-time optimization
-- ✅ Session management using standard cookies (no KV required for MVP0)
-- ✅ wrangler.toml updated for Pages compatibility
+## Deployment Status
+✅ **Build Fixed** - The application now builds successfully
+✅ **Configuration Updated** - `astro.config.mjs` and `wrangler.toml` properly configured
 
-## Deployment Steps
+## Issue Resolution Summary
+- **Fixed image service configuration** - Removed incompatible `imageService: "compile"` string format
+- **Updated astro.config.mjs** - Now compatible with Astro v5 and Cloudflare Pages
+- **Verified build works** - `pnpm build` now successfully creates `dist/` directory
+- **Cleaned wrangler.toml** - Proper Pages configuration with `pages_build_output_dir`
+
+## Required Cloudflare Dashboard Configuration
+
+### 1. KV Namespace Binding (Required for Authentication)
+The authentication system requires a SESSION KV binding:
+
+1. **Go to your Cloudflare Pages project dashboard**
+2. **Navigate to Settings → Functions**
+3. **Scroll down to "KV namespace bindings"**
+4. **Add a new binding:**
+   - **Variable name:** `SESSION`
+   - **KV namespace:** Create a new KV namespace or select existing one
+   - **Environment:** Configure for both Production and Preview
+
+### 2. Environment Variables (Optional - for Supabase)
+If using Supabase instead of local JSON files:
+
+1. **Go to Settings → Environment variables**
+2. **Add these variables:**
+   - `SUPABASE_URL`: Your Supabase project URL
+   - `SUPABASE_ANON_KEY`: Your Supabase anonymous key
 
 ### 1. Cloudflare Dashboard Configuration
 

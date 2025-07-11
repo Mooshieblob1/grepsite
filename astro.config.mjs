@@ -10,8 +10,5 @@ export default defineConfig({
     platformProxy: {
       enabled: true
     }
-  }),
-  image: {
-    service: 'compile'
-  },
+  })
 });

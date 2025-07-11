@@ -6,8 +6,11 @@ compatibility_date = "2024-07-04"
 command = "pnpm build"
 cwd = "."
 
+# Pages configuration
+pages_build_output_dir = "dist"
+
 # Pages environment variables and bindings
-# Note: For Cloudflare Pages, KV bindings should be configured 
+# Note: For Cloudflare Pages, the SESSION KV binding should be configured 
 # in the Cloudflare Dashboard under Settings > Functions > KV namespace bindings
 # This file serves as documentation of required bindings
 
