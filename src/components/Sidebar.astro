@@ -10,9 +10,11 @@ const { currentPage = "" } = Astro.props;
 <div class="sidebar text-white flex flex-col">
   <div class="p-4">
     <div class="flex items-center space-x-3 mb-3">
-      <img src="/logo.png" alt="Telco Logo" class="h-8 w-8 rounded-lg">
+      <div class="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg">
+        <i class="fas fa-satellite-dish text-white text-sm"></i>
+      </div>
       <div class="logo-text">
-        <div class="text-xl font-bold">Telco</div>
+        <div class="text-lg font-bold">Telco Portal</div>
         <div class="text-xs text-indigo-300">powered by BlobLogic</div>
       </div>
     </div>
@@ -39,7 +41,7 @@ const { currentPage = "" } = Astro.props;
         <i class="fas fa-file-invoice-dollar"></i>
         <span class="nav-text">Invoices</span>
       </a>
-      <a href="/reporting" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'reporting' || currentPage === 'usage-analytics' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Reporting">
+      <a href="/usage-analytics" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'reporting' || currentPage === 'usage-analytics' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Reporting">
         <i class="fas fa-chart-line"></i>
         <span class="nav-text">Reporting</span>
       </a>
@@ -57,7 +59,7 @@ const { currentPage = "" } = Astro.props;
         <i class="fas fa-users"></i>
         <span class="nav-text">Users</span>
       </a>
-      <a href="/configuration" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'configuration' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Configuration">
+      <a href="/settings" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'configuration' || currentPage === 'settings' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Configuration">
         <i class="fas fa-cogs"></i>
         <span class="nav-text">Configuration</span>
       </a>

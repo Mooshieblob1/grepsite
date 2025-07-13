@@ -169,7 +169,7 @@ const title = "Telco - Profile";
               </div>
             </a>
             
-            <button class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition text-left">
+            <button onclick="logout()" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition text-left">
               <div class="p-2 bg-red-100 rounded-lg">
                 <i class="fas fa-sign-out-alt text-red-600"></i>
               </div>
@@ -221,4 +221,16 @@ const title = "Telco - Profile";
       </div>
     </div>
   </div>
+
+  <script>
+    // Logout function
+    (window as any).logout = async function() {
+      try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+        window.location.href = '/login';
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    };
+  </script>
 </BaseLayout>

@@ -19,19 +19,20 @@ const { title, pageTitle, currentPage, hideHeader = false, hideSidebar = false }
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" href="/logo.png">
+    <!-- Primary favicon using logo.png with cache busting -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="/logo.png?v=2">
+    <link rel="shortcut icon" href="/logo.png?v=2">
+    <!-- Fallback favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+    <link rel="apple-touch-icon" href="/logo.png?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/styles/main.css">
     
-    <!-- Immediately apply sidebar state to prevent flash -->
+    <!-- Apply dark mode immediately to prevent flash -->
     <script>
         (function() {
-            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed');
-            if (sidebarCollapsed === 'true') {
-                document.documentElement.classList.add('sidebar-collapsed');
-            }
-            
             // Apply dark mode immediately to prevent flash
             const savedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -39,20 +40,9 @@ const { title, pageTitle, currentPage, hideHeader = false, hideSidebar = false }
                 document.documentElement.classList.add('dark');
             }
             
-            // Add a class to prevent transitions during initial load
-            document.documentElement.classList.add('sidebar-loading');
-            
             // Extra safety: apply styles immediately when DOM is ready
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', function() {
-                    // Double-check sidebar state
-                    const stillCollapsed = localStorage.getItem('sidebarCollapsed');
-                    if (stillCollapsed === 'true') {
-                        document.documentElement.classList.add('sidebar-collapsed');
-                    } else {
-                        document.documentElement.classList.remove('sidebar-collapsed');
-                    }
-                    
                     // Double-check dark mode
                     const stillDark = localStorage.getItem('theme');
                     const stillPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -63,10 +53,6 @@ const { title, pageTitle, currentPage, hideHeader = false, hideSidebar = false }
                     }
                 });
             }
-
-            window.addEventListener('load', function() {
-                document.documentElement.classList.remove('sidebar-loading');
-            });
         })();
     </script>
 </head>
@@ -84,5 +70,6 @@ const { title, pageTitle, currentPage, hideHeader = false, hideSidebar = false }
     </div>
 
     <script src="/scripts/main.js" is:inline></script>
+    <script src="/scripts/charts.js" is:inline></script>
 </body>
 </html>

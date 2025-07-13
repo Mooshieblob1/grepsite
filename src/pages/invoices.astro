@@ -16,14 +16,24 @@ const totalMonthlyCost = lines.reduce((sum, line) => sum + (line.monthlyCost || 
 const activeCarriers = carrierStats.length;
 
 // Generate invoice data based on real carriers
-const invoiceData = carrierStats.map((carrier, index) => ({
-  id: `INV-2024-${String(index + 1).padStart(3, '0')}`,
-  carrier: carrier.name,
-  amount: carrier.monthlyCost,
-  dueDate: new Date(2024, 6, 15 + index * 5), // July invoices with staggered due dates
-  status: index % 3 === 0 ? 'paid' : index % 3 === 1 ? 'pending' : 'overdue',
-  issueDate: new Date(2024, 5, 25 + index * 2), // June issue dates
-}));
+const invoiceData = carrierStats.map((carrier, index) => {
+  const dueDate = new Date(2024, 6, 15 + index * 5); // July invoices with staggered due dates
+  const issueDate = new Date(2024, 5, 25 + index * 2); // June issue dates
+  const billDate = new Date(2024, 6, 1 + index); // Bill generation date
+  const periodStart = new Date(2024, 5, 10 + index * 2); // Billing period start
+  const periodEnd = new Date(2024, 6, 10 + index * 2); // Billing period end
+  
+  return {
+    id: `INV-2024-${String(index + 1).padStart(3, '0')}`,
+    carrier: carrier.name,
+    amount: carrier.monthlyCost,
+    dueDate,
+    status: index % 3 === 0 ? 'paid' : index % 3 === 1 ? 'pending' : 'overdue',
+    issueDate,
+    billDate,
+    billingPeriod: `${periodStart.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })} - ${periodEnd.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })}`
+  };
+});
 
 const paidInvoices = invoiceData.filter(inv => inv.status === 'paid').length;
 const pendingInvoices = invoiceData.filter(inv => inv.status === 'pending').length;
@@ -136,7 +146,9 @@ const title = "Telco - Invoices";
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Carrier</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bill Date</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Billing Period</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
@@ -155,7 +167,9 @@ const title = "Telco - Invoices";
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.carrier}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${invoice.amount.toLocaleString()}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.billDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.billingPeriod}</td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                   invoice.status === 'paid' ? 'bg-green-100 text-green-800' :

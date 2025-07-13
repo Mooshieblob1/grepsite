@@ -1,0 +1,7 @@
+---
+// Redirect /configuration to /settings
+return new Response(null, { 
+  status: 302, 
+  headers: { Location: '/settings' } 
+});
+---

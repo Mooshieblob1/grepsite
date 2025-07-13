@@ -73,6 +73,61 @@ const { pageTitle = "Carrier Management" } = Astro.props;
     userMenu?.classList.add('hidden');
   });
 
+  // Global search functionality
+  const searchInput = document.getElementById('global-search') as HTMLInputElement;
+  const searchResults = document.getElementById('search-results');
+
+  if (searchInput && searchResults) {
+    searchInput.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value.toLowerCase();
+      
+      if (query.length > 2) {
+        // Mock search results - in production this would hit an API
+        const mockResults = [
+          { type: 'line', title: `(555) 123-4567`, subtitle: 'John Doe - Active', url: '/inventory' },
+          { type: 'ticket', title: `Support Ticket #12345`, subtitle: 'Network Issues - Open', url: '/tickets' },
+          { type: 'carrier', title: 'Verizon Wireless', subtitle: '1,234 lines - Active', url: '/carriers' }
+        ].filter(item => 
+          item.title.toLowerCase().includes(query) || 
+          item.subtitle.toLowerCase().includes(query)
+        );
+
+        if (mockResults.length > 0) {
+          searchResults.innerHTML = `
+            <div class="p-3 border-b border-gray-100">
+              <div class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Search Results</div>
+            </div>
+            <div class="max-h-96 overflow-y-auto">
+              ${mockResults.map(result => `
+                <a href="${result.url}" class="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                  <div class="text-sm font-medium text-gray-900">${result.title}</div>
+                  <div class="text-xs text-gray-500">${result.subtitle}</div>
+                </a>
+              `).join('')}
+            </div>
+          `;
+          searchResults.classList.remove('hidden');
+        } else {
+          searchResults.innerHTML = `
+            <div class="p-4 text-center text-gray-500">
+              <div class="text-sm">No results found for "${query}"</div>
+            </div>
+          `;
+          searchResults.classList.remove('hidden');
+        }
+      } else {
+        searchResults.classList.add('hidden');
+      }
+    });
+
+    // Hide search results when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target as Node) && !searchResults.contains(e.target as Node)) {
+        searchResults.classList.add('hidden');
+      }
+    });
+  }
+
   // Logout function
   (window as any).logout = async function() {
     try {

@@ -1,0 +1,7 @@
+---
+// Redirect /reporting to /usage-analytics
+return new Response(null, { 
+  status: 302, 
+  headers: { Location: '/usage-analytics' } 
+});
+---
