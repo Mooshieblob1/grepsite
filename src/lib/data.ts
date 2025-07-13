@@ -16,12 +16,18 @@ export class DataService {
       return jsonLines.map(line => ({
         id: typeof line.id === 'string' ? parseInt(line.id.split('-')[1]) : line.id,
         lineNumber: line.phoneNumber,
+        phoneNumber: line.phoneNumber,
         carrier: line.carrier,
         status: line.status,
         monthlyCost: line.plan?.monthlyRate || 0,
+        monthlyRate: line.plan?.monthlyRate || 0,
         contractEnd: line.contractEnd,
         assignedUser: line.employee?.name || 'Unknown',
+        employee: line.employee?.name || 'Unknown',
+        employeeId: line.employee?.employeeId || `EMP${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+        costCenter: `CC-${Math.floor(Math.random() * 100).toString().padStart(2, '0')}`,
         department: line.employee?.department || 'Unknown',
+        plan: line.plan?.name || 'Unknown',
         createdAt: line.createdAt,
         updatedAt: line.updatedAt
       })) as Line[];
@@ -210,7 +216,9 @@ export class DataService {
     return {
       totalLines: lines.length,
       activeLines: lines.filter(line => line.status === 'active').length,
+      suspendedLines: lines.filter(line => line.status === 'suspended').length,
       monthlyTotal: lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0),
+      totalMonthlyCharges: lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0),
       carrierBreakdown: lines.reduce((acc, line) => {
         acc[line.carrier] = (acc[line.carrier] || 0) + 1;
         return acc;

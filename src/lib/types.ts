@@ -1,12 +1,18 @@
 export interface Line {
   id: number;
   lineNumber: string;
+  phoneNumber: string;
   carrier: string;
   status: 'active' | 'suspended' | 'terminated';
   monthlyCost: number;
+  monthlyRate: number;
   contractEnd: string;
   assignedUser: string;
+  employee: string;
+  employeeId?: string;
+  costCenter?: string;
   department: string;
+  plan: string;
   createdAt: string;
   updatedAt: string;
 }

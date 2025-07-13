@@ -1,6 +1,21 @@
 ---
-// Sidebar component
-export interface Props {
+// Sidebar compo    <div class="px-4 py-2">
+      <div class="section-title text-xs uppercase text-indigo-300 font-semibold mb-2">Main</div>
+      <a href="/" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'dashboard' || currentPage === '' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        <span class="nav-text">Dashboard</span>
+      </a>
+      <a href="/reporting" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'reporting' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Reporting">
+        <i class="fas fa-chart-line"></i>
+        <span class="nav-text">Reporting</span>
+      </a>
+    </div>
+    <div class="px-4 py-2">
+      <div class="section-title text-xs uppercase text-indigo-300 font-semibold mb-2">Carrier Management</div>
+      <a href="/inventory" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'inventory' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Inventory">
+        <i class="fas fa-mobile-alt"></i>
+        <span class="nav-text">Inventory</span>
+      </a>nterface Props {
   currentPage?: string;
 }
 
@@ -10,16 +25,11 @@ const { currentPage = "" } = Astro.props;
 <div class="sidebar text-white flex flex-col">
   <div class="p-4">
     <div class="flex items-center space-x-3 mb-3">
-      <div class="bg-white p-2 rounded-lg">
-        <i class="fas fa-satellite-dish text-indigo-800 text-xl"></i>
-      </div>
+      <img src="/logo.png" alt="Telco Logo" class="h-8 w-8 rounded-lg">
       <div class="logo-text">
         <div class="text-xl font-bold">Telco</div>
         <div class="text-xs text-indigo-300">powered by BlobLogic</div>
       </div>
-    </div>
-    <div class="flex justify-center">
-      <img src="/logo.png" alt="Telco Logo" class="logo-image h-32 w-auto object-contain">
     </div>
   </div>
   <div class="flex-1">
@@ -32,9 +42,9 @@ const { currentPage = "" } = Astro.props;
     </div>
     <div class="px-4 py-2">
       <div class="section-title text-xs uppercase text-indigo-300 font-semibold mb-2">Carrier Management</div>
-      <a href="/lines" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'lines' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Lines">
+      <a href="/inventory" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'inventory' || currentPage === 'lines' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Inventory">
         <i class="fas fa-phone"></i>
-        <span class="nav-text">Lines</span>
+        <span class="nav-text">Inventory</span>
       </a>
       <a href="/carriers" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'carriers' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Carriers">
         <i class="fas fa-network-wired"></i>
@@ -44,9 +54,9 @@ const { currentPage = "" } = Astro.props;
         <i class="fas fa-file-invoice-dollar"></i>
         <span class="nav-text">Invoices</span>
       </a>
-      <a href="/usage-analytics" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'usage-analytics' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Usage Analytics">
+      <a href="/reporting" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'reporting' || currentPage === 'usage-analytics' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Reporting">
         <i class="fas fa-chart-line"></i>
-        <span class="nav-text">Usage Analytics</span>
+        <span class="nav-text">Reporting</span>
       </a>
     </div>
     <div class="px-4 py-2">
@@ -55,10 +65,6 @@ const { currentPage = "" } = Astro.props;
         <i class="fas fa-ticket-alt"></i>
         <span class="nav-text">Tickets</span>
       </a>
-      <a href="/settings" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'settings' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Settings">
-        <i class="fas fa-cog"></i>
-        <span class="nav-text">Settings</span>
-      </a>
     </div>
     <div class="px-4 py-2">
       <div class="section-title text-xs uppercase text-indigo-300 font-semibold mb-2">Administration</div>
@@ -66,15 +72,11 @@ const { currentPage = "" } = Astro.props;
         <i class="fas fa-users"></i>
         <span class="nav-text">Users</span>
       </a>
+      <a href="/configuration" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'configuration' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Configuration">
+        <i class="fas fa-cogs"></i>
+        <span class="nav-text">Configuration</span>
+      </a>
     </div>
-  </div>
-  
-  <!-- Collapse Toggle Button -->
-  <div class="px-4 py-2 border-t border-indigo-700">
-    <button class="w-full flex items-center justify-center py-2 text-indigo-300 hover:text-white hover:bg-indigo-700 rounded-lg transition-colors" id="sidebar-toggle" data-tooltip="Toggle Sidebar">
-      <i class="fas fa-chevron-left collapse-icon mr-2"></i>
-      <span class="nav-text">Collapse</span>
-    </button>
   </div>
   
   <div class="p-4 border-t border-indigo-700">

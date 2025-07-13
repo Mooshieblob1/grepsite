@@ -53,7 +53,7 @@ const { pageTitle = "Carrier Management" } = Astro.props;
           <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
           <a href="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
           <div class="border-t border-gray-100"></div>
-          <a href="/api/auth/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign Out</a>
+          <button onclick="logout()" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign Out</button>
         </div>
       </div>
     </div>
@@ -72,4 +72,15 @@ const { pageTitle = "Carrier Management" } = Astro.props;
   document.addEventListener('click', () => {
     userMenu?.classList.add('hidden');
   });
+
+  // Logout function
+  (window as any).logout = async function() {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout failed:', error);
+      window.location.href = '/login'; // Fallback
+    }
+  };
 </script>

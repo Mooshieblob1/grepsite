@@ -4,8 +4,18 @@ export const POST: APIRoute = async ({ cookies }) => {
   // Clear the session cookie
   cookies.delete('session');
   
-  return new Response(JSON.stringify({ success: true }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
+  return new Response(null, {
+    status: 302,
+    headers: { 'Location': '/login' }
+  });
+};
+
+export const GET: APIRoute = async ({ cookies }) => {
+  // Clear the session cookie
+  cookies.delete('session');
+  
+  return new Response(null, {
+    status: 302,
+    headers: { 'Location': '/login' }
   });
 };
