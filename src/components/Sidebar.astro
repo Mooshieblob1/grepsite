@@ -1,21 +1,6 @@
 ---
-// Sidebar compo    <div class="px-4 py-2">
-      <div class="section-title text-xs uppercase text-indigo-300 font-semibold mb-2">Main</div>
-      <a href="/" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'dashboard' || currentPage === '' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Dashboard">
-        <i class="fas fa-tachometer-alt"></i>
-        <span class="nav-text">Dashboard</span>
-      </a>
-      <a href="/reporting" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'reporting' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Reporting">
-        <i class="fas fa-chart-line"></i>
-        <span class="nav-text">Reporting</span>
-      </a>
-    </div>
-    <div class="px-4 py-2">
-      <div class="section-title text-xs uppercase text-indigo-300 font-semibold mb-2">Carrier Management</div>
-      <a href="/inventory" class={`nav-item flex items-center space-x-3 px-3 py-3 rounded-lg text-white transition-colors ${currentPage === 'inventory' ? 'bg-indigo-700 border-l-4 border-indigo-300' : 'hover:bg-indigo-700'}`} data-tooltip="Inventory">
-        <i class="fas fa-mobile-alt"></i>
-        <span class="nav-text">Inventory</span>
-      </a>nterface Props {
+// Sidebar component
+interface Props {
   currentPage?: string;
 }
 
