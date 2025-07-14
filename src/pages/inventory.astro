@@ -165,15 +165,15 @@ const title = "Telco - Inventory Management";
                 <span class="text-sm font-medium text-gray-900 dark:text-white">{line.phoneNumber}</span>
               </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.employee.name}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.employee.employeeId}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">CC-{String(line.employee.employeeId).slice(-3)}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.employee?.name || 'N/A'}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.employee?.employeeId || 'N/A'}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">CC-{String(line.employee?.employeeId || '000').slice(-3)}</td>
             <td class="px-6 py-4 whitespace-nowrap">
               <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
                 {line.carrier}
               </span>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.plan.name}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{line.plan?.name || 'N/A'}</td>
             <td class="px-6 py-4 whitespace-nowrap">
               <span class={`px-2 py-1 text-xs font-medium rounded-full ${
                 line.status === 'active' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' :
@@ -186,7 +186,7 @@ const title = "Telco - Inventory Management";
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{Math.floor(Math.random() * 1000)} min</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{Math.floor(Math.random() * 500)} SMS</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{(Math.random() * 10).toFixed(1)} GB</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">${line.plan.monthlyRate.toFixed(2)}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">${line.plan && line.plan.monthlyRate ? line.plan.monthlyRate.toFixed(2) : 'N/A'}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
               <button class="text-purple-600 hover:text-purple-900 mr-2">Edit</button>
               <button class="text-red-600 hover:text-red-900">Delete</button>

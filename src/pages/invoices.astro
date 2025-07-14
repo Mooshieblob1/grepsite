@@ -12,7 +12,7 @@ import { DataService } from "../lib/data";
 // Load real data for invoices page
 const lines = await DataService.getLines();
 const carrierStats = DataService.calculateCarrierStats(lines);
-const totalMonthlyCost = lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0);
+const totalMonthlyCost = lines.reduce((sum, line) => sum + (line.plan?.monthlyRate || 0), 0);
 const activeCarriers = carrierStats.length;
 
 // Generate invoice data based on real carriers
@@ -26,7 +26,7 @@ const invoiceData = carrierStats.map((carrier, index) => {
   return {
     id: `INV-2024-${String(index + 1).padStart(3, '0')}`,
     carrier: carrier.name,
-    amount: carrier.monthlyCost,
+    amount: carrier.monthlySpend || 0,
     dueDate,
     status: index % 3 === 0 ? 'paid' : index % 3 === 1 ? 'pending' : 'overdue',
     issueDate,
@@ -166,7 +166,7 @@ const title = "Telco - Invoices";
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.carrier}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${invoice.amount.toLocaleString()}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${(invoice.amount || 0).toLocaleString()}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.billDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{invoice.billingPeriod}</td>

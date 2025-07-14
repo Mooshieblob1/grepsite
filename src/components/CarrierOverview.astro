@@ -39,7 +39,7 @@ const carrierStats = DataService.calculateCarrierStats(lines);
           status={carrier.status}
           statusColor="bg-green-100 text-green-800"
           services={carrier.lineCount}
-          monthlyCost={`$${carrier.monthlyCost.toLocaleString()}`}
+          monthlyCost={`$${(carrier.monthlySpend || 0).toLocaleString()}`}
           contractEnd={carrier.contractEnd}
         />
       ))}

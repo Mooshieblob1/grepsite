@@ -11,26 +11,9 @@ export class DataService {
       console.error('Failed to load lines data from Supabase, falling back to local file:', error);
       // Fallback to original implementation
       const response = await import('../data/lines.json');
-      // Convert the JSON data to match our Line interface
-      const jsonLines = response.default as any[];
-      return jsonLines.map(line => ({
-        id: typeof line.id === 'string' ? parseInt(line.id.split('-')[1]) : line.id,
-        lineNumber: line.phoneNumber,
-        phoneNumber: line.phoneNumber,
-        carrier: line.carrier,
-        status: line.status,
-        monthlyCost: line.plan?.monthlyRate || 0,
-        monthlyRate: line.plan?.monthlyRate || 0,
-        contractEnd: line.contractEnd,
-        assignedUser: line.employee?.name || 'Unknown',
-        employee: line.employee?.name || 'Unknown',
-        employeeId: line.employee?.employeeId || `EMP${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
-        costCenter: `CC-${Math.floor(Math.random() * 100).toString().padStart(2, '0')}`,
-        department: line.employee?.department || 'Unknown',
-        plan: line.plan?.name || 'Unknown',
-        createdAt: line.createdAt,
-        updatedAt: line.updatedAt
-      })) as Line[];
+      // Return the JSON data directly as it matches our Line interface
+      const jsonLines = response.default as Line[];
+      return jsonLines;
     }
   }
 
@@ -217,8 +200,8 @@ export class DataService {
       totalLines: lines.length,
       activeLines: lines.filter(line => line.status === 'active').length,
       suspendedLines: lines.filter(line => line.status === 'suspended').length,
-      monthlyTotal: lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0),
-      totalMonthlyCharges: lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0),
+      monthlyTotal: lines.reduce((sum, line) => sum + (line.plan?.monthlyRate || 0), 0),
+      totalMonthlyCharges: lines.reduce((sum, line) => sum + (line.plan?.monthlyRate || 0), 0),
       carrierBreakdown: lines.reduce((acc, line) => {
         acc[line.carrier] = (acc[line.carrier] || 0) + 1;
         return acc;
@@ -228,7 +211,7 @@ export class DataService {
 
   // Calculate detailed cost breakdown from real data
   static calculateCostBreakdown(lines: Line[]) {
-    const totalMonthly = lines.reduce((sum, line) => sum + (line.monthlyCost || 0), 0);
+    const totalMonthly = lines.reduce((sum, line) => sum + (line.plan?.monthlyRate || 0), 0);
     
     // Estimate breakdown based on typical carrier billing
     const lineCharges = totalMonthly * 0.75; // ~75% for basic service
@@ -254,7 +237,7 @@ export class DataService {
         acc[carrier] = {
           name: carrier,
           lineCount: 0,
-          monthlyCost: 0,
+          monthlySpend: 0,
           activeLines: 0,
           status: 'Active', // Default, could be enhanced
           icon: this.getCarrierIcon(carrier),
@@ -264,7 +247,7 @@ export class DataService {
       }
       
       acc[carrier].lineCount++;
-      acc[carrier].monthlyCost += (line.monthlyCost || 0);
+      acc[carrier].monthlySpend += (line.plan?.monthlyRate || 0);
       if (line.status === 'active') {
         acc[carrier].activeLines++;
       }
@@ -281,8 +264,8 @@ export class DataService {
     return Object.values(carrierStats).map((carrier: any) => ({
       ...carrier,
       totalLines: carrier.lineCount,
-      monthlySpend: carrier.monthlyCost,
-      avgPerLine: carrier.lineCount > 0 ? carrier.monthlyCost / carrier.lineCount : 0,
+      monthlySpend: carrier.monthlySpend,
+      avgPerLine: carrier.lineCount > 0 ? carrier.monthlySpend / carrier.lineCount : 0,
       contractEnd: carrier.contractEnd ? this.formatContractEndDate(carrier.contractEnd) : 'N/A',
       status: carrier.contractEnd ? this.getCarrierStatus(carrier.contractEnd) : 'Unknown'
     }));
