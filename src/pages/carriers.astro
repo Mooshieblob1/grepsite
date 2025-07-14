@@ -7,6 +7,7 @@ if (!Astro.cookies.has('session')) {
 
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CarrierCard from '../components/CarrierCard.astro';
+import CarrierCostChart from '../components/CarrierCostChart.astro';
 import { DataService } from "../lib/data";
 
 // Load carrier data
@@ -30,12 +31,15 @@ const title = "Telco - Carrier Management";
             status={carrier.status}
             statusColor={carrier.status === 'Active' ? 'text-green-600' : carrier.status === 'Expiring Soon' ? 'text-yellow-600' : 'text-red-600'}
             services={carrier.totalLines}
-            monthlyCost={`$${carrier.monthlySpend.toLocaleString()}`}
+            monthlyCost={`$${(carrier.monthlySpend || 0).toLocaleString()}`}
             contractEnd={carrier.contractEnd}
           />
         ))}
       </div>
     </div>
+
+    <!-- Carrier Cost Breakdown Chart -->
+    <CarrierCostChart />
 
     <!-- Carrier Details -->
     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
@@ -58,8 +62,8 @@ const title = "Telco - Carrier Management";
               <tr class={index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'}>
                 <td class="px-4 py-2 font-medium text-gray-900 dark:text-white">{carrier.name}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-white">{carrier.totalLines}</td>
-                <td class="px-4 py-2 text-gray-900 dark:text-white">${carrier.monthlySpend.toLocaleString()}</td>
-                <td class="px-4 py-2 text-gray-900 dark:text-white">${carrier.avgPerLine.toFixed(2)}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-white">${(carrier.monthlySpend || 0).toLocaleString()}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-white">${(carrier.avgPerLine || 0).toFixed(2)}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-white">{Math.floor(carrier.totalLines * 0.3)}</td>
                 <td class="px-4 py-2">
                   <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${

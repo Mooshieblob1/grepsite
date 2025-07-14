@@ -6,6 +6,7 @@ if (!Astro.cookies.has('session')) {
 }
 
 import BaseLayout from '../layouts/BaseLayout.astro';
+import DataQualityAlert from '../components/DataQualityAlert.astro';
 import { DataService } from "../lib/data";
 
 // Load all lines for management interface
@@ -16,6 +17,9 @@ const title = "Telco - Inventory Management";
 ---
 
 <BaseLayout title={title} pageTitle="Inventory Management" currentPage="inventory">
+  <!-- Data Quality Alert -->
+  <DataQualityAlert />
+  
   <!-- Header with stats -->
   <div class="mb-6">
     <div class="flex justify-between items-center mb-4">

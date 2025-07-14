@@ -9,6 +9,7 @@ if (!Astro.cookies.has('session')) {
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StatsCards from "../components/StatsCards.astro";
 import CarrierOverview from "../components/CarrierOverview.astro";
+import CarrierCostChart from "../components/CarrierCostChart.astro";
 import CostAnalysis from "../components/CostAnalysis.astro";
 import RecentActivity from "../components/RecentActivity.astro";
 import { DataService } from "../lib/data";
@@ -28,6 +29,9 @@ const title = "Telco - Dashboard";
 
   <!-- Carrier Management Section -->
   <CarrierOverview />
+
+  <!-- Carrier Cost Breakdown -->
+  <CarrierCostChart />
 
   <!-- Cost Analysis Section -->
   <CostAnalysis />

@@ -1,0 +1,45 @@
+---
+// Data verification component to check for missing sample data
+import { DataService } from '../lib/data';
+
+const lines = await DataService.getLines();
+
+// Check for missing data
+const missingEmployeeNames = lines.filter(line => !line.employee?.name);
+const missingEmployeeEmails = lines.filter(line => !line.employee?.email);
+const missingEmployeeDepartments = lines.filter(line => !line.employee?.department);
+const missingPlanNames = lines.filter(line => !line.plan?.name);
+const missingDeviceTypes = lines.filter(line => !line.device?.type);
+
+const totalIssues = missingEmployeeNames.length + missingEmployeeEmails.length + 
+                   missingEmployeeDepartments.length + missingPlanNames.length + 
+                   missingDeviceTypes.length;
+---
+
+{totalIssues > 0 && (
+  <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
+    <div class="flex items-center">
+      <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-400 mr-3"></i>
+      <div>
+        <h3 class="text-sm font-semibold text-yellow-800 dark:text-yellow-200">Data Quality Issues Detected</h3>
+        <div class="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+          {missingEmployeeNames.length > 0 && (
+            <div>• {missingEmployeeNames.length} lines missing employee names</div>
+          )}
+          {missingEmployeeEmails.length > 0 && (
+            <div>• {missingEmployeeEmails.length} lines missing employee emails</div>
+          )}
+          {missingEmployeeDepartments.length > 0 && (
+            <div>• {missingEmployeeDepartments.length} lines missing departments</div>
+          )}
+          {missingPlanNames.length > 0 && (
+            <div>• {missingPlanNames.length} lines missing plan names</div>
+          )}
+          {missingDeviceTypes.length > 0 && (
+            <div>• {missingDeviceTypes.length} lines missing device types</div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+)}

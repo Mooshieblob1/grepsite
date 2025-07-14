@@ -6,6 +6,7 @@ if (!Astro.cookies.has('session')) {
 }
 
 import BaseLayout from "../layouts/BaseLayout.astro";
+import CarrierCostChart from "../components/CarrierCostChart.astro";
 import { DataService } from "../lib/data";
 
 // Load real data for analytics calculations
@@ -24,7 +25,7 @@ const totalSMS = lines.reduce((sum, line) => {
   return sum + (Math.floor(Math.random() * 500) + 100); // Simulated SMS usage
 }, 0);
 
-const linesOver100 = lines.filter(line => line.monthlyCost > 100).length;
+const linesOver100 = lines.filter(line => (line.plan?.monthlyRate || 0) > 100).length;
 
 // Usage Analytics page
 const title = "Telco - Usage Analytics";
@@ -214,6 +215,9 @@ const title = "Telco - Usage Analytics";
     </div>
   </div>
 
+  <!-- Monthly Cost by Carrier Chart -->
+  <CarrierCostChart />
+
   <!-- Usage by Carrier -->
   <div class="bg-white rounded-lg shadow mb-6">
     <div class="p-6 border-b border-gray-200">
@@ -358,3 +362,39 @@ const title = "Telco - Usage Analytics";
     </div>
   </div>
 </BaseLayout>
+
+<!-- Initialize charts with usage analytics data -->
+<script define:vars={{ lines }}>
+  // Calculate carrier stats for charts
+  const carrierStats = lines.reduce((acc, line) => {
+    const carrier = line.carrier;
+    if (!acc[carrier]) {
+      acc[carrier] = {
+        name: carrier,
+        monthlySpend: 0,
+        lineCount: 0,
+        activeLines: 0
+      };
+    }
+    
+    acc[carrier].monthlySpend += (line.plan?.monthlyRate || 0);
+    acc[carrier].lineCount++;
+    if (line.status === 'active') {
+      acc[carrier].activeLines++;
+    }
+    
+    return acc;
+  }, {});
+
+  const analyticsData = {
+    lines,
+    carrierStats: Object.values(carrierStats),
+  };
+
+  // Initialize charts when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.initializeDashboardCharts) {
+      window.initializeDashboardCharts(analyticsData);
+    }
+  });
+</script>

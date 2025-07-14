@@ -39,13 +39,13 @@ class ChartManager {
       if (!acc[carrier]) {
         acc[carrier] = {
           name: carrier,
-          monthlyCost: 0, // Corrected from monthlyRate
+          monthlySpend: 0, // Using monthlySpend to match DataService
           lineCount: 0,
           activeLines: 0
         };
       }
       
-      acc[carrier].monthlyCost += line.plan.monthlyRate; // Corrected from monthlyRate
+      acc[carrier].monthlySpend += line.plan.monthlyRate; // Add to monthlySpend
       acc[carrier].lineCount++;
       if (line.status === 'active') {
         acc[carrier].activeLines++;
@@ -72,7 +72,7 @@ class ChartManager {
 
     const carrierStats = this.data.carrierStats || this.calculateCarrierStats();
     const labels = carrierStats.map(stat => stat.name);
-    const data = carrierStats.map(stat => stat.monthlyCost);
+    const data = carrierStats.map(stat => stat.monthlySpend || 0);
     
     const colors = [
       'rgba(59, 130, 246, 0.7)',   // Blue for AT&T
@@ -223,7 +223,7 @@ class ChartManager {
 
     const carrierStats = this.data.carrierStats || this.calculateCarrierStats();
     const labels = carrierStats.map(stat => stat.name);
-    const data = carrierStats.map(stat => stat.monthlyCost); // Corrected from monthlyRate
+    const data = carrierStats.map(stat => stat.monthlySpend || 0); // Use monthlySpend
 
     this.charts.costAnalysisChart = new Chart(costAnalysisCtx.getContext('2d'), {
       type: 'pie',
