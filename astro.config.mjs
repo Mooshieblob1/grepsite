@@ -6,12 +6,5 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   integrations: [tailwind()],
   output: 'server',
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true
-    },
-    runtime: {
-      mode: 'local'
-    }
-  })
+  adapter: cloudflare()
 });

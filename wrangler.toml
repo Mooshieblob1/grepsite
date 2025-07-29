@@ -1,0 +1,9 @@
+name = "grepsite"
+compatibility_date = "2024-07-04"
+pages_build_output_dir = "dist"
+
+# KV namespace for session storage
+[[kv_namespaces]]
+binding = "SESSION"
+id = "fe8f1f012a8d4164b21fd837a649b824"
+preview_id = "fe8f1f012a8d4164b21fd837a649b824"
