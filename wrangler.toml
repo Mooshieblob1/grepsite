@@ -1,6 +1,9 @@
 name = "grepsite"
 compatibility_date = "2024-07-04"
 
+# Cloudflare Pages configuration
+pages_build_output_dir = "dist"
+
 # For Cloudflare Pages, the KV bindings should be configured in the Cloudflare Dashboard
 # under Pages Settings > Functions > KV namespace bindings
 # This file is kept minimal for Pages deployments
