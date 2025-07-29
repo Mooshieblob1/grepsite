@@ -6,5 +6,10 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   integrations: [tailwind()],
   output: 'server',
-  adapter: cloudflare()
+  adapter: cloudflare({
+    runtime: {
+      mode: 'directory',
+      kvNamespaces: ["SESSION"]
+    }
+  })
 });
