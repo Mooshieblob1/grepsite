@@ -23,7 +23,7 @@ This guide will walk you through setting up and running the project on your Wind
 
 ### 1. Install Required Tools
 
-Before you begin, you need two free tools: Node.js and Git.
+Before you begin, you will need two free tools: Node.js and Git.
 
 *   **Node.js:** This project requires Node.js version `22.17.1`. The easiest way to get the correct version is to download and install the **LTS** version from the [official Node.js website](https://nodejs.org/en/download). This also installs the necessary package managers.
 *   **Git:** This tool is used to copy the project files to your computer. Download and install it from the [Git for Windows website](https://git-scm.com/download/win).
