@@ -2,6 +2,11 @@
   "name": "tem-portal",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": "22.17.1",
+    "pnpm": "10.13.1"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
