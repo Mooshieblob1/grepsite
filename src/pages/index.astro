@@ -1,11 +1,5 @@
 ---
-// Redirect to login if not authenticated
-if (!Astro.cookies.has('session')) {
-  const currentPath = new URL(Astro.request.url).pathname;
-  return new Response(null, { status: 302, headers: { Location: `/login?redirect=${currentPath}` } });
-}
-
-// Import layout and components
+// Dashboard - Complete TEM System
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StatsCards from "../components/StatsCards.astro";
 import CarrierOverview from "../components/CarrierOverview.astro";
@@ -14,12 +8,11 @@ import CostAnalysis from "../components/CostAnalysis.astro";
 import RecentActivity from "../components/RecentActivity.astro";
 import { DataService } from "../lib/data";
 
-// Load real data for MVP1 dashboard
+// Load real data for dashboard
 const lines = await DataService.getLines();
 const tickets = await DataService.getTickets();
 const carrierStats = DataService.calculateCarrierStats(lines);
 
-// Any server-side logic can go here
 const title = "Telco - Dashboard";
 ---
 

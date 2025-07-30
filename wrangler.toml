@@ -6,10 +6,10 @@ pages_build_output_dir = "dist"
 mode = "smart"
 
 [vars]
-SESSION = "grepsite-sessions"
+SESSION_SECRET = "grepsite-sessions"
 
 # KV namespace for session storage
 [[kv_namespaces]]
-binding = "SESSION"
+binding = "SESSION_KV"
 id = "fe8f1f012a8d4164b21fd837a649b824"
 preview_id = "fe8f1f012a8d4164b21fd837a649b824"
